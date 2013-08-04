@@ -23,11 +23,11 @@ Or install it yourself as:
 `#tracker` optionally takes a second param for the `client_id` value
 By default, the `client_id` is set to a random UUID with `SecureRandom.uuid`
 
-    # Track a Pageview
-    tracker.pageview(path: '/page-path')
+    # Track a Pageview (all values optional)
+    tracker.pageview(path: '/page-path', hostname: 'mysite.com', title: 'A Page!')
 
-    # Track an Event
-    tracker.event(category: '', action: '', label: '', value: 1)
+    # Track an Event (all values optional)
+    tracker.event(category: 'video', action: 'play', label: 'cars', value: 1)
 
 ## Google Documentation
 
