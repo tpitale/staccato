@@ -18,11 +18,10 @@ Or install it yourself as:
 
 ## Usage
 
-    tracker = Staccato.configure do |c|
-      c.id = 'UA-XXXX-Y'                # REQUIRED, your Google Analytics Tracking ID
-      c.client_id = UUID.new.generate   # OPTIONAL, defaults to random UUID, can be set on each hit directly
-      c.hostname = 'mysite.com'        # OPTIONAL, your hostname
-    end
+    tracker = Staccato.tracker('UA-XXXX-Y') # REQUIRED, your Google Analytics Tracking ID
+
+`#tracker` optionally takes a second param for the `client_id` value
+By default, the `client_id` is set to a random UUID with `SecureRandom.uuid`
 
     # Track a Pageview
     tracker.pageview(path: '/page-path')
@@ -32,8 +31,9 @@ Or install it yourself as:
 
 ## Google Documentation
 
-https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
 https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide
+https://developers.google.com/analytics/devguides/collection/protocol/v1/reference
+https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
 
 ## Contributing
 
