@@ -20,5 +20,13 @@ module Staccato
     def event(options = {})
       Staccato::Event.new(self, options).track!
     end
+
+    def social(options = {})
+      Staccato::Social.new(self, options).track!
+    end
+
+    def exception(options = {})
+      Staccato::Exception.new(self, options).track!
+    end
   end
 end

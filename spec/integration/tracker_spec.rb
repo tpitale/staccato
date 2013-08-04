@@ -51,4 +51,46 @@ describe Staccato::Tracker do
       })
     end
   end
+
+  describe "#social" do
+    before(:each) do
+      tracker.social({
+        action: 'like',
+        network: 'facebook',
+        target: '/blog'
+      })
+    end
+
+    it 'tracks social action, network, target' do
+      Net::HTTP.should have_received(:post_form).with(uri, {
+        'v' => 1,
+        'tid' => 'UA-XXXX-Y',
+        'cid' => '555',
+        't' => 'social',
+        'sa' => 'like',
+        'sn' => 'facebook',
+        'st' => '/blog'
+      })
+    end
+  end
+
+  describe "#exception" do
+    before(:each) do
+      tracker.exception({
+        description: 'RuntimeException',
+        fatal: true
+      })
+    end
+
+    it 'tracks social action, network, target' do
+      Net::HTTP.should have_received(:post_form).with(uri, {
+        'v' => 1,
+        'tid' => 'UA-XXXX-Y',
+        'cid' => '555',
+        't' => 'exception',
+        'exd' => 'RuntimeException',
+        'exf' => 1
+      })
+    end
+  end
 end

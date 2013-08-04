@@ -18,4 +18,6 @@ end
 require 'staccato/hit'
 require 'staccato/pageview'
 require 'staccato/event'
+require 'staccato/social'
+require 'staccato/exception'
 require 'staccato/tracker'

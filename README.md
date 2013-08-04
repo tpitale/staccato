@@ -29,6 +29,12 @@ By default, the `client_id` is set to a random UUID with `SecureRandom.uuid`
     # Track an Event (all values optional)
     tracker.event(category: 'video', action: 'play', label: 'cars', value: 1)
 
+    # Track social activity (all values REQUIRED)
+    tracker.social(action: 'like', network: 'facebook', target: '/something')
+
+    # Track exceptions (all values optional)
+    tracker.exception(description: 'RuntimeException', fatal: true)
+
 ## Google Documentation
 
 https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide
