@@ -3,6 +3,7 @@
 Ruby Google Analytics Measurement
 
 [![Build Status](https://travis-ci.org/tpitale/staccato.png?branch=master)](https://travis-ci.org/tpitale/staccato)
+[![Code Climate](https://codeclimate.com/github/tpitale/staccato.png)](https://codeclimate.com/github/tpitale/staccato)
 
 ## Installation
 
