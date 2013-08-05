@@ -10,7 +10,7 @@ module Staccato
     end
 
     def client_id
-      @client_id ||= SecureRandom.uuid
+      @client_id ||= Staccato.build_client_id
     end
 
     def pageview(options = {})
@@ -28,5 +28,22 @@ module Staccato
     def exception(options = {})
       Staccato::Exception.new(self, options).track!
     end
+  end
+
+  class NoopTracker
+    def initialize(*); end
+
+    def id
+      nil
+    end
+
+    def client_id
+      nil
+    end
+
+    def pageview(*); end
+    def event(*); end
+    def social(*); end
+    def exception(*); end
   end
 end

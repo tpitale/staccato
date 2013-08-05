@@ -13,6 +13,12 @@ module Staccato
     def initialize(tracker, options = {})
       self.tracker = tracker
       self.options = OpenStruct.new(options)
+
+      # make options[] work in 1.9 like 2.0
+      unless self.options.respond_to?(:[])
+        self.options.extend(Forwardable)
+        self.options.def_delegators :@table, :[], :[]=
+      end
     end
 
     def fields
