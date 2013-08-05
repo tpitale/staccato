@@ -93,4 +93,60 @@ describe Staccato::Tracker do
       })
     end
   end
+
+  describe "#timing" do
+    before(:each) do
+      tracker.timing({
+        category: 'view',
+        variable: 'runtime',
+        label: 'rails',
+        time: 1000
+      })
+    end
+
+    it 'tracks user timing category, variable, label, and time' do
+      Net::HTTP.should have_received(:post_form).with(uri, {
+        'v' => 1,
+        'tid' => 'UA-XXXX-Y',
+        'cid' => '555',
+        't' => 'timing',
+        'utc' => 'view',
+        'utv' => 'runtime',
+        'utl' => 'rails',
+        'utt' => 1000 # value in milliseconds
+      })
+    end
+  end
+
+  describe "#timing with block" do
+    let(:codez) {stub(:test => true)}
+
+    before(:each) do
+      start_at = Time.now
+      end_at = start_at + 1 # 1 second
+
+      Time.stubs(:now).returns(start_at).returns(end_at)
+
+      tracker.timing({ category: 'view', variable: 'runtime', label: 'rails' }) do
+        codez.test
+      end
+    end
+
+    it 'tracks user timing category, variable, label, and time' do
+      Net::HTTP.should have_received(:post_form).with(uri, {
+        'v' => 1,
+        'tid' => 'UA-XXXX-Y',
+        'cid' => '555',
+        't' => 'timing',
+        'utc' => 'view',
+        'utv' => 'runtime',
+        'utl' => 'rails',
+        'utt' => 1000
+      })
+    end
+
+    it 'yields to the block' do
+      codez.should have_received(:test)
+    end
+  end
 end

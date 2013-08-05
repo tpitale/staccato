@@ -28,6 +28,10 @@ module Staccato
     def exception(options = {})
       Staccato::Exception.new(self, options).track!
     end
+
+    def timing(options = {}, &block)
+      Staccato::Timing.new(self, options).track!(&block)
+    end
   end
 
   class NoopTracker
