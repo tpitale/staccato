@@ -23,6 +23,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "mocha"
   spec.add_development_dependency "bourne"
-
-  # spec.add_runtime_dependency "uuid"
+  spec.add_development_dependency "simplecov"
 end
