@@ -2,6 +2,8 @@
 
 Ruby Google Analytics Measurement
 
+[![Build Status](https://travis-ci.org/tpitale/staccato.png?branch=master)](https://travis-ci.org/tpitale/staccato)
+
 ## Installation
 
 Add this line to your application's Gemfile:
