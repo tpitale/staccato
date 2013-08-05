@@ -82,7 +82,7 @@ describe Staccato::Tracker do
       })
     end
 
-    it 'tracks social action, network, target' do
+    it 'tracks exception description and fatality' do
       Net::HTTP.should have_received(:post_form).with(uri, {
         'v' => 1,
         'tid' => 'UA-XXXX-Y',

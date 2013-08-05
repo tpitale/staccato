@@ -49,5 +49,8 @@ module Staccato
     def event(*); end
     def social(*); end
     def exception(*); end
+    def timing(*)
+      yield if block_given?
+    end
   end
 end
