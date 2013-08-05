@@ -23,6 +23,7 @@ module Staccato
   end
 end
 
+require 'staccato/option_set'
 require 'staccato/hit'
 require 'staccato/pageview'
 require 'staccato/event'
