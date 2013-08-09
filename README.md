@@ -38,6 +38,9 @@ By default, the `client_id` is set to a random UUID with `SecureRandom.uuid`
     # Track exceptions (all values optional)
     tracker.exception(description: 'RuntimeException', fatal: true)
 
+    # Track timing (all values optional, but should include time)
+    tracker.timing(category: 'runtime', variable: 'db', label: 'query', time: 50) # time in milliseconds
+
 ## Google Documentation
 
 https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide
