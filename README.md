@@ -19,12 +19,14 @@ Or install it yourself as:
 
     $ gem install staccato
 
-## Usage
+## Usage ##
 
     tracker = Staccato.tracker('UA-XXXX-Y') # REQUIRED, your Google Analytics Tracking ID
 
 `#tracker` optionally takes a second param for the `client_id` value
 By default, the `client_id` is set to a random UUID with `SecureRandom.uuid`
+
+### Track some data ###
 
     # Track a Pageview (all values optional)
     tracker.pageview(path: '/page-path', hostname: 'mysite.com', title: 'A Page!')
@@ -40,6 +42,16 @@ By default, the `client_id` is set to a random UUID with `SecureRandom.uuid`
 
     # Track timing (all values optional, but should include time)
     tracker.timing(category: 'runtime', variable: 'db', label: 'query', time: 50) # time in milliseconds
+
+### "Global" Options ###
+
+    # Track a Non-Interactive Event
+    tracker.event(category: 'video', action: 'play', non_interactive: true)
+
+Non-Interactive events are useful for tracking things like emails sent, or other
+events that are not directly the result of a user's interaction.
+
+The option `non_interactive` is accepted for all methods on `tracker`.
 
 ## Google Documentation
 
