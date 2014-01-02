@@ -19,7 +19,7 @@ module Staccato
   end
 
   def self.tracking_uri
-    URI('http://www.')
+    URI('http://www.google-analytics.com/collect')
   end
 end
 
