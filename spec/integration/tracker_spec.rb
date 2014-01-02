@@ -78,7 +78,8 @@ describe Staccato::Tracker do
     before(:each) do
       tracker.exception({
         description: 'RuntimeException',
-        fatal: true
+        fatal: true,
+        non_interactive: true
       })
     end
 
@@ -87,6 +88,7 @@ describe Staccato::Tracker do
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
+        'ni' => 1,
         't' => 'exception',
         'exd' => 'RuntimeException',
         'exf' => 1

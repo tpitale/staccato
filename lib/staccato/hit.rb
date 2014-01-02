@@ -24,10 +24,15 @@ module Staccato
         'v' => 1,
         'tid' => tracker.id,
         'cid' => tracker.client_id,
+        'ni' => non_interactive,
         't' => type.to_s
       }.merge(Hash[
         fields.map {|field,key| [key, options[field]]}
       ]).reject {|_,v| v.nil?}
+    end
+
+    def non_interactive
+      1 if options[:non_interactive] # defaults to nil
     end
 
     def track!
