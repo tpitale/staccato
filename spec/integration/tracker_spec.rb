@@ -182,5 +182,37 @@ describe Staccato::Tracker do
         })
       end
     end
+
+    describe "#transaction_item" do
+      let(:transaction_id) {1293281}
+
+      before(:each) do
+        tracker.transaction_item({
+          transaction_id: transaction_id,
+          name: 'Sofa',
+          price: 804.99,
+          quantity: 2,
+          code: 'afhcka1230',
+          variation: 'furniture',
+          currency: 'USD'
+        })
+      end
+
+      it 'tracks the item values' do
+        Net::HTTP.should have_received(:post_form).with(uri, {
+          'v' => 1,
+          'tid' => 'UA-XXXX-Y',
+          'cid' => '555',
+          't' => 'item',
+          'ti' => transaction_id,
+          'in' => 'Sofa',
+          'ip' => 804.99,
+          'iq' => 2,
+          'ic' => 'afhcka1230',
+          'iv' => 'furniture',
+          'cu' => 'USD'
+        })
+      end
+    end
   end
 end

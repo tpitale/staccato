@@ -36,6 +36,10 @@ module Staccato
     def transaction(options = {})
       Staccato::Transaction.new(self, options).track!
     end
+
+    def transaction_item(options = {})
+      Staccato::TransactionItem.new(self, options).track!
+    end
   end
 
   class NoopTracker
