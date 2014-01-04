@@ -151,4 +151,36 @@ describe Staccato::Tracker do
       codez.should have_received(:test)
     end
   end
+
+  describe "Transactions" do
+    describe "#transaction" do
+      let(:transaction_id) {1293281}
+
+      before(:each) do
+        tracker.transaction({
+          transaction_id: transaction_id,
+          affiliation: 'western',
+          revenue: 5.99,
+          shipping: 12.00,
+          tax: 1.40,
+          currency: 'USD'
+        })
+      end
+
+      it 'tracks the transaction values' do
+        Net::HTTP.should have_received(:post_form).with(uri, {
+          'v' => 1,
+          'tid' => 'UA-XXXX-Y',
+          'cid' => '555',
+          't' => 'transaction',
+          'ti' => transaction_id,
+          'ta' => 'western',
+          'tr' => 5.99,
+          'ts' => 12.0,
+          'tt' => 1.4,
+          'cu' => 'USD'
+        })
+      end
+    end
+  end
 end

@@ -32,6 +32,10 @@ module Staccato
     def timing(options = {}, &block)
       Staccato::Timing.new(self, options).track!(&block)
     end
+
+    def transaction(options = {})
+      Staccato::Transaction.new(self, options).track!
+    end
   end
 
   class NoopTracker
