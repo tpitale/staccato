@@ -43,6 +43,31 @@ By default, the `client_id` is set to a random UUID with `SecureRandom.uuid`
     # Track timing (all values optional, but should include time)
     tracker.timing(category: 'runtime', variable: 'db', label: 'query', time: 50) # time in milliseconds
 
+    tracker.timing(category: 'runtime', variable: 'db', label: 'query') do
+      some_code_here
+    end
+
+    # Track transaction (transaction_id REQUIRED)
+    tracker.transaction({
+      transaction_id: 12345,
+      affiliation: 'clothing',
+      revenue: 17.98,
+      shipping: 2.00,
+      tax: 2.50,
+      currency: 'EUR'
+    })
+
+    # Track transaction item (matching transaction_id and item name REQUIRED)
+    tracker.transaction_item({
+      transaction_id: 12345,
+      name: 'Shirt',
+      price: 8.99,
+      quantity: 2,
+      code: 'afhcka1230',
+      variation: 'red',
+      currency: 'EUR'
+    })
+
 ### "Global" Options ###
 
     # Track a Non-Interactive Event
