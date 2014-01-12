@@ -1,4 +1,9 @@
 module Staccato
+  # The `Hit` module enables a class to track the appropriate parameters
+  #   to Google Analytics given a defined set of `FIELDS` in a map between
+  #   the option name and its specified GA field name
+  # 
+  # @author Tony Pitale
   module Hit
     def self.included(model)
       model.extend Forwardable
@@ -39,6 +44,7 @@ module Staccato
       post(Staccato.tracking_uri, params)
     end
 
+    private
     def post(uri, params = {})
       Net::HTTP.post_form(uri, params)
     end

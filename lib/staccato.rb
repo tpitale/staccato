@@ -5,7 +5,18 @@ require 'securerandom'
 
 require "staccato/version"
 
+# The `Staccato` module namespace
+# 
+# @author Tony Pitale
 module Staccato
+  # Build a new tracker instance
+  #   If the first argument is explicitly `nil`, a `NoopTracker` is returned
+  #   which responds to all the same `tracker` methods but does no tracking
+  # 
+  # @param tracker_id [String, nil] the id provided by google, i.e., `UA-XXXXXX-Y`
+  # @param client_id [String, Integer, nil] a unique id to track the session of
+  #   an individual user
+  # @return [Staccato::Tracker] a new tracker is returned
   def self.tracker(id, client_id = nil)
     if id.nil?
       Staccato::NoopTracker.new
@@ -14,10 +25,14 @@ module Staccato
     end
   end
 
+  # Build a new random `client_id`
+  # 
+  # @return [String] a random value suitable for use as a `client_id`
   def self.build_client_id
     SecureRandom.uuid
   end
 
+  # The tracking endpoint we use to submit requests to GA
   def self.tracking_uri
     URI('http://www.google-analytics.com/collect')
   end
