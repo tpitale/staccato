@@ -32,24 +32,47 @@ module Staccato
     end
 
     # Track an event
+    # 
+    # @param options [Hash] options include:
+    #   * category (optional)
+    #   * action (optional)
+    #   * label (optional)
+    #   * value (optional)
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
     def event(options = {})
       Staccato::Event.new(self, options).track!
     end
 
-    # Track a social event
+    # Track a social event such as a Facebook Like or Twitter Share
+    # 
+    # @param options [Hash] options include:
+    #   * action (required) the action taken, e.g., 'like'
+    #   * network (required) the network used, e.g., 'facebook'
+    #   * target (required) the target page path, e.g., '/blog/something-awesome'
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
     def social(options = {})
       Staccato::Social.new(self, options).track!
     end
 
     # Track an exception
+    # 
+    # @param options [Hash] options include:
+    #   * description (optional) often the class of exception, e.g., RuntimeException
+    #   * fatal (optional) was the exception fatal? boolean, defaults to false
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
     def exception(options = {})
       Staccato::Exception.new(self, options).track!
     end
 
     # Track timing
+    # 
+    # @param options [Hash] options include:
+    #   * category (optional) e.g., 'runtime'
+    #   * variable (optional) e.g., 'database'
+    #   * label (optional) e.g., 'query'
+    #   * time (recommended) the integer time in milliseconds
+    # @param block [#call] if a block is provided, the time it takes to
+    #   run will be recorded and set as the `time` value option
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
     def timing(options = {}, &block)
       Staccato::Timing.new(self, options).track!(&block)
@@ -69,7 +92,7 @@ module Staccato
   end
 
   # A tracker which does no tracking
-  #   Useful for using in tests
+  #   Useful in testing
   class NoopTracker
     def initialize(*); end
 
