@@ -1,5 +1,8 @@
 module Staccato
+  # Social Hit type field definitions
+  # @author Tony Pitale
   class Social
+    # Social field definitions
     FIELDS = {
       action: 'sa',
       network: 'sn',
@@ -8,6 +11,7 @@ module Staccato
 
     include Hit
 
+    # social hit type
     def type
       :social
     end

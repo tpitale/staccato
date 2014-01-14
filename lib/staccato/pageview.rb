@@ -1,5 +1,8 @@
 module Staccato
+  # Pageview Hit type field definitions
+  # @author Tony Pitale
   class Pageview
+    # Pageview field definitions
     FIELDS = {
       hostname: 'dh',
       path: 'dp',
@@ -8,6 +11,7 @@ module Staccato
 
     include Hit
 
+    # pageview hit type
     def type
       :pageview
     end

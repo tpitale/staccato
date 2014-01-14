@@ -13,7 +13,7 @@ module Staccato
   #   If the first argument is explicitly `nil`, a `NoopTracker` is returned
   #   which responds to all the same `tracker` methods but does no tracking
   # 
-  # @param tracker_id [String, nil] the id provided by google, i.e., `UA-XXXXXX-Y`
+  # @param id [String, nil] the id provided by google, i.e., `UA-XXXXXX-Y`
   # @param client_id [String, Integer, nil] a unique id to track the session of
   #   an individual user
   # @return [Staccato::Tracker] a new tracker is returned

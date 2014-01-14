@@ -1,8 +1,12 @@
 module Staccato
   # The `Tracker` class has methods to create all `Hit` types
+  #   using the tracker and client id
   # 
   # @author Tony Pitale
   class Tracker
+    # sets up a new tracker
+    # @param id [String] the GA tracker id
+    # @param client_id [String, nil] unique value to track user sessions
     def initialize(id, client_id = nil)
       @id = id
       @client_id = client_id
@@ -94,25 +98,35 @@ module Staccato
   # A tracker which does no tracking
   #   Useful in testing
   class NoopTracker
+    # (see Tracker#initialize)
     def initialize(*); end
 
+    # (see Tracker#id)
     def id
       nil
     end
 
+    # (see Tracker#client_id)
     def client_id
       nil
     end
 
+    # (see Tracker#pageview)
     def pageview(*); end
+    # (see Tracker#event)
     def event(*); end
+    # (see Tracker#social)
     def social(*); end
+    # (see Tracker#exception)
     def exception(*); end
+    # (see Tracker#timing)
     def timing(*)
       yield if block_given?
     end
+    # (see Tracker#transaction)
     def transaction(*)
     end
+    # (see Tracker#transaction_item)
     def transaction_item(*)
     end
   end

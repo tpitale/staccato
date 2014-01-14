@@ -1,5 +1,8 @@
 module Staccato
+  # Timing Hit type field definitions
+  # @author Tony Pitale
   class Timing
+    # Timing field definitions
     FIELDS = {
       category: 'utc',
       variable: 'utv',
@@ -9,10 +12,13 @@ module Staccato
 
     include Hit
 
+    # timing hit type
     def type
       :timing
     end
 
+    # tracks the timing hit type
+    # @param block [#call] block is executed and time recorded
     def track!(&block)
       if block_given?
         start_at = Time.now

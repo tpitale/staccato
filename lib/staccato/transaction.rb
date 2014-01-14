@@ -1,5 +1,8 @@
 module Staccato
+  # Transaction Hit type field definitions
+  # @author Tony Pitale
   class Transaction
+    # Transaction field definitions
     FIELDS = {
       transaction_id: 'ti',
       affiliation: 'ta',
@@ -11,6 +14,7 @@ module Staccato
 
     include Hit
 
+    # transaction hit type
     def type
       :transaction
     end

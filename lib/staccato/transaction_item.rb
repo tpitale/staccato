@@ -1,5 +1,8 @@
 module Staccato
+  # Item Hit type field definitions for Transactions
+  # @author Tony Pitale
   class TransactionItem
+    # Item field definitions
     FIELDS = {
       transaction_id: 'ti',
       name: 'in',
@@ -12,6 +15,7 @@ module Staccato
 
     include Hit
 
+    # item hit type
     def type
       :item
     end

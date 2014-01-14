@@ -1,5 +1,8 @@
 module Staccato
+  # Event Hit type field definitions
+  # @author Tony Pitale
   class Event
+    # Event field definitions
     FIELDS = {
       category: 'ec',
       action: 'ea',
@@ -9,6 +12,7 @@ module Staccato
 
     include Hit
 
+    # event hit type
     def type
       :event
     end
