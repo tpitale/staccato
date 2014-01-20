@@ -69,6 +69,9 @@ module Staccato
     # @private
     def global_options_params
       {
+        'dr' => options[:referrer],
+        'de' => options[:encoding],
+        'ul' => options[:user_language],
         'ni' => non_interactive,
         'xid' => options[:experiment_id],
         'xvar' => options[:experiment_variant]
