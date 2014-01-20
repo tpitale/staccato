@@ -34,7 +34,7 @@ module Staccato
 
     # collects the parameters from options for this hit type
     def params
-      base_params.merge(hit_params).reject {|_,v| v.nil?}
+      base_params.merge(global_options_params).merge(hit_params).reject {|_,v| v.nil?}
     end
 
     # is this a non interactive hit
@@ -63,6 +63,15 @@ module Staccato
         'cid' => tracker.client_id,
         'ni' => non_interactive,
         't' => type.to_s
+      }
+    end
+
+    # @private
+    def global_options_params
+      {
+        'ni' => non_interactive,
+        'xid' => options[:experiment_id],
+        'xvar' => options[:experiment_variant]
       }
     end
 

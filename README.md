@@ -78,6 +78,14 @@ events that are not directly the result of a user's interaction.
 
 The option `non_interactive` is accepted for all methods on `tracker`.
 
+    # Tracking an Experiment
+    #   useful for tracking A/B or Multivariate testing
+    tracker.pageview({
+      path: '/blog',
+      experiment_id: 'a7a8d91df',
+      experiment_variant: 'a'
+    })
+
 ## Google Documentation
 
 https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide

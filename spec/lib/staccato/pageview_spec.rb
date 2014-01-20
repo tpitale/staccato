@@ -75,4 +75,24 @@ describe Staccato::Pageview do
       })
     end
   end
+
+  context "with experiment_* options" do
+    let(:pageview) do
+      Staccato::Pageview.new(tracker, {
+        experiment_id: 'ac67afa889',
+        experiment_variant: 'c'
+      })
+    end
+
+    it 'has require params' do
+      pageview.params.should eq({
+        'v' => 1,
+        'tid' => 'UA-XXXX-Y',
+        'cid' => '555',
+        't' => 'pageview',
+        'xid' => 'ac67afa889',
+        'xvar' => 'c'
+      })
+    end
+  end
 end
