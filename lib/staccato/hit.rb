@@ -43,6 +43,15 @@ module Staccato
       1 if options[:non_interactive] # defaults to nil
     end
 
+    def session_control
+      case
+      when options[:session_start], options[:start_session]
+        'start'
+      when options[:session_end], options[:end_session], options[:stop_session]
+        'end'
+      end
+    end
+
     # post the hit to GA collection endpoint
     # @return [Net::HTTPOK] the GA api always returns 200 OK
     def track!
@@ -62,6 +71,7 @@ module Staccato
         'tid' => tracker.id,
         'cid' => tracker.client_id,
         'ni' => non_interactive,
+        'sc' => session_control,
         't' => type.to_s
       }
     end

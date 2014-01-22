@@ -66,7 +66,7 @@ describe Staccato::Pageview do
       Staccato::Pageview.new(tracker, {})
     end
 
-    it 'has require params' do
+    it 'has required params' do
       pageview.params.should eq({
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
@@ -84,7 +84,7 @@ describe Staccato::Pageview do
       })
     end
 
-    it 'has require params' do
+    it 'has experiment id and variant' do
       pageview.params.should eq({
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
@@ -92,6 +92,24 @@ describe Staccato::Pageview do
         't' => 'pageview',
         'xid' => 'ac67afa889',
         'xvar' => 'c'
+      })
+    end
+  end
+
+  context "with session control" do
+    let(:pageview) do
+      Staccato::Pageview.new(tracker, {
+        session_start: true
+      })
+    end
+
+    it 'has session control param' do
+      pageview.params.should eq({
+        'v' => 1,
+        'tid' => 'UA-XXXX-Y',
+        'cid' => '555',
+        't' => 'pageview',
+        'sc' => 'start'
       })
     end
   end

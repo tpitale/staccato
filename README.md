@@ -70,13 +70,27 @@ By default, the `client_id` is set to a random UUID with `SecureRandom.uuid`
 
 ### "Global" Options ###
 
-    # Track a Non-Interactive Event
+#### Non-Interactive Hit ####
+
+    # Track a Non-Interactive Hit
     tracker.event(category: 'video', action: 'play', non_interactive: true)
 
 Non-Interactive events are useful for tracking things like emails sent, or other
 events that are not directly the result of a user's interaction.
 
 The option `non_interactive` is accepted for all methods on `tracker`.
+
+#### Session Control ####
+
+    # start a session
+    tracker.pageview(path: '/blog', start_session: true)
+
+    # end a session
+    tracker.pageview(path: '/blog', end_session: true)
+
+Other options are acceptable to start and end a session: `session_start`, `sessoin_end`, and `stop_session`.
+
+#### Content Experiment ####
 
     # Tracking an Experiment
     #   useful for tracking A/B or Multivariate testing
