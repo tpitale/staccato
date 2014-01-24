@@ -73,7 +73,26 @@ tracker.transaction_item({
 })
 ```
 
+Each one of these methods returns a particular `hit` type. To send the tracking information to google analytics, simply call `track!`.
+
+```ruby
+tracker.pageview(path: '/item-120291').track!
+```
+
 ### "Global" Options ###
+
+#### Custom Dimensions and Metrics ####
+
+```ruby
+hit = tracker.pageview('/sports-page-5')
+hit.add_custom_dimension(19, 'Sports')
+hit.add_custom_metric(2, 5)
+hit.track!
+```
+
+The first argument is the slot position. Custom dimensions and metrics have 20 slots or 200 if you're "Premium" account.
+
+The second argument is the value. For dimensions, that's a text value. For metrics it is an integer.
 
 #### Non-Interactive Hit ####
 
