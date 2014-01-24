@@ -113,4 +113,48 @@ describe Staccato::Pageview do
       })
     end
   end
+
+  context "with some custom dimensions" do
+    let(:pageview) do
+      Staccato::Pageview.new(tracker)
+    end
+
+    before(:each) do
+      pageview.add_custom_dimension(19, 'Apple')
+      pageview.add_custom_dimension(8, 'Samsung')
+    end
+
+    it 'has custom dimensions' do
+      pageview.params.should eq({
+        'v' => 1,
+        'tid' => 'UA-XXXX-Y',
+        'cid' => '555',
+        't' => 'pageview',
+        'cd19' => 'Apple',
+        'cd8' => 'Samsung'
+      })
+    end
+  end
+
+  context "with some custom metrics" do
+    let(:pageview) do
+      Staccato::Pageview.new(tracker)
+    end
+
+    before(:each) do
+      pageview.add_custom_metric(12, 42)
+      pageview.add_custom_metric(1, 11)
+    end
+
+    it 'has custom dimensions' do
+      pageview.params.should eq({
+        'v' => 1,
+        'tid' => 'UA-XXXX-Y',
+        'cid' => '555',
+        't' => 'pageview',
+        'cm12' => 42,
+        'cm1' => 11
+      })
+    end
+  end
 end

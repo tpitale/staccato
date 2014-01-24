@@ -34,13 +34,34 @@ module Staccato
 
     # collects the parameters from options for this hit type
     def params
-      base_params.merge(global_options_params).merge(hit_params).reject {|_,v| v.nil?}
+      base_params.
+        merge(global_options_params).
+        merge(hit_params).
+        merge(custom_dimensions).
+        merge(custom_metrics).
+        reject {|_,v| v.nil?}
     end
 
     # is this a non interactive hit
     # @return [Integer, nil]
     def non_interactive
       1 if options[:non_interactive] # defaults to nil
+    end
+
+    def add_custom_dimension(position, value)
+      self.custom_dimensions["cd#{position}"] = value
+    end
+
+    def custom_dimensions
+      @custom_dimensions ||= {}
+    end
+
+    def add_custom_metric(position, value)
+      self.custom_metrics["cm#{position}"] = value
+    end
+
+    def custom_metrics
+      @custom_metrics ||= {}
     end
 
     def session_control
