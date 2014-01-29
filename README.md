@@ -33,24 +33,23 @@ By default, the `client_id` is set to a random UUID with `SecureRandom.uuid`
 
 ```ruby
 # Track a Pageview (all values optional)
-tracker.pageview(path: '/page-path', hostname: 'mysite.com', title: 'A Page!').track!
+tracker.pageview(path: '/page-path', hostname: 'mysite.com', title: 'A Page!')
 
 # Track an Event (all values optional)
-tracker.event(category: 'video', action: 'play', label: 'cars', value: 1).track!
+tracker.event(category: 'video', action: 'play', label: 'cars', value: 1)
 
 # Track social activity (all values REQUIRED)
-tracker.social(action: 'like', network: 'facebook', target: '/something').track!
+tracker.social(action: 'like', network: 'facebook', target: '/something')
 
 # Track exceptions (all values optional)
-tracker.exception(description: 'RuntimeException', fatal: true).track!
+tracker.exception(description: 'RuntimeException', fatal: true)
 
 # Track timing (all values optional, but should include time)
-tracker.timing(category: 'runtime', variable: 'db', label: 'query', time: 50).track! # time in milliseconds
+tracker.timing(category: 'runtime', variable: 'db', label: 'query', time: 50) # time in milliseconds
 
-t = tracker.timing(category: 'runtime', variable: 'db', label: 'query') do
+tracker.timing(category: 'runtime', variable: 'db', label: 'query') do
   some_code_here
 end
-t.track!
 
 # Track transaction (transaction_id REQUIRED)
 tracker.transaction({
@@ -60,7 +59,7 @@ tracker.transaction({
   shipping: 2.00,
   tax: 2.50,
   currency: 'EUR'
-}).track!
+})
 
 # Track transaction item (matching transaction_id and item name REQUIRED)
 tracker.transaction_item({
@@ -71,13 +70,7 @@ tracker.transaction_item({
   code: 'afhcka1230',
   variation: 'red',
   currency: 'EUR'
-}).track!
-```
-
-Each one of these methods returns a particular `hit` type. To send the tracking information to google analytics, simply call `track!`.
-
-```ruby
-tracker.pageview(path: '/item-120291').track!
+})
 ```
 
 ### "Global" Options ###
