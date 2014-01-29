@@ -2,9 +2,14 @@
 
 Ruby Google Analytics Measurement
 
+https://developers.google.com/analytics/devguides/collection/protocol/v1/
+
+**NOTE:** The Measurement Protocol is part of Universal Analytics, which is currently available in public beta. Data from the measurement protocol will only be processed in Universal Analytics enabled properties.
+
 [![Gem Version](https://badge.fury.io/rb/staccato.png)](http://badge.fury.io/rb/staccato)
 [![Build Status](https://travis-ci.org/tpitale/staccato.png?branch=master)](https://travis-ci.org/tpitale/staccato)
 [![Code Climate](https://codeclimate.com/github/tpitale/staccato.png)](https://codeclimate.com/github/tpitale/staccato)
+
 
 ## Installation
 
