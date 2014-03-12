@@ -94,7 +94,7 @@ module Staccato
         'ni' => non_interactive,
         'sc' => session_control,
         't' => type.to_s
-      }
+      }.merge!(tracker.hostname.nil? ? {} : {'dh' => tracker.hostname})
     end
 
     # @private

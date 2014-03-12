@@ -38,7 +38,7 @@ By default, the `client_id` is set to a random UUID with `SecureRandom.uuid`
 
 ```ruby
 # Track a Pageview (all values optional)
-tracker.pageview(path: '/page-path', hostname: 'mysite.com', title: 'A Page!')
+tracker.pageview(path: '/page-path', title: 'A Page!')
 
 # Track an Event (all values optional)
 tracker.event(category: 'video', action: 'play', label: 'cars', value: 1)

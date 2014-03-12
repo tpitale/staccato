@@ -12,7 +12,7 @@ describe Staccato::NoopTracker do
 
   describe "#pageview" do
     before(:each) do
-      tracker.pageview(path: '/foobar', title: 'FooBar', hostname: 'mysite.com')
+      tracker.pageview(path: '/foobar', title: 'FooBar')
     end
 
     it 'does not track page path and page title' do

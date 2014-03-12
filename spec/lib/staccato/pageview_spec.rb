@@ -3,18 +3,14 @@ require 'spec_helper'
 describe Staccato::Pageview do
 
   let(:tracker) {Staccato.tracker('UA-XXXX-Y', '555')}
+  let(:tracker_with_hostname) {Staccato.tracker('UA-XXXX-Y', '555', 'mysite.com')}
 
   context "with all options" do
     let(:pageview) do
       Staccato::Pageview.new(tracker, {
-        :hostname => 'mysite.com',
         :path => '/foobar',
         :title => 'FooBar'
       })
-    end
-
-    it 'has a hostname' do
-      pageview.hostname.should eq('mysite.com')
     end
 
     it 'has a path' do
@@ -31,7 +27,6 @@ describe Staccato::Pageview do
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
         't' => 'pageview',
-        'dh' => 'mysite.com',
         'dp' => '/foobar',
         'dt' => 'FooBar'
       })
@@ -41,7 +36,6 @@ describe Staccato::Pageview do
   context "with extra options" do
     let(:pageview) do
       Staccato::Pageview.new(tracker, {
-        :hostname => 'mysite.com',
         :path => '/foobar',
         :title => 'FooBar',
         :action => 'play'
@@ -54,7 +48,6 @@ describe Staccato::Pageview do
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
         't' => 'pageview',
-        'dh' => 'mysite.com',
         'dp' => '/foobar',
         'dt' => 'FooBar'
       })
@@ -62,16 +55,26 @@ describe Staccato::Pageview do
   end
 
   context "with no options" do
-    let(:pageview) do
+    def pageview(tracker)
       Staccato::Pageview.new(tracker, {})
     end
 
     it 'has required params' do
-      pageview.params.should eq({
+      pageview(tracker).params.should eq({
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
         't' => 'pageview'
+      })
+    end
+
+    it 'has required params with hostname' do
+      pageview(tracker_with_hostname).params.should eq({
+        'v' => 1,
+        'tid' => 'UA-XXXX-Y',
+        'cid' => '555',
+        't' => 'pageview',
+        'dh' => 'mysite.com'
       })
     end
   end

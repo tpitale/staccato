@@ -4,7 +4,6 @@ module Staccato
   class Pageview
     # Pageview field definitions
     FIELDS = {
-      hostname: 'dh',
       path: 'dp',
       title: 'dt'
     }
