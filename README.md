@@ -83,7 +83,7 @@ tracker.transaction_item({
 #### Custom Dimensions and Metrics ####
 
 ```ruby
-hit = tracker.pageview('/sports-page-5')
+hit = Staccato::Pageview.new(tracker, '/sports-page-5')
 hit.add_custom_dimension(19, 'Sports')
 hit.add_custom_metric(2, 5)
 hit.track!
