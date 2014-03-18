@@ -4,18 +4,16 @@ module Staccato
   # 
   # @author Tony Pitale
   class Tracker
+    attr_reader :id, :hostname
+
     # sets up a new tracker
     # @param id [String] the GA tracker id
     # @param client_id [String, nil] unique value to track user sessions
-    def initialize(id, client_id = nil)
+    # @param hostname [String, nil] target website's hostname
+    def initialize(id, client_id = nil, hostname = nil)
       @id = id
       @client_id = client_id
-    end
-
-    # The tracker id for GA
-    # @return [String, nil]
-    def id
-      @id
+      @hostname = hostname
     end
 
     # The unique client id
@@ -28,7 +26,6 @@ module Staccato
     # 
     # @param options [Hash] options include:
     #   * path (optional) the path of the current page view
-    #   * hostname (optional) the hostname of the current page view
     #   * title (optional) the page title
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
     def pageview(options = {})

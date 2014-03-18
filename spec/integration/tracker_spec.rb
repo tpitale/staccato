@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Staccato::Tracker do
   let(:uri) {Staccato.tracking_uri}
   let(:tracker) {Staccato.tracker('UA-XXXX-Y')}
+  let(:tracker_with_hostname) {Staccato.tracker('UA-XXXX-Y', 555, 'mysite.com')}
   let(:response) {stub(:body => '', :status => 201)}
 
   before(:each) do
@@ -12,7 +13,7 @@ describe Staccato::Tracker do
 
   describe "#pageview" do
     before(:each) do
-      tracker.pageview(path: '/foobar', title: 'FooBar', hostname: 'mysite.com')
+      tracker.pageview(path: '/foobar', title: 'FooBar')
     end
 
     it 'tracks page path and page title' do
@@ -21,7 +22,6 @@ describe Staccato::Tracker do
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
         't' => 'pageview',
-        'dh' => 'mysite.com',
         'dp' => '/foobar',
         'dt' => 'FooBar'
       })
