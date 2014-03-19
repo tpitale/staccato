@@ -18,6 +18,14 @@ module Staccato
       end
     end
 
+    GLOBAL_OPTIONS = {
+      referrer: 'dr',
+      encoding: 'de',
+      user_language: 'ul',
+      experiment_id: 'xid',
+      experiment_variant: 'xvar'
+    }
+
     # sets up a new hit
     # @param tracker [Staccato::Tracker] the tracker to collect to
     # @param options [Hash] options for the specific hit type
@@ -99,13 +107,15 @@ module Staccato
 
     # @private
     def global_options_params
-      {
-        'dr' => options[:referrer],
-        'de' => options[:encoding],
-        'ul' => options[:user_language],
-        'xid' => options[:experiment_id],
-        'xvar' => options[:experiment_variant]
-      }
+      p options
+      Hash[
+        options.map { |k,v| [GLOBAL_OPTIONS[k], v] if global_option?(k) }.compact
+      ]
+    end
+
+    # @private
+    def global_option?(key)
+      GLOBAL_OPTIONS.keys.include?(key)
     end
 
     # @private
