@@ -215,4 +215,23 @@ describe Staccato::Tracker do
       end
     end
   end
+
+  context "with defaults" do
+    before(:each) do
+      tracker.hit_defaults[:document_hostname] = 'mysite.com'
+    end
+
+    it 'tracks page path and default hostname' do
+      tracker.pageview(path: '/foobar')
+
+      Net::HTTP.should have_received(:post_form).with(uri, {
+        'v' => 1,
+        'tid' => 'UA-XXXX-Y',
+        'cid' => '555',
+        't' => 'pageview',
+        'dh' => 'mysite.com',
+        'dp' => '/foobar'
+      })
+    end
+  end
 end

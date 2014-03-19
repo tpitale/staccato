@@ -182,6 +182,19 @@ tracker.pageview({
 })
 ```
 
+## Tracker Hit Defaults ##
+
+Global parameters can be set as defaults on the tracker, and will be used for all hits (unless overwritten by parameters set directly on a hit).
+
+The following example creates a tracker with a default hostname. The two pageviews will track the default hostname and the page path passed in.
+
+```ruby
+tracker = Staccato.tracker('UA-XXXX-Y', client_id, {document_hostname: 'example.com'})
+
+tracker.pageview(path: '/videos/123')
+tracker.pageview(path: '/videos/987')
+```
+
 ## Google Documentation
 
 https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide

@@ -17,11 +17,11 @@ module Staccato
   # @param client_id [String, Integer, nil] a unique id to track the session of
   #   an individual user
   # @return [Staccato::Tracker] a new tracker is returned
-  def self.tracker(id, client_id = nil)
+  def self.tracker(id, client_id = nil, hit_options = {})
     if id.nil?
       Staccato::NoopTracker.new
     else
-      Staccato::Tracker.new(id, client_id)
+      Staccato::Tracker.new(id, client_id, hit_options)
     end
   end
 

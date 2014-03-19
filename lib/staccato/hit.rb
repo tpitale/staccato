@@ -67,6 +67,7 @@ module Staccato
     # collects the parameters from options for this hit type
     def params
       base_params.
+        merge(tracker_default_params).
         merge(global_options_params).
         merge(hit_params).
         merge(custom_dimensions).
@@ -132,7 +133,18 @@ module Staccato
     # @private
     def global_options_params
       Hash[
-        options.map { |k,v| [GLOBAL_OPTIONS[k], v] if global_option?(k) }.compact
+        options.map { |k,v|
+          [GLOBAL_OPTIONS[k], v] if global_option?(k) 
+        }.compact
+      ]
+    end
+
+    # @private
+    def tracker_default_params
+      Hash[
+        tracker.hit_defaults.map { |k,v|
+          [GLOBAL_OPTIONS[k], v] if global_option?(k)
+        }.compact
       ]
     end
 
@@ -143,7 +155,11 @@ module Staccato
 
     # @private
     def hit_params
-      Hash[fields.map {|field,key| [key, options[field]]}]
+      Hash[
+        fields.map { |field,key|
+          [key, options[field]] unless options[field].nil?
+        }.compact
+      ]
     end
   end
 end

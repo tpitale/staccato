@@ -4,12 +4,16 @@ module Staccato
   # 
   # @author Tony Pitale
   class Tracker
+    attr_accessor :hit_defaults
+
     # sets up a new tracker
     # @param id [String] the GA tracker id
     # @param client_id [String, nil] unique value to track user sessions
-    def initialize(id, client_id = nil)
+    def initialize(id, client_id = nil, hit_defaults = {})
       @id = id
       @client_id = client_id
+
+      self.hit_defaults = hit_defaults
     end
 
     # The tracker id for GA
