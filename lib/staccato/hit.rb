@@ -19,9 +19,33 @@ module Staccato
     end
 
     GLOBAL_OPTIONS = {
+      anonymize_ip: 'aip', # boolean
+      queue_time: 'qt', # integer
+      cache_buster: 'z',
       referrer: 'dr',
-      encoding: 'de',
+      campaign_name: 'cn',
+      campaign_source: 'cs',
+      campaign_medium: 'cm',
+      campaign_keyword: 'ck',
+      campaign_content: 'cc',
+      campaign_id: 'ci',
+      adwords_id: 'gclid',
+      display_ads_id: 'dclid',
+      screen_resolution: 'sr',
+      viewport_size: 'vp',
+      screen_colors: 'sd',
       user_language: 'ul',
+      java_enabled: 'je', # boolean
+      flash_version: 'fl',
+      # non_interactive: 'ni', # boolean
+      document_location: 'dl',
+      document_encoding: 'de', # duplicate of encoding
+      document_hostname: 'dh', # duplicate of hostname
+      document_path: 'dp', # duplicate of path
+      document_title: 'dt', # duplicate of title
+      link_id: 'linkid',
+      application_name: 'an',
+      application_version: 'av',
       experiment_id: 'xid',
       experiment_variant: 'xvar'
     }
@@ -96,9 +120,9 @@ module Staccato
     # @private
     def base_params
       {
-        'v' => 1,
-        'tid' => tracker.id,
-        'cid' => tracker.client_id,
+        'v' => 1, # protocol version
+        'tid' => tracker.id, # tracking/web_property id
+        'cid' => tracker.client_id, # unique client id
         'ni' => non_interactive,
         'sc' => session_control,
         't' => type.to_s

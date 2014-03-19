@@ -80,6 +80,59 @@ tracker.transaction_item({
 
 ### "Global" Options ###
 
+Any of the options on the parameters list (https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters) that are accepted on ALL hit types can be set as options on any of the hits.
+
+```ruby
+tracker.pageview(path: '/video/1235', flash_version: 'v1.2.3')
+```
+
+Flash Version is a global option in the example above.
+
+**Note:** There are a few options that if used will override global options:
+
+* document_path: overriden by `path` in pageviews
+* document_hostname: overriden by `hostname` in pageviews
+* document_title: overriden by `title` in pageviews
+
+These are holdovers from the original design, where `pageview` is a hit type that can take any/all of the optional parameters. `path`, `hostname`, and `title` are slightly nicer to use on `pageview`.
+
+The complete list at this time:
+
+```ruby
+Staccato::Hit::GLOBAL_OPTIONS.keys # =>
+
+[:anonymize_ip,
+ :queue_time,
+ :cache_buster,
+ :referrer,
+ :campaign_name,
+ :campaign_source,
+ :campaign_medium,
+ :campaign_keyword,
+ :campaign_content,
+ :campaign_id,
+ :adwords_id,
+ :display_ads_id,
+ :screen_resolution,
+ :viewport_size,
+ :screen_colors,
+ :user_language,
+ :java_enabled,
+ :flash_version,
+ :document_location,
+ :document_encoding,
+ :document_hostname,
+ :document_path,
+ :document_title,
+ :link_id,
+ :application_name,
+ :application_version,
+ :experiment_id,
+ :experiment_variant]
+```
+
+`anonymize_ip` and `java_enabled` are boolean values that must be set to `0` or `1`, for now.
+
 #### Custom Dimensions and Metrics ####
 
 ```ruby
