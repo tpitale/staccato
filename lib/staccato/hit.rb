@@ -107,7 +107,6 @@ module Staccato
 
     # @private
     def global_options_params
-      p options
       Hash[
         options.map { |k,v| [GLOBAL_OPTIONS[k], v] if global_option?(k) }.compact
       ]
