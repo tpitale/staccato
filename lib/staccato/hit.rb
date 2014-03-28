@@ -2,7 +2,7 @@ module Staccato
   # The `Hit` module enables a class to track the appropriate parameters
   #   to Google Analytics given a defined set of `FIELDS` in a map between
   #   the option name and its specified GA field name
-  # 
+  #
   # @author Tony Pitale
   module Hit
     # this module is included into each model hit type
@@ -47,7 +47,9 @@ module Staccato
       application_name: 'an',
       application_version: 'av',
       experiment_id: 'xid',
-      experiment_variant: 'xvar'
+      experiment_variant: 'xvar',
+      user_ip: 'uip',
+      user_agent: 'ua'
     }
 
     # sets up a new hit
@@ -134,7 +136,7 @@ module Staccato
     def global_options_params
       Hash[
         options.map { |k,v|
-          [GLOBAL_OPTIONS[k], v] if global_option?(k) 
+          [GLOBAL_OPTIONS[k], v] if global_option?(k)
         }.compact
       ]
     end
