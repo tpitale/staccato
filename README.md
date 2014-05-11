@@ -1,6 +1,6 @@
 # Staccato
 
-Ruby Google Analytics Measurement
+Ruby library to track into the official Google Analytics Measurement Protocol
 
 https://developers.google.com/analytics/devguides/collection/protocol/v1/
 
