@@ -79,8 +79,15 @@ module Staccato
     #   * variable (optional) e.g., 'database'
     #   * label (optional) e.g., 'query'
     #   * time (recommended) the integer time in milliseconds
+    #   * page_load_time (optional)
+    #   * dns_time (optional)
+    #   * page_download_time (optional)
+    #   * redirect_response_time (optional)
+    #   * tcp_connect_time (optional)
+    #   * server_response_time (optional) most useful on the server-side
     # @param block [#call] if a block is provided, the time it takes to
-    #   run will be recorded and set as the `time` value option
+    #   run will be recorded and set as the `time` value option, no other
+    #   time values will be set.
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
     def timing(options = {}, &block)
       Staccato::Timing.new(self, options).track!(&block)

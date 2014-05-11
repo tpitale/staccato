@@ -22,6 +22,13 @@ module Staccato
       anonymize_ip: 'aip', # boolean
       queue_time: 'qt', # integer
       cache_buster: 'z',
+      user_id: 'uid', # a known user's id
+
+      # Session, works with session control
+      user_ip: 'uip',
+      user_agent: 'ua',
+
+      # Traffic Sources
       referrer: 'dr',
       campaign_name: 'cn',
       campaign_source: 'cs',
@@ -31,6 +38,8 @@ module Staccato
       campaign_id: 'ci',
       adwords_id: 'gclid',
       display_ads_id: 'dclid',
+
+      # System Info
       screen_resolution: 'sr',
       viewport_size: 'vp',
       screen_colors: 'sd',
@@ -43,13 +52,18 @@ module Staccato
       document_hostname: 'dh', # duplicate of hostname
       document_path: 'dp', # duplicate of path
       document_title: 'dt', # duplicate of title
+      screen_name: 'cd', # screen name is not related to custom dimensions
       link_id: 'linkid',
+
+      # App Tracking
       application_name: 'an',
+      application_id: 'aid',
+      application_installer_id: 'aiid',
       application_version: 'av',
+
+      # Content Experiments
       experiment_id: 'xid',
-      experiment_variant: 'xvar',
-      user_ip: 'uip',
-      user_agent: 'ua'
+      experiment_variant: 'xvar'
     }
 
     # sets up a new hit

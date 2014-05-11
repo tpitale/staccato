@@ -10,6 +10,7 @@ module Staccato
       quantity: 'iq',
       code: 'ic',
       variation: 'iv',
+      category: 'iv', # duplicates 'variation'
       currency: 'cu'
     }
 
