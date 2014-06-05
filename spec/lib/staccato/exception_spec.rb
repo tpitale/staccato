@@ -16,6 +16,6 @@ describe Staccato::Exception do
   end
 
   it 'rejects nil fatal boolean field values' do
-    expect(Staccato::Exception.new(tracker, fatal: nil).params.has_key?('exf')).to be_false
+    expect(Staccato::Exception.new(tracker, fatal: nil).params.has_key?('exf')).to eq(false)
   end
 end

@@ -25,6 +25,6 @@ describe Staccato::Hit do
   end
 
   it 'rejects nil boolean field values' do
-    expect(hit_klass.new(tracker, non_interactive: nil).params.has_key?('ni')).to be_false
+    expect(hit_klass.new(tracker, non_interactive: nil).params.has_key?('ni')).to eq(false)
   end
 end
