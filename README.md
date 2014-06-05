@@ -104,6 +104,9 @@ Staccato::Hit::GLOBAL_OPTIONS.keys # =>
 [:anonymize_ip,
  :queue_time,
  :cache_buster,
+ :user_id,
+ :user_ip,
+ :user_agent,
  :referrer,
  :campaign_name,
  :campaign_source,
@@ -127,6 +130,8 @@ Staccato::Hit::GLOBAL_OPTIONS.keys # =>
  :link_id,
  :application_name,
  :application_version,
+ :application_id,
+ :application_installer_id,
  :experiment_id,
  :experiment_variant]
 ```
