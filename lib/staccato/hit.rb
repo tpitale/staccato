@@ -46,7 +46,7 @@ module Staccato
       user_language: 'ul',
       java_enabled: 'je', # boolean
       flash_version: 'fl',
-      # non_interactive: 'ni', # boolean
+      non_interactive: 'ni', # boolean
       document_location: 'dl',
       document_encoding: 'de', # duplicate of encoding
       document_hostname: 'dh', # duplicate of hostname
@@ -66,12 +66,18 @@ module Staccato
       experiment_variant: 'xvar'
     }
 
+    BOOLEAN_FIELDS = [
+      :non_interactive,
+      :anonymize_ip,
+      :java_enabled
+    ]
+
     # sets up a new hit
     # @param tracker [Staccato::Tracker] the tracker to collect to
     # @param options [Hash] options for the specific hit type
     def initialize(tracker, options = {})
       self.tracker = tracker
-      self.options = OptionSet.new(options)
+      self.options = OptionSet.new(convert_booleans(options))
     end
 
     # return the fields for this hit type
@@ -89,12 +95,6 @@ module Staccato
         merge(custom_dimensions).
         merge(custom_metrics).
         reject {|_,v| v.nil?}
-    end
-
-    # is this a non interactive hit
-    # @return [Integer, nil]
-    def non_interactive
-      1 if options[:non_interactive] # defaults to nil
     end
 
     def add_custom_dimension(position, value)
@@ -134,13 +134,41 @@ module Staccato
       Net::HTTP.post_form(uri, params)
     end
 
+    def convert_booleans(hash)
+      hash.each_pair.with_object({}, &method(:convert_boolean))
+    end
+
+    def convert_boolean((k,v), hash)
+      hash[k] = boolean_field?(k) ? integer_for(v) : v
+    end
+
+    def boolean_fields
+      BOOLEAN_FIELDS
+    end
+
+    def boolean_field?(key)
+      boolean_fields.include?(key)
+    end
+
+    def integer_for(value)
+      case value
+      when Integer
+        value
+      when TrueClass
+        1
+      when FalseClass
+        0
+      when NilClass
+        nil
+      end
+    end
+
     # @private
     def base_params
       {
         'v' => 1, # protocol version
         'tid' => tracker.id, # tracking/web_property id
         'cid' => tracker.client_id, # unique client id
-        'ni' => non_interactive,
         'sc' => session_control,
         't' => type.to_s
       }

@@ -112,6 +112,10 @@ module Staccato
     # (see Tracker#initialize)
     def initialize(*); end
 
+    def hit_defaults
+      {}
+    end
+
     # (see Tracker#id)
     def id
       nil

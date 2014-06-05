@@ -10,14 +10,13 @@ module Staccato
 
     include Hit
 
-    def initialize(*)
-      super
-      options[:fatal] = 1 if options[:fatal]
-    end
-
     # exception hit type
     def type
       :exception
+    end
+
+    def boolean_fields
+      super << :fatal
     end
   end
 end
