@@ -136,7 +136,7 @@ Staccato::Hit::GLOBAL_OPTIONS.keys # =>
  :experiment_variant]
 ```
 
-`anonymize_ip` and `java_enabled` are boolean values that must be set to `0` or `1`, for now.
+Boolean options like `anonymize_ip` will be converted from `true`/`false` into `1`/`0` as per the tracking API docs.
 
 #### Custom Dimensions and Metrics ####
 
