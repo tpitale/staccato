@@ -1,3 +1,14 @@
+## Staccato 0.1.0 ##
+
+*   adds support for all global hit options in any hit type
+*   adds default hit options at the tracker level
+*   adds proper handling of boolean values into 1/0
+*   have travis-ci run 2.0, 2.1 rubies
+
+    *Tony Pitale*
+
+*   adds user_ip/user_agent *@medullan*
+
 ## Staccato 0.0.4 ##
 
 *   adds session start/end controls
