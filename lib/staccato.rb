@@ -1,5 +1,4 @@
 require 'ostruct'
-require 'net/http'
 require 'forwardable'
 require 'securerandom'
 
@@ -16,12 +15,14 @@ module Staccato
   # @param id [String, nil] the id provided by google, i.e., `UA-XXXXXX-Y`
   # @param client_id [String, Integer, nil] a unique id to track the session of
   #   an individual user
+  # @params hit_options [Hash] options for use in all hits from this tracker
+  # @yield [Staccato::Tracker] the new tracker
   # @return [Staccato::Tracker] a new tracker is returned
   def self.tracker(id, client_id = nil, hit_options = {})
-    if id.nil?
-      Staccato::NoopTracker.new
-    else
-      Staccato::Tracker.new(id, client_id, hit_options)
+    klass = id.nil? ? Staccato::NoopTracker : Staccato::Tracker
+
+    klass.new(id, client_id, hit_options).tap do |tracker|
+      yield tracker if block_given?
     end
   end
 
@@ -33,7 +34,7 @@ module Staccato
   end
 
   # The tracking endpoint we use to submit requests to GA
-  def self.tracking_uri
+  def self.ga_collection_uri
     URI('http://www.google-analytics.com/collect')
   end
 end
