@@ -122,18 +122,12 @@ module Staccato
       end
     end
 
-    # post the hit to GA collection endpoint
-    # @return [Net::HTTPOK] the GA api always returns 200 OK
+    # send the hit to the tracker
     def track!
-      post(Staccato.tracking_uri, params)
+      tracker.track(params)
     end
 
     private
-    # @private
-    def post(uri, params = {})
-      Net::HTTP.post_form(uri, params)
-    end
-
     def convert_booleans(hash)
       hash.each_pair.with_object({}, &method(:convert_boolean))
     end

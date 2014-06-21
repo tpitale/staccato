@@ -104,6 +104,19 @@ module Staccato
     def transaction_item(options = {})
       Staccato::TransactionItem.new(self, options).track!
     end
+
+    # post the hit to GA collection endpoint
+    # @return [Net::HTTPOK] the GA api always returns 200 OK
+    def track(params={})
+      post(Staccato.tracking_uri, params)
+    end
+
+    private
+
+    # @private
+    def post(uri, params)
+      Net::HTTP.post_form(uri, params)
+    end
   end
 
   # A tracker which does no tracking
