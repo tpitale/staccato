@@ -157,5 +157,8 @@ module Staccato
     # (see Tracker#transaction_item)
     def transaction_item(*)
     end
+
+    def track(*)
+    end
   end
 end
