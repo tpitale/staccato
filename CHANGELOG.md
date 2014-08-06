@@ -1,3 +1,7 @@
+## Staccato 0.1.1 ##
+
+*   fixes NoopTracker when track! is called on a hit *martin1keogh*
+
 ## Staccato 0.1.0 ##
 
 *   adds support for all global hit options in any hit type
