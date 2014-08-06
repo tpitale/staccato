@@ -99,4 +99,14 @@ describe Staccato::NoopTracker do
       codez.should have_received(:test)
     end
   end
+
+  describe "#track" do
+    before(:each) do
+      tracker.track
+    end
+
+    it 'does not send a post request' do
+      Net::HTTP.should have_received(:post_form).never
+    end
+  end
 end
