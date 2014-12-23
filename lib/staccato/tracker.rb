@@ -50,6 +50,19 @@ module Staccato
     def event(options = {})
       Staccato::Event.new(self, options).track!
     end
+    
+    # Track a screen view
+    # 
+    # @param options [Hash] options include:
+    #   * name (optional)
+    #   * version (optional)
+    #   * id (optional)
+    #   * installer_id (optional)
+    #   * content_description (optional)
+    # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
+    def screen(options = {})
+      Staccato::Screen.new(self, options).track!
+    end
 
     # Track a social event such as a Facebook Like or Twitter Share
     # 

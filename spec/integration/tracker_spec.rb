@@ -52,6 +52,32 @@ describe Staccato::Tracker do
     end
   end
 
+  describe "#screen" do
+    before(:each) do
+      tracker.screen({
+          name: 'funTimes',
+          version: '4.2.0',
+          id: 'com.foo.App',
+          installer_id: 'com.android.vending',
+          content_description: 'Home'
+        })
+    end
+
+    it 'tracks screen name, version, id, installer_id, content_description' do
+      Net::HTTP.should have_received(:post_form).with(uri, {
+            'v' => 1,
+            'tid' => 'UA-XXXX-Y',
+            'cid' => '555',
+            't' => 'screenview',
+            'an' => 'funTimes',
+            'av' => '4.2.0',
+            'aid' => 'com.foo.App',
+            'aiid' => 'com.android.vending',
+            'cd' => 'Home'
+          })
+    end
+  end
+
   describe "#social" do
     before(:each) do
       tracker.social({
