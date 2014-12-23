@@ -1,8 +1,8 @@
 module Staccato
-  # Event Hit type field definitions
+  # Screen Hit type field definitions
   # @author Alastair Dawson
   class Screen
-    # Event field definitions
+    # Screen field definitions
     FIELDS = {
       name: 'an',
       version: 'av',
@@ -13,7 +13,7 @@ module Staccato
 
     include Hit
 
-    # event hit type
+    # screen hit type
     def type
       :screenview
     end
