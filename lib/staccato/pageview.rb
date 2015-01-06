@@ -5,7 +5,7 @@ module Staccato
     # Pageview field definitions
     FIELDS = {
       hostname: 'dh', # moved to GLOBAL_OPTIONS
-      path: 'dp', # moved to GLOBAL_OPTIONS
+      page: 'dp', # moved to GLOBAL_OPTIONS
       title: 'dt' # moved to GLOBAL_OPTIONS
     }
 
