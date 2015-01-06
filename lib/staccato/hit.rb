@@ -1,3 +1,5 @@
+require 'rack'
+
 module Staccato
   # The `Hit` module enables a class to track the appropriate parameters
   #   to Google Analytics given a defined set of `FIELDS` in a map between
@@ -75,9 +77,11 @@ module Staccato
     # sets up a new hit
     # @param tracker [Staccato::Tracker] the tracker to collect to
     # @param options [Hash] options for the specific hit type
-    def initialize(tracker, options = {})
+    # @param custom_parameters_string [String] URL params for custom dimensions/metrics and enhanced e-commerce tracking
+    def initialize(tracker, options = {}, custom_parameters_string = '')
       self.tracker = tracker
       self.options = OptionSet.new(convert_booleans(options))
+      self.custom_params.merge! parse_parameter_string(custom_parameters_string)
     end
 
     # return the fields for this hit type
@@ -94,7 +98,17 @@ module Staccato
         merge(hit_params).
         merge(custom_dimensions).
         merge(custom_metrics).
+        merge(custom_params).
         reject {|_,v| v.nil?}
+    end
+
+    def parse_parameter_string(parameter_string)
+      return {} unless parameter_string.length > 0
+      Rack::Utils.parse_nested_query parameter_string
+    end
+    
+    def custom_params
+      @custom_params ||= {}
     end
 
     def add_custom_dimension(position, value)

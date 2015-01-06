@@ -12,7 +12,7 @@ describe Staccato::Tracker do
 
   describe "#pageview" do
     before(:each) do
-      tracker.pageview(path: '/foobar', title: 'FooBar', hostname: 'mysite.com')
+      tracker.pageview(page: '/foobar', title: 'FooBar', hostname: 'mysite.com')
     end
 
     it 'tracks page path and page title' do
@@ -248,7 +248,7 @@ describe Staccato::Tracker do
     end
 
     it 'tracks page path and default hostname' do
-      tracker.pageview(path: '/foobar')
+      tracker.pageview(page: '/foobar')
 
       Net::HTTP.should have_received(:post_form).with(uri, {
         'v' => 1,

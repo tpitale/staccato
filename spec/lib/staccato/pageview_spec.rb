@@ -8,7 +8,7 @@ describe Staccato::Pageview do
     let(:pageview) do
       Staccato::Pageview.new(tracker, {
         :hostname => 'mysite.com',
-        :path => '/foobar',
+        :page => '/foobar',
         :title => 'FooBar'
       })
     end
@@ -17,8 +17,8 @@ describe Staccato::Pageview do
       pageview.hostname.should eq('mysite.com')
     end
 
-    it 'has a path' do
-      pageview.path.should eq('/foobar')
+    it 'has a page' do
+      pageview.page.should eq('/foobar')
     end
 
     it 'has a title' do
@@ -42,7 +42,7 @@ describe Staccato::Pageview do
     let(:pageview) do
       Staccato::Pageview.new(tracker, {
         :hostname => 'mysite.com',
-        :path => '/foobar',
+        :page => '/foobar',
         :title => 'FooBar',
         :action => 'play'
       })
@@ -93,6 +93,77 @@ describe Staccato::Pageview do
         'xid' => 'ac67afa889',
         'xvar' => 'c'
       })
+    end
+  end
+
+  context "with enhanced e-commerce tracking impressions" do
+
+    let(:pageview) do
+      Staccato::Pageview.new(tracker, {
+          :hostname => 'mysite.com',
+          :page => '/foobar',
+          :title => 'FooBar',
+          :action => 'play'
+        },
+        '&il1nm=Search%20Results&il1pi1id=P12345&il1pi1nm=Android%20War&il1pi1ca=Apparel%2FT-S&il1pi1br=Google&il1pi1va=Black&il1pi1ps=1&il1pi1cd1=Member&il2nm=Recommended%20Products&il2pi1nm=Yellow%20T-Shirt&il2pi2nm=Red%20T-Shirt'
+      )
+    end
+
+    it 'has impression params' do
+      pageview.params.should eq({
+            'v' => 1,
+            'tid' => 'UA-XXXX-Y',
+            'cid' => '555',
+            't' => 'pageview',
+            'dh' => 'mysite.com',
+            'dp' => '/foobar',
+            'dt' => 'FooBar',
+            'il1nm' => 'Search Results',
+            'il1pi1br' => 'Google',
+            'il1pi1ca' => 'Apparel/T-S',
+            'il1pi1cd1' => 'Member',
+            'il1pi1id' => 'P12345',
+            'il1pi1nm' => 'Android War',
+            'il1pi1ps' => '1',
+            'il1pi1va' => 'Black',
+            'il2nm' => 'Recommended Products',
+            'il2pi1nm' => 'Yellow T-Shirt',
+            'il2pi2nm' => 'Red T-Shirt'
+          })
+    end
+  end
+
+  context "with enhanced e-commerce measuring actions" do
+
+    let(:pageview) do
+      Staccato::Pageview.new(tracker, {
+          :hostname => 'mysite.com',
+          :page => '/foobar',
+          :title => 'FooBar',
+          :action => 'play'
+        },
+        'pa=click&pal=Search%20Results&pr1id=P12345&pr1nm=Android%20Warhol%20T-Shirt&pr1ca=Apparel&pr1br=Google&pr1va=Black&pr1ps=1'
+      )
+    end
+
+    it 'has measuring action params' do
+      pageview.params.should eq({
+            'v' => 1,
+            'tid' => 'UA-XXXX-Y',
+            'cid' => '555',
+            't' => 'pageview',
+            'dh' => 'mysite.com',
+            'dp' => '/foobar',
+            'dt' => 'FooBar',
+            'pa' => 'click',
+            'pal' => 'Search Results',
+            'pr1br' => 'Google',
+            'pr1ca' => 'Apparel',
+            'pr1id' => 'P12345',
+            'pr1nm' => 'Android Warhol T-Shirt',
+            'pr1ps' => '1',
+            'pr1va' => 'Black'
+          })
     end
   end
 

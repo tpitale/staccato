@@ -11,11 +11,11 @@ describe Staccato::Tracker do
       pageview.stubs(:track!)
       Staccato::Pageview.stubs(:new).returns(pageview)
 
-      tracker.pageview(path: '/foobar')
+      tracker.pageview(page: '/foobar')
     end
 
     it "creates a new Pageview" do
-      Staccato::Pageview.should have_received(:new).with(tracker, path: '/foobar')
+      Staccato::Pageview.should have_received(:new).with(tracker, page: '/foobar')
     end
 
     it "tracks on the Pageview" do
