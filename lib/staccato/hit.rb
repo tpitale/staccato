@@ -77,11 +77,11 @@ module Staccato
     # sets up a new hit
     # @param tracker [Staccato::Tracker] the tracker to collect to
     # @param options [Hash] options for the specific hit type
-    # @param custom_parameters_string [String] URL params for custom dimensions/metrics and enhanced e-commerce tracking
-    def initialize(tracker, options = {}, custom_parameters_string = '')
+    # @param query_string [String] URL params for custom dimensions/metrics and enhanced e-commerce tracking
+    def initialize(tracker, options = {}, query_string = '')
       self.tracker = tracker
       self.options = OptionSet.new(convert_booleans(options))
-      self.custom_params.merge! parse_parameter_string(custom_parameters_string)
+      self.custom_params.merge! parse_parameter_string(query_string)
     end
 
     # return the fields for this hit type

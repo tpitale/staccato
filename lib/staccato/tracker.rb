@@ -34,9 +34,11 @@ module Staccato
     #   * path (optional) the path of the current page view
     #   * hostname (optional) the hostname of the current page view
     #   * title (optional) the page title
+    # @param query_string [String] URL params for custom dimensions/metrics and enhanced e-commerce tracking
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
-    def pageview(options = {})
-      Staccato::Pageview.new(self, options).track!
+    def pageview(options = {}, query_string = '')
+      puts 'here'
+      Staccato::Pageview.new(self, options, query_string).track!
     end
 
     # Track an event
@@ -46,9 +48,10 @@ module Staccato
     #   * action (optional)
     #   * label (optional)
     #   * value (optional)
+    # @param query_string [String] URL params for custom dimensions/metrics and enhanced e-commerce tracking
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
-    def event(options = {})
-      Staccato::Event.new(self, options).track!
+    def event(options = {}, query_string = '')
+      Staccato::Event.new(self, options, query_string).track!
     end
     
     # Track a screen view
@@ -59,9 +62,10 @@ module Staccato
     #   * id (optional)
     #   * installer_id (optional)
     #   * content_description (optional)
+    # @param query_string [String] URL params for custom dimensions/metrics and enhanced e-commerce tracking
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
-    def screen(options = {})
-      Staccato::Screen.new(self, options).track!
+    def screen(options = {}, query_string = '')
+      Staccato::Screen.new(self, options, query_string).track!
     end
 
     # Track a social event such as a Facebook Like or Twitter Share
@@ -70,9 +74,11 @@ module Staccato
     #   * action (required) the action taken, e.g., 'like'
     #   * network (required) the network used, e.g., 'facebook'
     #   * target (required) the target page path, e.g., '/blog/something-awesome'
+    # @param query_string [String] URL params for custom dimensions/metrics and enhanced e-commerce tracking
+    # @param query_string [String] URL params for custom dimensions/metrics and enhanced e-commerce tracking
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
-    def social(options = {})
-      Staccato::Social.new(self, options).track!
+    def social(options = {}, query_string = '')
+      Staccato::Social.new(self, options, query_string).track!
     end
 
     # Track an exception
@@ -80,9 +86,10 @@ module Staccato
     # @param options [Hash] options include:
     #   * description (optional) often the class of exception, e.g., RuntimeException
     #   * fatal (optional) was the exception fatal? boolean, defaults to false
+    # @param query_string [String] URL params for custom dimensions/metrics and enhanced e-commerce tracking
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
-    def exception(options = {})
-      Staccato::Exception.new(self, options).track!
+    def exception(options = {}, query_string = '')
+      Staccato::Exception.new(self, options, query_string).track!
     end
 
     # Track timing
@@ -98,24 +105,27 @@ module Staccato
     #   * redirect_response_time (optional)
     #   * tcp_connect_time (optional)
     #   * server_response_time (optional) most useful on the server-side
+    # @param query_string [String] URL params for custom dimensions/metrics and enhanced e-commerce tracking
     # @param block [#call] if a block is provided, the time it takes to
     #   run will be recorded and set as the `time` value option, no other
     #   time values will be set.
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
-    def timing(options = {}, &block)
-      Staccato::Timing.new(self, options).track!(&block)
+    def timing(options = {}, query_string = '', &block)
+      Staccato::Timing.new(self, options, query_string).track!(&block)
     end
 
     # Track an ecommerce transaction
+    # @param query_string [String] URL params for custom dimensions/metrics and enhanced e-commerce tracking
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
-    def transaction(options = {})
-      Staccato::Transaction.new(self, options).track!
+    def transaction(options = {}, query_string = '')
+      Staccato::Transaction.new(self, options, query_string).track!
     end
 
     # Track an item in an ecommerce transaction
+    # @param query_string [String] URL params for custom dimensions/metrics and enhanced e-commerce tracking
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
-    def transaction_item(options = {})
-      Staccato::TransactionItem.new(self, options).track!
+    def transaction_item(options = {}, query_string = '')
+      Staccato::TransactionItem.new(self, options, query_string).track!
     end
 
     # post the hit to GA collection endpoint
@@ -128,6 +138,7 @@ module Staccato
 
     # @private
     def post(uri, params)
+      puts params
       Net::HTTP.post_form(uri, params)
     end
   end
