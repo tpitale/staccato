@@ -103,7 +103,7 @@ module Staccato
     end
 
     def parse_parameter_string(parameter_string)
-      return {} unless parameter_string.length > 0
+      return {} unless parameter_string && parameter_string.length > 0
       Rack::Utils.parse_nested_query parameter_string
     end
     
