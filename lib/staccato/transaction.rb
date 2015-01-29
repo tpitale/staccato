@@ -4,6 +4,7 @@ module Staccato
   class Transaction
     # Transaction field definitions
     FIELDS = {
+      client_id: 'cid',
       transaction_id: 'ti',
       affiliation: 'ta',
       revenue: 'tr',

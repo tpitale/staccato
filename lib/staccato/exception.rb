@@ -4,6 +4,7 @@ module Staccato
   class Exception
     # Exception field definitions
     FIELDS = {
+      client_id: 'cid',
       description: 'exd',
       fatal: 'exf'
     }

@@ -1,7 +1,7 @@
 module Staccato
   # The `Tracker` class has methods to create all `Hit` types
   #   using the tracker and client id
-  # 
+  #
   # @author Tony Pitale
   class Tracker
     attr_accessor :hit_defaults
@@ -12,7 +12,6 @@ module Staccato
     def initialize(id, client_id = nil, hit_defaults = {})
       @id = id
       @client_id = client_id
-
       self.hit_defaults = hit_defaults
     end
 
@@ -29,7 +28,7 @@ module Staccato
     end
 
     # Track a pageview
-    # 
+    #
     # @param options [Hash] options include:
     #   * path (optional) the path of the current page view
     #   * hostname (optional) the hostname of the current page view
@@ -37,12 +36,11 @@ module Staccato
     # @param query_string [String] URL params for custom dimensions/metrics and enhanced e-commerce tracking
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
     def pageview(options = {}, query_string = '')
-      puts 'here'
       Staccato::Pageview.new(self, options, query_string).track!
     end
 
     # Track an event
-    # 
+    #
     # @param options [Hash] options include:
     #   * category (optional)
     #   * action (optional)
@@ -53,9 +51,9 @@ module Staccato
     def event(options = {}, query_string = '')
       Staccato::Event.new(self, options, query_string).track!
     end
-    
+
     # Track a screen view
-    # 
+    #
     # @param options [Hash] options include:
     #   * name (optional)
     #   * version (optional)
@@ -69,7 +67,7 @@ module Staccato
     end
 
     # Track a social event such as a Facebook Like or Twitter Share
-    # 
+    #
     # @param options [Hash] options include:
     #   * action (required) the action taken, e.g., 'like'
     #   * network (required) the network used, e.g., 'facebook'
@@ -82,7 +80,7 @@ module Staccato
     end
 
     # Track an exception
-    # 
+    #
     # @param options [Hash] options include:
     #   * description (optional) often the class of exception, e.g., RuntimeException
     #   * fatal (optional) was the exception fatal? boolean, defaults to false
@@ -93,7 +91,7 @@ module Staccato
     end
 
     # Track timing
-    # 
+    #
     # @param options [Hash] options include:
     #   * category (optional) e.g., 'runtime'
     #   * variable (optional) e.g., 'database'
@@ -131,6 +129,8 @@ module Staccato
     # post the hit to GA collection endpoint
     # @return [Net::HTTPOK] the GA api always returns 200 OK
     def track(params={})
+      puts '#'*88
+      puts params.inspect
       post(Staccato.tracking_uri, params)
     end
 

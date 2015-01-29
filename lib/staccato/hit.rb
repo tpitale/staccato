@@ -106,7 +106,7 @@ module Staccato
       return {} unless parameter_string && parameter_string.length > 0
       Rack::Utils.parse_nested_query parameter_string
     end
-    
+
     def custom_params
       @custom_params ||= {}
     end

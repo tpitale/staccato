@@ -4,6 +4,7 @@ module Staccato
   class Pageview
     # Pageview field definitions
     FIELDS = {
+      client_id: 'cid',
       hostname: 'dh', # moved to GLOBAL_OPTIONS
       page: 'dp', # moved to GLOBAL_OPTIONS
       title: 'dt' # moved to GLOBAL_OPTIONS

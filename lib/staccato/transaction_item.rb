@@ -4,6 +4,7 @@ module Staccato
   class TransactionItem
     # Item field definitions
     FIELDS = {
+      client_id: 'cid',
       transaction_id: 'ti',
       name: 'in',
       price: 'ip',

@@ -4,6 +4,7 @@ module Staccato
   class Timing
     # Timing field definitions
     FIELDS = {
+      client_id: 'cid',
       category: 'utc',
       variable: 'utv',
       label: 'utl',

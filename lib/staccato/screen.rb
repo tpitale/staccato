@@ -4,6 +4,7 @@ module Staccato
   class Screen
     # Screen field definitions
     FIELDS = {
+      client_id: 'cid',
       name: 'an',
       version: 'av',
       id: 'aid',
