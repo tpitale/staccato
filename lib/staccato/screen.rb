@@ -5,11 +5,11 @@ module Staccato
     # Screen field definitions
     FIELDS = {
       client_id: 'cid',
-      name: 'an',
-      version: 'av',
-      id: 'aid',
-      installer_id: 'aiid',
-      content_description: 'cd'
+      application_name: 'an',
+      appication_version: 'av',
+      application_id: 'aid',
+      application_installer_id: 'aiid',
+      screen_name: 'cd'
     }
 
     include Hit

@@ -129,8 +129,6 @@ module Staccato
     # post the hit to GA collection endpoint
     # @return [Net::HTTPOK] the GA api always returns 200 OK
     def track(params={})
-      puts '#'*88
-      puts params.inspect
       post(Staccato.tracking_uri, params)
     end
 
