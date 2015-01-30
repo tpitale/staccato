@@ -4,6 +4,7 @@ module Staccato
   class Event
     # Event field definitions
     FIELDS = {
+      client_id: 'cid',
       category: 'ec',
       action: 'ea',
       label: 'el',

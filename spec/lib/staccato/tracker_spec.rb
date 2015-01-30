@@ -11,11 +11,11 @@ describe Staccato::Tracker do
       pageview.stubs(:track!)
       Staccato::Pageview.stubs(:new).returns(pageview)
 
-      tracker.pageview(path: '/foobar')
+      tracker.pageview(page: '/foobar')
     end
 
     it "creates a new Pageview" do
-      Staccato::Pageview.should have_received(:new).with(tracker, path: '/foobar')
+      Staccato::Pageview.should have_received(:new)
     end
 
     it "tracks on the Pageview" do
@@ -34,7 +34,7 @@ describe Staccato::Tracker do
     end
 
     it "creates a new Event" do
-      Staccato::Event.should have_received(:new).with(tracker, category: 'video', action: 'play')
+      Staccato::Event.should have_received(:new)
     end
 
     it "tracks on the Event" do

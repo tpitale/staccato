@@ -1,6 +1,8 @@
-## Staccato 0.1.1 ##
+## Staccato 0.1.2 ##
 
-*   fixes NoopTracker when track! is called on a hit *martin1keogh*
+*   adds optional custom url params to add enhanced ecommerce tracking etc with a url string
+•   adds screen view hit type
+
 
 ## Staccato 0.1.0 ##
 

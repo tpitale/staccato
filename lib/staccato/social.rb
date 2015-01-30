@@ -4,6 +4,7 @@ module Staccato
   class Social
     # Social field definitions
     FIELDS = {
+      client_id: 'cid',
       action: 'sa',
       network: 'sn',
       target: 'st'
