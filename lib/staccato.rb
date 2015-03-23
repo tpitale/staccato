@@ -38,6 +38,7 @@ module Staccato
   end
 end
 
+require 'staccato/boolean_helpers'
 require 'staccato/option_set'
 require 'staccato/hit'
 require 'staccato/pageview'
@@ -48,3 +49,4 @@ require 'staccato/timing'
 require 'staccato/transaction'
 require 'staccato/transaction_item'
 require 'staccato/tracker'
+require 'staccato/measurement'

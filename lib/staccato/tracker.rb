@@ -9,6 +9,7 @@ module Staccato
     # sets up a new tracker
     # @param id [String] the GA tracker id
     # @param client_id [String, nil] unique value to track user sessions
+    # @param hit_defaults [Hash]
     def initialize(id, client_id = nil, hit_defaults = {})
       @id = id
       @client_id = client_id
@@ -28,6 +29,17 @@ module Staccato
       @client_id ||= Staccato.build_client_id
     end
 
+    # Build a pageview
+    # 
+    # @param options [Hash] options include:
+    #   * path (optional) the path of the current page view
+    #   * hostname (optional) the hostname of the current page view
+    #   * title (optional) the page title
+    # @return [Pageview]
+    def build_pageview(options = {})
+      Staccato::Pageview.new(self, options)
+    end
+
     # Track a pageview
     # 
     # @param options [Hash] options include:
@@ -36,7 +48,19 @@ module Staccato
     #   * title (optional) the page title
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
     def pageview(options = {})
-      Staccato::Pageview.new(self, options).track!
+      build_pageview(options).track!
+    end
+
+    # Build an event
+    # 
+    # @param options [Hash] options include:
+    #   * category (optional)
+    #   * action (optional)
+    #   * label (optional)
+    #   * value (optional)
+    # @return [Event]
+    def build_event(options = {})
+      Staccato::Event.new(self, options)
     end
 
     # Track an event
@@ -48,7 +72,7 @@ module Staccato
     #   * value (optional)
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
     def event(options = {})
-      Staccato::Event.new(self, options).track!
+      build_event(options).track!
     end
 
     # Track a social event such as a Facebook Like or Twitter Share
@@ -123,8 +147,10 @@ module Staccato
   #   Useful in testing
   class NoopTracker
     # (see Tracker#initialize)
-    def initialize(*); end
+    def initialize(id = nil, client_id = nil, hit_defaults = {}); end
 
+    # hit defaults for our noop
+    # @return [Hash]
     def hit_defaults
       {}
     end
@@ -139,26 +165,31 @@ module Staccato
       nil
     end
 
+    # (see Tracker#build_pageview)
+    def build_pageview(options = {}); end
     # (see Tracker#pageview)
-    def pageview(*); end
+    def pageview(options = {}); end
+    # (see Tracker#build_event)
+    def build_event(options = {}); end
     # (see Tracker#event)
-    def event(*); end
+    def event(options = {}); end
     # (see Tracker#social)
-    def social(*); end
+    def social(options = {}); end
     # (see Tracker#exception)
-    def exception(*); end
+    def exception(options = {}); end
     # (see Tracker#timing)
-    def timing(*)
+    def timing(options = {}, &block)
       yield if block_given?
     end
     # (see Tracker#transaction)
-    def transaction(*)
+    def transaction(options = {})
     end
     # (see Tracker#transaction_item)
-    def transaction_item(*)
+    def transaction_item(options = {})
     end
 
-    def track(*)
+    # (see Tracker#track)
+    def track(params = {})
     end
   end
 end

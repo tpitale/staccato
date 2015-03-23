@@ -15,8 +15,10 @@ module Staccato
       :exception
     end
 
+    # Boolean fields from Hit plus exception-specific field
+    # @return [Array<Symbol>]
     def boolean_fields
-      super << :fatal
+      super + [:fatal]
     end
   end
 end
