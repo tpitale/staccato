@@ -133,7 +133,10 @@ Staccato::Hit::GLOBAL_OPTIONS.keys # =>
  :application_id,
  :application_installer_id,
  :experiment_id,
- :experiment_variant]
+ :experiment_variant,
+ :product_action,
+ :product_action_list,
+ :promotion_action]
 ```
 
 Boolean options like `anonymize_ip` will be converted from `true`/`false` into `1`/`0` as per the tracking API docs.
@@ -200,13 +203,218 @@ tracker.pageview(path: '/videos/123')
 tracker.pageview(path: '/videos/987')
 ```
 
-## Google Documentation
+## Additional Measurements ##
+
+Additional Measurements can be added to any Hit type, but most commonly used with pageviews or events. The current set of measurements is for handling [Enhanced Ecommerce](https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide#enhancedecom) measurements. I've grouped these into ImpressionList, Product, ProductImpression, Promotion, Transaction, Checkout, and CheckoutOption (w/ ImpressionList). Each can be added and combined – per Google's documentation – onto an existing Hit.
+
+**Note:** Certain Measurements require an `index`. This is an integer (usually) between 1 and 200 inclusive.
+
+**Note:** Certain Measurements require a `product_action` to be set. This is a global option, and should be set on the original hit. The `product_action` can be any one of:
+
+* `detail`
+* `click`
+* `add`
+* `remove`
+* `checkout`
+* `checkout_option`
+* `purchase`
+* `refund`
+
+### Transaction w/ Product ###
+
+Using a pageview to track a transaction with a product (using the 'purchase' as the `product_action`:
+
+```ruby
+pageview = tracker.build_pageview(path: '/receipt', hostname: 'mystore.com', title: 'Your Receipt', product_action: 'purchase')
+
+pageview.add_measurement(:transaction, {
+  transaction_id: 'T12345',
+  affiliation: 'Your Store',
+  revenue: 37.39,
+  tax: 2.85,
+  shipping: 5.34,
+  currency: 'USD',
+  coupon_code: 'SUMMERSALE'
+})
+
+pageview.add_measurement(:product, {
+  index: 1, # this is our first product, value may be 1-200
+  id: 'P12345',
+  name: 'T-Shirt',
+  category: 'Apparel',
+  brand: 'Your Brand',
+  variant: 'Purple',
+  quantity: 2,
+  position: 1,
+  price: 14.60,
+  coupon_code: 'ILUVTEES'
+})
+
+pageview.track!
+```
+
+### Transaction Refund ###
+
+The combination of `product_action: 'refund'` and `transaction` measurement setting a matching `id` to a previous transaction.
+
+```ruby
+event = tracker.build_event(category: 'order', action: 'refund', non_interactive: true, product_action: 'refund')
+
+event.add_measurement(:transaction, id: 'T12345')
+
+event.track!
+```
+
+### Transaction & Product Refund ###
+
+The combination of `product_action: 'refund'` and `transaction` measurement setting a matching `id` to a previous transaction. You can also specify a product (or products, using `index`) with a `quantity` (for partial refunds) to refund.
+
+```ruby
+event = tracker.build_event(category: 'order', action: 'refund', non_interactive: true, product_action: 'refund')
+
+event.add_measurement(:transaction, id: 'T12345')
+event.add_measurement(:product, index: 1, id: 'P12345', quantity: 1)
+
+event.track!
+```
+
+### Promotion Impression ###
+
+```ruby
+pageview = tracker.build_pageview(path: '/search', hostname: 'mystore.com', title: 'Search Results')
+
+pageview.add_measurement(:promotion, {
+  index: 1,
+  id: 'PROMO_1234',
+  name: 'Summer Sale',
+  creative: 'summer_sale_banner',
+  position: 'banner_1'
+})
+
+pageview.track!
+```
+
+### Promotion Click ###
+
+Promotion also supports a `promotion_action`, similar to `product_action`. This is another global option on `Hit`.
+
+```ruby
+event = tracker.build_event(category: 'promotions', action: 'click', label: 'internal', promotion_action: 'click')
+
+event.add_measurement(:promotion, {
+  index: 1,
+  id: 'PROMO_1234',
+  name: 'Summer Sale',
+  creative: 'summer_sale_banner',
+  position: 'banner_1'
+})
+
+event.track!
+```
+
+### Product Click ###
+
+```ruby
+event = tracker.build_event(category: 'search', action: 'click', label: 'results', product_action: 'click', product_action_list: 'Search Results')
+
+event.add_measurement(:product, {
+  index: 1,
+  id: 'P12345',
+  name: 'T-Shirt',
+  category: 'Apparel',
+  brand: 'Your Brand',
+  variant: 'Purple',
+  quantity: 2,
+  position: 1,
+  price: 14.60,
+  coupon_code: 'ILUVTEES'
+})
+
+event.track!
+```
+
+### Checkout ###
+
+```ruby
+pageview = tracker.build_pageview(path: '/checkout', hostname: 'mystore.com', title: 'Complete Your Checkout', product_action: 'checkout')
+
+pageview.add_measurement(:product, {
+  index: 1, # this is our first product, value may be 1-200
+  id: 'P12345',
+  name: 'T-Shirt',
+  category: 'Apparel',
+  brand: 'Your Brand',
+  variant: 'Purple',
+  quantity: 2,
+  position: 1,
+  price: 14.60,
+  coupon_code: 'ILUVTEES'
+})
+
+pageview.add_measurement(:checkout, {
+  step: 1,
+  step_option: 'Visa'
+})
+
+pageview.track!
+```
+
+### Checkout Option ###
+
+```ruby
+event = tracker.build_event(category: 'checkout', action: 'option', non_interactive: true, product_action: 'checkout_option')
+
+event.add_measurement(:checkout_options, {
+  step: 2,
+  step_option: 'Fedex'
+})
+
+event.track!
+```
+
+### Impression List & Product Impression ###
+
+```ruby
+pageview = tracker.build_pageview(path: '/home', hostname: 'mystore.com', title: 'Home Page')
+
+pageview.add_measurement(:impression_list, index: 1, name: 'Search Results')
+
+pageview.add_measurement(:product_impression, {
+  index: 1,
+  list_index: 1, # match the impression_list above
+  id: 'P12345',
+  name: 'T-Shirt',
+  category: 'Apparel',
+  brand: 'Your Brand',
+  variant: 'Purple',
+  position: 1,
+  price: 14.60
+})
+
+pageview.add_measurement(:impression_list, index: 2, name: 'Recommendations')
+
+pageview.add_measurement(:product_impression, {
+  index: 1,
+  list_index: 2,
+  name: 'Yellow Tee'
+})
+
+pageview.add_measurement(:product_impression, {
+  index: 2,
+  list_index: 2,
+  name: 'Red Tee'
+})
+
+pageview.track!
+```
+
+## Google Documentation ##
 
 https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide
 https://developers.google.com/analytics/devguides/collection/protocol/v1/reference
 https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
 
-## Contributing
+## Contributing ##
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)

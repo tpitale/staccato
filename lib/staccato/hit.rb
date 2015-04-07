@@ -18,6 +18,7 @@ module Staccato
       end
     end
 
+    # Hit global options may be set on any hit type options
     GLOBAL_OPTIONS = {
       anonymize_ip: 'aip', # boolean
       queue_time: 'qt', # integer
@@ -63,14 +64,22 @@ module Staccato
 
       # Content Experiments
       experiment_id: 'xid',
-      experiment_variant: 'xvar'
-    }
+      experiment_variant: 'xvar',
 
+      # Product
+      product_action: 'pa',
+      product_action_list: 'pal',
+
+      # Promotion
+      promotion_action: 'promoa'
+    }.freeze
+
+    # Fields which should be converted to boolean for google
     BOOLEAN_FIELDS = [
       :non_interactive,
       :anonymize_ip,
       :java_enabled
-    ]
+    ].freeze
 
     # sets up a new hit
     # @param tracker [Staccato::Tracker] the tracker to collect to
@@ -88,31 +97,60 @@ module Staccato
 
     # collects the parameters from options for this hit type
     def params
-      base_params.
-        merge(tracker_default_params).
-        merge(global_options_params).
-        merge(hit_params).
-        merge(custom_dimensions).
-        merge(custom_metrics).
-        reject {|_,v| v.nil?}
+      {}.
+      merge!(base_params).
+      merge!(tracker_default_params).
+      merge!(global_options_params).
+      merge!(hit_params).
+      merge!(custom_dimensions).
+      merge!(custom_metrics).
+      merge!(measurement_params).
+      reject {|_,v| v.nil?}
     end
 
-    def add_custom_dimension(position, value)
-      self.custom_dimensions["cd#{position}"] = value
+    # Set a custom dimension value at an index
+    # @param index [Integer]
+    # @param value
+    def add_custom_dimension(index, value)
+      self.custom_dimensions["cd#{index}"] = value
     end
 
+    # Custom dimensions for this hit
+    # @return [Hash]
     def custom_dimensions
       @custom_dimensions ||= {}
     end
 
-    def add_custom_metric(position, value)
-      self.custom_metrics["cm#{position}"] = value
+    # Set a custom metric value at an index
+    # @param index [Integer]
+    # @param value
+    def add_custom_metric(index, value)
+      self.custom_metrics["cm#{index}"] = value
     end
 
+    # Custom metrics for this hit
+    # @return [Hash]
     def custom_metrics
       @custom_metrics ||= {}
     end
 
+    # Add a measurement by its symbol name with options
+    # 
+    # @param key [Symbol] any one of the measurable classes lookup key
+    # @param options [Hash] options for the measurement
+    def add_measurement(key, options = {})
+      self.measurements << Measurement.lookup(key).new(options)
+    end
+
+    # Measurements for this hit
+    # @return [Array<Measurable>]
+    def measurements
+      @measurements ||= []
+    end
+
+    # Returns the value for session control
+    #   based on options for session_start/_end
+    # @return ['start', 'end']
     def session_control
       case
       when options[:session_start], options[:start_session]
@@ -128,34 +166,12 @@ module Staccato
     end
 
     private
-    def convert_booleans(hash)
-      hash.each_pair.with_object({}, &method(:convert_boolean))
-    end
-
-    def convert_boolean((k,v), hash)
-      hash[k] = boolean_field?(k) ? integer_for(v) : v
-    end
-
+    # @private
     def boolean_fields
       BOOLEAN_FIELDS
     end
 
-    def boolean_field?(key)
-      boolean_fields.include?(key)
-    end
-
-    def integer_for(value)
-      case value
-      when Integer
-        value
-      when TrueClass
-        1
-      when FalseClass
-        0
-      when NilClass
-        nil
-      end
-    end
+    include BooleanHelpers
 
     # @private
     def base_params
@@ -198,6 +214,11 @@ module Staccato
           [key, options[field]] unless options[field].nil?
         }.compact
       ]
+    end
+
+    # @private
+    def measurement_params
+      measurements.dup.map!(&:params).inject({}, &:merge!)
     end
   end
 end
