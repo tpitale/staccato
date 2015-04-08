@@ -410,6 +410,8 @@ pageview.track!
 
 ### Hit Validation ###
 
+Sends hits to the measurement protocol validation endpoint. Nothing is tracked in Google Analytics.
+
 ```ruby
 tracker = Staccato.tracker('UA-XXXX-Y', client_id, validate: true)
 tracker.pageview(path: '/page-path', hostname: 'mysite.com', title: 'A Page!')
