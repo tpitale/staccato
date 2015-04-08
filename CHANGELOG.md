@@ -1,3 +1,11 @@
+## Staccato 0.2.0 ##
+
+*   Enhanced Ecommerce Measurements
+*   Measurable module for further extension of hits
+*   New global hit options for ecommerce
+
+    *Tony Pitale <@tpitale>*
+
 ## Staccato 0.1.1 ##
 
 *   fixes NoopTracker when track! is called on a hit *martin1keogh*
