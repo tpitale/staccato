@@ -48,13 +48,13 @@ describe Staccato::Measurement::ProductImpression do
         'dp' => '/home',
         'dt' => 'Home Page',
         'il1nm' => 'Search Results',
-        'il1pr1id' => 'P12345',
-        'il1pr1nm' => 'T-Shirt',
-        'il1pr1br' => 'Your Brand',
-        'il1pr1ca' => 'Apparel',
-        'il1pr1va' => 'Purple',
-        'il1pr1pr' => 14.60,
-        'il1pr1ps' => 1
+        'il1pi1id' => 'P12345',
+        'il1pi1nm' => 'T-Shirt',
+        'il1pi1br' => 'Your Brand',
+        'il1pi1ca' => 'Apparel',
+        'il1pi1va' => 'Purple',
+        'il1pi1pr' => 14.60,
+        'il1pi1ps' => 1
       })
     end
   end
