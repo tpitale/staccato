@@ -11,7 +11,7 @@ module Staccato
       # product impress prefix
       # @return [String]
       def prefix
-        'il' + list_index.to_s + 'pr' + index.to_s
+        'il' + list_index.to_s + 'pi' + index.to_s
       end
 
       # Product impression measurement options fields
