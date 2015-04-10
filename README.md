@@ -144,7 +144,7 @@ Boolean options like `anonymize_ip` will be converted from `true`/`false` into `
 #### Custom Dimensions and Metrics ####
 
 ```ruby
-hit = Staccato::Pageview.new(tracker, '/sports-page-5')
+hit = Staccato::Pageview.new(tracker, hostname: 'mysite.com', path: '/sports-page-5', title: 'Sports Page #5')
 hit.add_custom_dimension(19, 'Sports')
 hit.add_custom_metric(2, 5)
 hit.track!
