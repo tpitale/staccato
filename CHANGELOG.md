@@ -1,3 +1,9 @@
+## Staccato 0.2.1 ##
+
+*   Fix product impression prefix
+
+    *Ricky Hanna <@rickyhanna>*
+
 ## Staccato 0.2.0 ##
 
 *   Enhanced Ecommerce Measurements
