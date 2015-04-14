@@ -143,6 +143,15 @@ module Staccato
     end
   end
 
+  # A tracker which validates hits for testing
+  # Hits are not tracked
+  class ValidationTracker < Tracker
+    def track(params={})
+      puts post(Staccato.validation_uri, params).body
+    end
+  end
+
+
   # A tracker which does no tracking
   #   Useful in testing
   class NoopTracker

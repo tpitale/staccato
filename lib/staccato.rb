@@ -18,8 +18,11 @@ module Staccato
   #   an individual user
   # @return [Staccato::Tracker] a new tracker is returned
   def self.tracker(id, client_id = nil, hit_options = {})
+    validate = hit_options.delete(:validate) { |_| false }
     if id.nil?
       Staccato::NoopTracker.new
+    elsif validate == true
+      Staccato::ValidationTracker.new(id, client_id,  hit_options)
     else
       Staccato::Tracker.new(id, client_id, hit_options)
     end
@@ -35,6 +38,11 @@ module Staccato
   # The tracking endpoint we use to submit requests to GA
   def self.tracking_uri
     URI('http://www.google-analytics.com/collect')
+  end
+
+  # The tracking endpoint for request validation
+  def self.validation_uri
+    URI('https://www.google-analytics.com/debug/collect')
   end
 end
 

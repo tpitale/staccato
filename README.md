@@ -408,6 +408,25 @@ pageview.add_measurement(:product_impression, {
 pageview.track!
 ```
 
+### Hit Validation ###
+
+Sends hits to the measurement protocol validation endpoint. Nothing is tracked in Google Analytics.
+
+```ruby
+tracker = Staccato.tracker('UA-XXXX-Y', client_id, validate: true)
+tracker.pageview(path: '/page-path', hostname: 'mysite.com', title: 'A Page!')
+
+# prints:
+
+# {
+#   "hit_parsing_result": [ {
+#     "valid": true,
+#     "parser_message": [ ],
+#     "hit": "POST /debug/collect HTTP/1.1"
+#   } ]
+# }
+```
+
 ## Google Documentation ##
 
 https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide
