@@ -151,6 +151,7 @@ module Staccato
   # A tracker which does no tracking
   #   Useful in testing
   class NoopTracker
+    attr_accessor :http_read_timeout
     # (see Tracker#initialize)
     def initialize(id = nil, client_id = nil, hit_defaults = {}); end
 
