@@ -5,6 +5,8 @@ module Staccato
         @connection = Faraday.new(uri) do |faraday|
           faraday.request  :url_encoded             # form-encode POST params
           faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+
+          yield faraday if block_given?
         end
       end
 
