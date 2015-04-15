@@ -3,11 +3,12 @@ require 'spec_helper'
 describe Staccato::Measurement::Product do
   let(:uri) {Staccato.tracking_uri}
   let(:tracker) {Staccato.tracker('UA-XXXX-Y')}
-  let(:response) {stub(:body => '', :status => 201)}
+  let(:mock_http) {MockHTTP.new(stub(:body => '', :status => 201))}
+  let(:request_params) { mock_http.request_params }
 
   before(:each) do
     SecureRandom.stubs(:uuid).returns('555')
-    Net::HTTP.stubs(:post_form).returns(response)
+    Net::HTTP.stubs(:new).returns(mock_http)
   end
 
   context 'a pageview with a transaction' do
@@ -41,8 +42,8 @@ describe Staccato::Measurement::Product do
     end
 
     it 'tracks the measurment' do
-      Net::HTTP.should have_received(:post_form).with(uri, {
-        'v' => 1,
+      expect(request_params).to eql(
+        'v' => '1',
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
         't' => 'event',
@@ -56,11 +57,11 @@ describe Staccato::Measurement::Product do
         'pr1ca' => 'Apparel',
         'pr1br' => 'Your Brand',
         'pr1va' => 'Purple',
-        'pr1qt' => 2,
-        'pr1ps' => 1,
-        'pr1pr' => 14.60,
+        'pr1qt' => '2',
+        'pr1ps' => '1',
+        'pr1pr' => '14.6',
         'pr1cc' => 'ILUVTEES'
-      })
+      )
     end
   end
 end

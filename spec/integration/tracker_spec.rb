@@ -3,11 +3,12 @@ require 'spec_helper'
 describe Staccato::Tracker do
   let(:uri) {Staccato.tracking_uri}
   let(:tracker) {Staccato.tracker('UA-XXXX-Y')}
-  let(:response) {stub(:body => '', :status => 201)}
+  let(:mock_http) {MockHTTP.new(stub(:body => '', :status => 201))}
+  let(:request_params) { mock_http.request_params }
 
   before(:each) do
     SecureRandom.stubs(:uuid).returns('555')
-    Net::HTTP.stubs(:post_form).returns(response)
+    Net::HTTP.stubs(:new).returns(mock_http)
   end
 
   describe "#pageview" do
@@ -16,15 +17,15 @@ describe Staccato::Tracker do
     end
 
     it 'tracks page path and page title' do
-      Net::HTTP.should have_received(:post_form).with(uri, {
-        'v' => 1,
+      expect(request_params).to eql(
+        'v' => '1',
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
         't' => 'pageview',
         'dh' => 'mysite.com',
         'dp' => '/foobar',
         'dt' => 'FooBar'
-      })
+      )
     end
   end
 
@@ -39,16 +40,16 @@ describe Staccato::Tracker do
     end
 
     it 'tracks event category, action, label, value' do
-      Net::HTTP.should have_received(:post_form).with(uri, {
-        'v' => 1,
+      expect(request_params).to eql(
+        'v' => '1',
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
         't' => 'event',
         'ec' => 'video',
         'ea' => 'play',
         'el' => 'cars',
-        'ev' => 1
-      })
+        'ev' => '1'
+      )
     end
   end
 
@@ -62,15 +63,15 @@ describe Staccato::Tracker do
     end
 
     it 'tracks social action, network, target' do
-      Net::HTTP.should have_received(:post_form).with(uri, {
-        'v' => 1,
+      expect(request_params).to eql(
+        'v' => '1',
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
         't' => 'social',
         'sa' => 'like',
         'sn' => 'facebook',
         'st' => '/blog'
-      })
+      )
     end
   end
 
@@ -84,15 +85,15 @@ describe Staccato::Tracker do
     end
 
     it 'tracks exception description and fatality' do
-      Net::HTTP.should have_received(:post_form).with(uri, {
-        'v' => 1,
+      expect(request_params).to eql(
+        'v' => '1',
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
-        'ni' => 1,
+        'ni' => '1',
         't' => 'exception',
         'exd' => 'RuntimeException',
-        'exf' => 1
-      })
+        'exf' => '1'
+      )
     end
   end
 
@@ -107,16 +108,16 @@ describe Staccato::Tracker do
     end
 
     it 'tracks user timing category, variable, label, and time' do
-      Net::HTTP.should have_received(:post_form).with(uri, {
-        'v' => 1,
+      expect(request_params).to eql(
+        'v' => '1',
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
         't' => 'timing',
         'utc' => 'view',
         'utv' => 'runtime',
         'utl' => 'rails',
-        'utt' => 1000 # value in milliseconds
-      })
+        'utt' => '1000' # value in milliseconds
+      )
     end
   end
 
@@ -135,16 +136,16 @@ describe Staccato::Tracker do
     end
 
     it 'tracks user timing category, variable, label, and time' do
-      Net::HTTP.should have_received(:post_form).with(uri, {
-        'v' => 1,
+      expect(request_params).to eql(
+        'v' => '1',
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
         't' => 'timing',
         'utc' => 'view',
         'utv' => 'runtime',
         'utl' => 'rails',
-        'utt' => 1000
-      })
+        'utt' => '1000'
+      )
     end
 
     it 'yields to the block' do
@@ -168,18 +169,18 @@ describe Staccato::Tracker do
       end
 
       it 'tracks the transaction values' do
-        Net::HTTP.should have_received(:post_form).with(uri, {
-          'v' => 1,
+        expect(request_params).to eql(
+          'v' => '1',
           'tid' => 'UA-XXXX-Y',
           'cid' => '555',
           't' => 'transaction',
-          'ti' => transaction_id,
+          'ti' => "#{transaction_id}",
           'ta' => 'western',
-          'tr' => 5.99,
-          'ts' => 12.0,
-          'tt' => 1.4,
+          'tr' => '5.99',
+          'ts' => '12.0',
+          'tt' => '1.4',
           'cu' => 'USD'
-        })
+        )
       end
     end
 
@@ -199,19 +200,19 @@ describe Staccato::Tracker do
       end
 
       it 'tracks the item values' do
-        Net::HTTP.should have_received(:post_form).with(uri, {
-          'v' => 1,
+        expect(request_params).to eql(
+          'v' => '1',
           'tid' => 'UA-XXXX-Y',
           'cid' => '555',
           't' => 'item',
-          'ti' => transaction_id,
+          'ti' => "#{transaction_id}",
           'in' => 'Sofa',
-          'ip' => 804.99,
-          'iq' => 2,
+          'ip' => '804.99',
+          'iq' => '2',
           'ic' => 'afhcka1230',
           'iv' => 'furniture',
           'cu' => 'USD'
-        })
+        )
       end
     end
   end
@@ -224,14 +225,14 @@ describe Staccato::Tracker do
     it 'tracks page path and default hostname' do
       tracker.pageview(path: '/foobar')
 
-      Net::HTTP.should have_received(:post_form).with(uri, {
-        'v' => 1,
+      expect(request_params).to eql(
+        'v' => '1',
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
         't' => 'pageview',
         'dh' => 'mysite.com',
         'dp' => '/foobar'
-      })
+      )
     end
   end
 end

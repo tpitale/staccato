@@ -4,7 +4,7 @@ module Staccato
   # 
   # @author Tony Pitale
   class Tracker
-    attr_accessor :hit_defaults
+    attr_accessor :hit_defaults, :http_read_timeout
 
     # sets up a new tracker
     # @param id [String] the GA tracker id
@@ -139,7 +139,12 @@ module Staccato
 
     # @private
     def post(uri, params)
-      Net::HTTP.post_form(uri, params)
+      req = Net::HTTP::Post.new(uri.request_uri)
+      req.read_timeout = http_read_timeout if http_read_timeout
+      req.form_data = params
+      Net::HTTP.new(uri.hostname, uri.port).start {|http|
+        http.request(req)
+      }
     end
   end
 
