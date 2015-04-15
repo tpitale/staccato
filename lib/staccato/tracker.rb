@@ -4,7 +4,7 @@ module Staccato
   # 
   # @author Tony Pitale
   class Tracker
-    attr_accessor :hit_defaults, :http_read_timeout
+    attr_accessor :hit_defaults, :http_read_timeout, :http_open_timeout
 
     # sets up a new tracker
     # @param id [String] the GA tracker id
@@ -143,6 +143,7 @@ module Staccato
       req.read_timeout = http_read_timeout if http_read_timeout
       req.form_data = params
       Net::HTTP.new(uri.hostname, uri.port).start {|http|
+        http.open_timeout = http_open_timeout if http_open_timeout
         http.request(req)
       }
     end
@@ -151,7 +152,7 @@ module Staccato
   # A tracker which does no tracking
   #   Useful in testing
   class NoopTracker
-    attr_accessor :http_read_timeout
+    attr_accessor :http_read_timeout, :http_open_timeout
     # (see Tracker#initialize)
     def initialize(id = nil, client_id = nil, hit_defaults = {}); end
 
