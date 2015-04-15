@@ -7,7 +7,7 @@ describe Staccato::NoopTracker do
 
   before(:each) do
     SecureRandom.stubs(:uuid).returns('555')
-    Net::HTTP.stubs(:post_form).returns(response)
+    Net::HTTP.stubs(:new).returns(response)
   end
 
   describe "#pageview" do

@@ -9,6 +9,23 @@ require 'bourne'
 
 require File.expand_path('../../lib/staccato', __FILE__)
 
+class MockHTTP
+  attr_reader :request_params
+
+  def initialize(response)
+    @response = response
+  end
+
+  def start
+    yield(self)
+    @response
+  end
+
+  def request(request)
+    @request_params = CGI::parse(request.body).inject({}){|acc,k| acc[k.first] = k.last.first; acc }
+  end
+end
+
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.mock_with :mocha

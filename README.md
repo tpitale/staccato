@@ -29,6 +29,7 @@ Or install it yourself as:
 
 ```ruby
 tracker = Staccato.tracker('UA-XXXX-Y') # REQUIRED, your Google Analytics Tracking ID
+tracker.http_read_timeout = 2 # optionally set http read_timeout
 ```
 
 `#tracker` optionally takes a second param for the `client_id` value
