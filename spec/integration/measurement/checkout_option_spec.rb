@@ -30,7 +30,7 @@ describe Staccato::Measurement::CheckoutOption do
     end
 
     it 'tracks the measurment' do
-      Net::HTTP.should have_received(:post_form).with(uri, {
+      expect(Net::HTTP).to have_received(:post_form).with(uri, {
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',

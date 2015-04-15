@@ -106,7 +106,7 @@ describe Staccato::NoopTracker do
     end
 
     it 'does not send a post request' do
-      Net::HTTP.should have_received(:post_form).never
+      expect(Net::HTTP).to have_received(:post_form).never
     end
   end
 end
