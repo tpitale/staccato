@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Staccato::Measurement::Product do
-  let(:uri) {Staccato.tracking_uri}
+  let(:uri) {Staccato.ga_collection_uri}
   let(:tracker) {Staccato.tracker('UA-XXXX-Y')}
   let(:response) {stub(:body => '', :status => 201)}
 

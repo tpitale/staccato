@@ -15,23 +15,23 @@ describe Staccato::Event do
     end
 
     it 'has a category' do
-      event.category.should eq('video')
+      expect(event.category).to eq('video')
     end
 
     it 'has a action' do
-      event.action.should eq('play')
+      expect(event.action).to eq('play')
     end
 
     it 'has a label' do
-      event.label.should eq('cars')
+      expect(event.label).to eq('cars')
     end
 
     it 'has a value' do
-      event.value.should eq(12)
+      expect(event.value).to eq(12)
     end
 
     it 'has all params' do
-      event.params.should eq({
+      expect(event.params).to eq({
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
@@ -57,7 +57,7 @@ describe Staccato::Event do
     end
 
     it 'has all params' do
-      event.params.should eq({
+      expect(event.params).to eq({
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
@@ -76,7 +76,7 @@ describe Staccato::Event do
     end
 
     it 'has require params' do
-      event.params.should eq({
+      expect(event.params).to eq({
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',

@@ -14,19 +14,19 @@ describe Staccato::Pageview do
     end
 
     it 'has a hostname' do
-      pageview.hostname.should eq('mysite.com')
+      expect(pageview.hostname).to eq('mysite.com')
     end
 
     it 'has a path' do
-      pageview.path.should eq('/foobar')
+      expect(pageview.path).to eq('/foobar')
     end
 
     it 'has a title' do
-      pageview.title.should eq('FooBar')
+      expect(pageview.title).to eq('FooBar')
     end
 
     it 'has all params' do
-      pageview.params.should eq({
+      expect(pageview.params).to eq({
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
@@ -49,7 +49,7 @@ describe Staccato::Pageview do
     end
 
     it 'has all params' do
-      pageview.params.should eq({
+      expect(pageview.params).to eq({
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
@@ -67,7 +67,7 @@ describe Staccato::Pageview do
     end
 
     it 'has required params' do
-      pageview.params.should eq({
+      expect(pageview.params).to eq({
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
@@ -85,7 +85,7 @@ describe Staccato::Pageview do
     end
 
     it 'has experiment id and variant' do
-      pageview.params.should eq({
+      expect(pageview.params).to eq({
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
@@ -104,7 +104,7 @@ describe Staccato::Pageview do
     end
 
     it 'has session control param' do
-      pageview.params.should eq({
+      expect(pageview.params).to eq({
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
@@ -125,7 +125,7 @@ describe Staccato::Pageview do
     end
 
     it 'has custom dimensions' do
-      pageview.params.should eq({
+      expect(pageview.params).to eq({
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
@@ -147,7 +147,7 @@ describe Staccato::Pageview do
     end
 
     it 'has custom dimensions' do
-      pageview.params.should eq({
+      expect(pageview.params).to eq({
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',

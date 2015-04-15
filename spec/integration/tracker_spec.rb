@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Staccato::Tracker do
-  let(:uri) {Staccato.tracking_uri}
+  let(:uri) {Staccato.ga_collection_uri}
   let(:tracker) {Staccato.tracker('UA-XXXX-Y')}
   let(:response) {stub(:body => '', :status => 201)}
 
@@ -16,7 +16,7 @@ describe Staccato::Tracker do
     end
 
     it 'tracks page path and page title' do
-      Net::HTTP.should have_received(:post_form).with(uri, {
+      expect(Net::HTTP).to have_received(:post_form).with(uri, {
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
@@ -39,7 +39,7 @@ describe Staccato::Tracker do
     end
 
     it 'tracks event category, action, label, value' do
-      Net::HTTP.should have_received(:post_form).with(uri, {
+      expect(Net::HTTP).to have_received(:post_form).with(uri, {
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
@@ -62,7 +62,7 @@ describe Staccato::Tracker do
     end
 
     it 'tracks social action, network, target' do
-      Net::HTTP.should have_received(:post_form).with(uri, {
+      expect(Net::HTTP).to have_received(:post_form).with(uri, {
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
@@ -84,7 +84,7 @@ describe Staccato::Tracker do
     end
 
     it 'tracks exception description and fatality' do
-      Net::HTTP.should have_received(:post_form).with(uri, {
+      expect(Net::HTTP).to have_received(:post_form).with(uri, {
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
@@ -107,7 +107,7 @@ describe Staccato::Tracker do
     end
 
     it 'tracks user timing category, variable, label, and time' do
-      Net::HTTP.should have_received(:post_form).with(uri, {
+      expect(Net::HTTP).to have_received(:post_form).with(uri, {
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
@@ -135,7 +135,7 @@ describe Staccato::Tracker do
     end
 
     it 'tracks user timing category, variable, label, and time' do
-      Net::HTTP.should have_received(:post_form).with(uri, {
+      expect(Net::HTTP).to have_received(:post_form).with(uri, {
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',
@@ -148,7 +148,7 @@ describe Staccato::Tracker do
     end
 
     it 'yields to the block' do
-      codez.should have_received(:test)
+      expect(codez).to have_received(:test)
     end
   end
 
@@ -168,7 +168,7 @@ describe Staccato::Tracker do
       end
 
       it 'tracks the transaction values' do
-        Net::HTTP.should have_received(:post_form).with(uri, {
+        expect(Net::HTTP).to have_received(:post_form).with(uri, {
           'v' => 1,
           'tid' => 'UA-XXXX-Y',
           'cid' => '555',
@@ -199,7 +199,7 @@ describe Staccato::Tracker do
       end
 
       it 'tracks the item values' do
-        Net::HTTP.should have_received(:post_form).with(uri, {
+        expect(Net::HTTP).to have_received(:post_form).with(uri, {
           'v' => 1,
           'tid' => 'UA-XXXX-Y',
           'cid' => '555',
@@ -224,7 +224,7 @@ describe Staccato::Tracker do
     it 'tracks page path and default hostname' do
       tracker.pageview(path: '/foobar')
 
-      Net::HTTP.should have_received(:post_form).with(uri, {
+      expect(Net::HTTP).to have_received(:post_form).with(uri, {
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
         'cid' => '555',

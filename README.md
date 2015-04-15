@@ -414,6 +414,58 @@ https://developers.google.com/analytics/devguides/collection/protocol/v1/devguid
 https://developers.google.com/analytics/devguides/collection/protocol/v1/reference
 https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
 
+## HTTP Adapters ##
+
+Staccato provides a number of basic adapters to different ruby http libraries. By default, Staccato uses `net/http` when you create a new tracker. If you are using Faraday or [The Ruby HTTP library](https://github.com/httprb/http.rb) Staccato provides adapters.
+
+```ruby
+tracker = Staccato.tracker('UA-XXXX-Y') do |c|
+  c.adapter = Staccato::Adapter::Faraday.new(Stacatto.ga_collection_uri) do |faraday|
+    # further faraday configuration here
+  end
+end
+```
+
+You can also make your own Adapters by implementing any class that responds to `post` with a hash of params/data to be posted. The default adapters all accept the URI in the initializer, but this is not a requirement for yours.
+
+One such example might be for a new `net/http` adapter which accepts more options for configuring the connection:
+
+```ruby
+class CustomerAdapter
+  attr_reader :uri
+
+  def initialize(uri, options={})
+    @uri = uri
+    @options = options
+  end
+
+  def post(data)
+    Net::HTTP::Post.new(uri.request_uri).tap do |request|
+      request.read_timeout = @options.fetch(:read_timeout, 90)
+      request.form_data = data
+
+      execute(request)
+    end
+  end
+
+  private
+  def execute(request)
+    Net::HTTP.new(uri.hostname, uri.port).start do |http|
+      http.open_timeout = @options.fetch(:open_timeout, 90)
+      http.request(request)
+    end
+  end
+end
+```
+
+Which would be used like:
+
+```ruby
+tracker = Staccato.tracker('UA-XXXX-Y') do |c|
+  c.adapter = CustomAdapter.new(Stacatto.ga_collection_uri, read_timeout: 1, open_time: 1)
+end
+```
+
 ## Contributing ##
 
 1. Fork it

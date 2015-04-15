@@ -4,6 +4,7 @@ module Staccato
   # 
   # @author Tony Pitale
   class Tracker
+    attr_writer :adapter
     attr_accessor :hit_defaults
 
     # sets up a new tracker
@@ -132,14 +133,22 @@ module Staccato
     # post the hit to GA collection endpoint
     # @return [Net::HTTPOK] the GA api always returns 200 OK
     def track(params={})
-      post(Staccato.tracking_uri, params)
+      post(params)
     end
 
     private
 
     # @private
-    def post(uri, params)
-      Net::HTTP.post_form(uri, params)
+    def post(params)
+      adapter.post(params)
+    end
+
+    def adapter
+      @adapter ||= begin
+        require 'staccato/adapter/net_http'
+
+        Staccato::Adapter::Net::HTTP.new(Staccato.ga_collection_uri)
+      end
     end
   end
 

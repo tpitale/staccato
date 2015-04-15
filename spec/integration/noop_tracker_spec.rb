@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Staccato::NoopTracker do
-  let(:uri) {Staccato.tracking_uri}
+  let(:uri) {Staccato.ga_collection_uri}
   let(:tracker) {Staccato.tracker(nil)}
   let(:response) {stub(:body => '', :status => 201)}
 
@@ -16,7 +16,7 @@ describe Staccato::NoopTracker do
     end
 
     it 'does not track page path and page title' do
-      Net::HTTP.should have_received(:post_form).never
+      expect(Net::HTTP).to have_received(:post_form).never
     end
   end
 
@@ -31,7 +31,7 @@ describe Staccato::NoopTracker do
     end
 
     it 'does not track event category, action, label, value' do
-      Net::HTTP.should have_received(:post_form).never
+      expect(Net::HTTP).to have_received(:post_form).never
     end
   end
 
@@ -45,7 +45,7 @@ describe Staccato::NoopTracker do
     end
 
     it 'does not track social action, network, target' do
-      Net::HTTP.should have_received(:post_form).never
+      expect(Net::HTTP).to have_received(:post_form).never
     end
   end
 
@@ -58,7 +58,7 @@ describe Staccato::NoopTracker do
     end
 
     it 'does not track exception description and fatality' do
-      Net::HTTP.should have_received(:post_form).never
+      expect(Net::HTTP).to have_received(:post_form).never
     end
   end
 
@@ -73,7 +73,7 @@ describe Staccato::NoopTracker do
     end
 
     it 'does not track user timing category, variable, label, and time' do
-      Net::HTTP.should have_received(:post_form).never
+      expect(Net::HTTP).to have_received(:post_form).never
     end
   end
 
@@ -92,11 +92,11 @@ describe Staccato::NoopTracker do
     end
 
     it 'does not track user timing category, variable, label, and time' do
-      Net::HTTP.should have_received(:post_form).never
+      expect(Net::HTTP).to have_received(:post_form).never
     end
 
     it 'yields to the block' do
-      codez.should have_received(:test)
+      expect(codez).to have_received(:test)
     end
   end
 
