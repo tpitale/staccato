@@ -1,3 +1,9 @@
+## Staccato 0.3.0 ##
+
+*   HTTP Adapters for HTTP, net/http, and Faraday
+
+    *Tony Pitale <@tpitale>*
+
 ## Staccato 0.2.1 ##
 
 *   Fix product impression prefix
