@@ -25,7 +25,9 @@ module Staccato
         price: 'pr', # currency (looks like a double?)
         quantity: 'qt', # integer
         coupon_code: 'cc', # text
-        position: 'ps' # integer
+        position: 'ps', # integer
+        custom_dimensions: 'cd', # array[ array[ index, text ] ]
+        custom_metrics: 'cm' # array[ array[ index, integer/currency] ]
       }.freeze
 
       include Measurable
