@@ -146,7 +146,7 @@ describe Staccato::Pageview do
       pageview.add_custom_metric(1, 11)
     end
 
-    it 'has custom dimensions' do
+    it 'has custom metrics' do
       expect(pageview.params).to eq({
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
