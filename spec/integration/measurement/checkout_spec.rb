@@ -18,18 +18,18 @@ describe Staccato::Measurement::Checkout do
       })
     }
 
-    let(:measurment_options) {{
+    let(:measurement_options) {{
       step: 1,
       step_options: 'Visa'
     }}
 
     before(:each) do
-      pageview.add_measurement(:checkout, measurment_options)
+      pageview.add_measurement(:checkout, measurement_options)
 
       pageview.track!
     end
 
-    it 'tracks the measurment' do
+    it 'tracks the measurement' do
       expect(Net::HTTP).to have_received(:post_form).with(uri, {
         'v' => 1,
         'tid' => 'UA-XXXX-Y',

@@ -19,7 +19,7 @@ describe Staccato::Measurement::ProductImpression do
       })
     }
 
-    let(:measurment_options) {{
+    let(:measurement_options) {{
       index: 1,
       list_index: 1, # match the impression_list above
       id: 'P12345',
@@ -33,12 +33,12 @@ describe Staccato::Measurement::ProductImpression do
 
     before(:each) do
       pageview.add_measurement(:impression_list, index: 1, name: 'Search Results')
-      pageview.add_measurement(:product_impression, measurment_options)
+      pageview.add_measurement(:product_impression, measurement_options)
 
       pageview.track!
     end
 
-    it 'tracks the measurment' do
+    it 'tracks the measurement' do
       expect(Net::HTTP).to have_received(:post_form).with(uri, {
         'v' => 1,
         'tid' => 'UA-XXXX-Y',

@@ -31,14 +31,20 @@ module Staccato
     # collects the parameters from options for this measurement
     # @return [Hash]
     def params
-      Hash[
-        fields.map { |field,key|
-          next if key.nil?
-          key = (prefix+key.to_s)
+      fields.each_with_object({}) { |(field,key), params|
+        next if key.nil?
+        key = (prefix+key.to_s)
 
-          [key, options[field]] unless options[field].nil?
-        }.compact
-      ]
+        if options[field].is_a?(Array)
+          options[field].each { |custom_data|
+            custom_key = (key+custom_data[0].to_s)
+
+            params[custom_key] = custom_data[1]
+          }
+        else
+          params[key] = options[field] unless options[field].nil?
+        end
+      }
     end
   end
 end

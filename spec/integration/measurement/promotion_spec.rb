@@ -18,7 +18,7 @@ describe Staccato::Measurement::Promotion do
       })
     }
 
-    let(:measurment_options) {{
+    let(:measurement_options) {{
       index: 1,
       id: 'PROMO_1234',
       name: 'Summer Sale',
@@ -27,12 +27,12 @@ describe Staccato::Measurement::Promotion do
     }}
 
     before(:each) do
-      pageview.add_measurement(:promotion, measurment_options)
+      pageview.add_measurement(:promotion, measurement_options)
 
       pageview.track!
     end
 
-    it 'tracks the measurment' do
+    it 'tracks the measurement' do
       expect(Net::HTTP).to have_received(:post_form).with(uri, {
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
