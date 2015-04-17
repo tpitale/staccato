@@ -431,7 +431,7 @@ You can also make your own Adapters by implementing any class that responds to `
 One such example might be for a new `net/http` adapter which accepts more options for configuring the connection:
 
 ```ruby
-class CustomerAdapter
+class CustomAdapter
   attr_reader :uri
 
   def initialize(uri, options={})
