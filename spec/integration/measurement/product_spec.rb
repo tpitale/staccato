@@ -22,7 +22,7 @@ describe Staccato::Measurement::Product do
 
   context 'a pageview with an event' do
 
-    let(:product_options) {{
+    let(:measurement_options) {{
       index: 1,
       id: 'P12345',
       name: 'T-Shirt',
@@ -36,7 +36,7 @@ describe Staccato::Measurement::Product do
     }}
 
     before do
-      event.add_measurement(:product, product_options)
+      event.add_measurement(:product, measurement_options)
       event.track!
     end
 
@@ -66,7 +66,7 @@ describe Staccato::Measurement::Product do
   end
 
   context "with some custom dimensions" do
-    let(:product_options) {{
+    let(:measurement_options) {{
       index: 1,
       id: 'P12345',
       name: 'T-Shirt',
@@ -84,7 +84,7 @@ describe Staccato::Measurement::Product do
     }}
 
     before(:each) do
-      event.add_measurement(:product, product_options)
+      event.add_measurement(:product, measurement_options)
       event.track!
     end
 
@@ -115,7 +115,7 @@ describe Staccato::Measurement::Product do
   end
 
   context "with some custom metrics" do
-    let(:product_options) {{
+    let(:measurement_options) {{
       index: 1,
       id: 'P12345',
       name: 'T-Shirt',
@@ -133,7 +133,7 @@ describe Staccato::Measurement::Product do
     }}
 
     before do
-      event.add_measurement(:product, product_options)
+      event.add_measurement(:product, measurement_options)
 
       event.track!
     end
