@@ -18,7 +18,7 @@ describe Staccato::Measurement::Transaction do
       })
     }
 
-    let(:measurment_options) {{
+    let(:measurement_options) {{
       transaction_id: 'T12345',
       affiliation: 'Your Store',
       revenue: 37.39,
@@ -29,12 +29,12 @@ describe Staccato::Measurement::Transaction do
     }}
 
     before(:each) do
-      pageview.add_measurement(:transaction, measurment_options)
+      pageview.add_measurement(:transaction, measurement_options)
 
       pageview.track!
     end
 
-    it 'tracks the measurment' do
+    it 'tracks the measurement' do
       expect(Net::HTTP).to have_received(:post_form).with(uri, {
         'v' => 1,
         'tid' => 'UA-XXXX-Y',

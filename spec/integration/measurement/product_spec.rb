@@ -21,7 +21,7 @@ describe Staccato::Measurement::Product do
       })
     }
 
-    let(:measurment_options) {{
+    let(:measurement_options) {{
       index: 1,
       id: 'P12345',
       name: 'T-Shirt',
@@ -35,12 +35,12 @@ describe Staccato::Measurement::Product do
     }}
 
     before(:each) do
-      event.add_measurement(:product, measurment_options)
+      event.add_measurement(:product, measurement_options)
 
       event.track!
     end
 
-    it 'tracks the measurment' do
+    it 'tracks the measurement' do
       expect(Net::HTTP).to have_received(:post_form).with(uri, {
         'v' => 1,
         'tid' => 'UA-XXXX-Y',
