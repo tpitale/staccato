@@ -1,3 +1,9 @@
+## Staccato 0.3.1 ##
+
+*   Add customer dimensions and metrics to Product and ProductImpression measurements
+
+    *Agustin Cavilliotti <@cavi21>*
+
 ## Staccato 0.3.0 ##
 
 *   HTTP Adapters for HTTP, net/http, and Faraday
