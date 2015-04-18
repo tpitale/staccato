@@ -14,13 +14,8 @@ module Staccato
         'il' + list_index.to_s + 'pi' + index.to_s
       end
 
-      # product allow custom dimensions
-      def custom_dimensions_allowed?
-        true
-      end
-
-      # product allow custom metrics
-      def custom_metrics_allowed?
+      # product impression allow custom dimensions and metrics
+      def custom_fields_allowed?
         true
       end
 

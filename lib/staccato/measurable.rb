@@ -28,13 +28,8 @@ module Staccato
       ''
     end
 
-    # not all measurements allow custom dimensions
-    def custom_dimensions_allowed?
-      false
-    end
-
-    # not all measurements allow custom metrics
-    def custom_metrics_allowed?
+    # not all measurements allow custom dimensions or metrics
+    def custom_fields_allowed?
       false
     end
 
@@ -52,7 +47,7 @@ module Staccato
     # @param dimension_index [Integer]
     # @param value
     def add_custom_dimension(dimension_index, value)
-      return unless custom_dimensions_allowed?
+      return unless custom_fields_allowed?
       self.custom_dimensions["#{prefix}cd#{dimension_index}"] = value
     end
 
@@ -66,7 +61,7 @@ module Staccato
     # @param metric_index [Integer]
     # @param value
     def add_custom_metric(metric_index, value)
-      return unless custom_metrics_allowed?
+      return unless custom_fields_allowed?
       self.custom_metrics["#{prefix}cm#{metric_index}"] = value
     end
 
