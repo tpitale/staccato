@@ -14,6 +14,11 @@ module Staccato
         'pr'+index.to_s
       end
 
+      # product allow custom dimensions and metrics
+      def custom_fields_allowed?
+        true
+      end
+
       # Product measurement options fields
       FIELDS = {
         index: nil,

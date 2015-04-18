@@ -135,11 +135,15 @@ module Staccato
     end
 
     # Add a measurement by its symbol name with options
-    # 
+    #
     # @param key [Symbol] any one of the measurable classes lookup key
-    # @param options [Hash] options for the measurement
+    # @param options [Hash or Object] for the measurement
     def add_measurement(key, options = {})
-      self.measurements << Measurement.lookup(key).new(options)
+      if options.is_a?(Hash)
+        self.measurements << Measurement.lookup(key).new(options)
+      else
+        self.measurements << options
+      end
     end
 
     # Measurements for this hit
