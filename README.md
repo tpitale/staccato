@@ -466,6 +466,16 @@ tracker = Staccato.tracker('UA-XXXX-Y') do |c|
 end
 ```
 
+### Validation Adapter ###
+
+The validation adapter takes the class of the request adapter you want to use (e.g. `Faraday` or `Net::HTTP`).
+
+```ruby
+tracker = Staccato.tracker('UA-XXXX-Y') do |c|
+  c.adapter = Staccato::Adapter::Validate.new(Staccato::Adapter::Net::HTTP)
+end
+```
+
 ## Contributing ##
 
 1. Fork it
