@@ -144,11 +144,7 @@ module Staccato
     end
 
     def adapter
-      @adapter ||= begin
-        require 'staccato/adapter/net_http'
-
-        Staccato::Adapter::Net::HTTP.new(Staccato.ga_collection_uri)
-      end
+      @adapter ||= Staccato.default_adapter.new(Staccato.ga_collection_uri)
     end
   end
 

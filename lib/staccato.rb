@@ -38,6 +38,12 @@ module Staccato
     url = (ssl ? 'https://ssl' : 'http://www') + '.google-analytics.com/collect'
     URI(url)
   end
+
+  # The default adapter to use for sending hits
+  def self.default_adapter
+    require 'staccato/adapter/net_http'
+    Staccato::Adapter::Net::HTTP
+  end
 end
 
 require 'staccato/boolean_helpers'
