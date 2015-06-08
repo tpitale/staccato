@@ -1,6 +1,7 @@
 require 'ostruct'
 require 'forwardable'
 require 'securerandom'
+require 'uri'
 
 require "staccato/version"
 
@@ -37,6 +38,12 @@ module Staccato
   def self.ga_collection_uri(ssl = false)
     url = (ssl ? 'https://ssl' : 'http://www') + '.google-analytics.com/collect'
     URI(url)
+  end
+
+  # The default adapter to use for sending hits
+  def self.default_adapter
+    require 'staccato/adapter/net_http'
+    Staccato::Adapter::Net::HTTP
   end
 end
 

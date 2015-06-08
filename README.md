@@ -468,11 +468,19 @@ end
 
 ### Validation Adapter ###
 
-The validation adapter takes the class of the request adapter you want to use (e.g. `Faraday` or `Net::HTTP`).
+The validation adapter sends hits to the debug endpoint, which responds with information about the validity of the hit.
 
 ```ruby
 tracker = Staccato.tracker('UA-XXXX-Y') do |c|
-  c.adapter = Staccato::Adapter::Validate.new(Staccato::Adapter::Net::HTTP)
+  c.adapter = Staccato::Adapter::Validate.new
+end
+```
+
+By default, the staccato `default_adapter` is used to send validation hits, but a different adapter can be used (e.g. `Faraday` or `Net::HTTP`).
+
+```ruby
+tracker = Staccato.tracker('UA-XXXX-Y') do |c|
+  c.adapter = Staccato::Adapter::Validate.new(Staccato::Adapter::HTTP)
 end
 ```
 
