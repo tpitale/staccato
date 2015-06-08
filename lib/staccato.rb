@@ -1,6 +1,7 @@
 require 'ostruct'
 require 'forwardable'
 require 'securerandom'
+require 'uri'
 
 require "staccato/version"
 
