@@ -176,7 +176,7 @@ tracker.pageview(path: '/blog', start_session: true)
 tracker.pageview(path: '/blog', end_session: true)
 ```
 
-Other options are acceptable to start and end a session: `session_start`, `sessoin_end`, and `stop_session`.
+Other options are acceptable to start and end a session: `session_start`, `session_end`, and `stop_session`.
 
 #### Content Experiment ####
 
