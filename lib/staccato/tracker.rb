@@ -118,16 +118,30 @@ module Staccato
       Staccato::Timing.new(self, options).track!(&block)
     end
 
+    # Build an ecommerce transaction
+    #
+    # @return [Transaction]
+    def build_transaction(options = {})
+      Staccato::Transaction.new(self, options)
+    end
+
     # Track an ecommerce transaction
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
     def transaction(options = {})
-      Staccato::Transaction.new(self, options).track!
+      build_transaction(options).track!
+    end
+
+    # Build an item in an ecommerce transaction
+    #
+    # @return [TransactionItem]
+    def build_transaction_item(options = {})
+      Staccato::TransactionItem.new(self, options)
     end
 
     # Track an item in an ecommerce transaction
     # @return [<Net::HTTPOK] the GA `/collect` endpoint always returns a 200
     def transaction_item(options = {})
-      Staccato::TransactionItem.new(self, options).track!
+      build_transaction_item(options).track!
     end
 
     # post the hit to GA collection endpoint
