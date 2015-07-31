@@ -31,7 +31,7 @@ Or install it yourself as:
 tracker = Staccato.tracker('UA-XXXX-Y') # REQUIRED, your Google Analytics Tracking ID
 ```
 
-`#tracker` optionally takes a second param for the `client_id` value
+`#tracker` optionally takes a second param for the `client_id` value.
 By default, the `client_id` is set to a random UUID with `SecureRandom.uuid`
 
 ### Track some data ###
