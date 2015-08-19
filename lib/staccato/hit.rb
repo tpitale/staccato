@@ -71,7 +71,10 @@ module Staccato
       product_action_list: 'pal',
 
       # Promotion
-      promotion_action: 'promoa'
+      promotion_action: 'promoa',
+
+      # Location
+      geographical_id: 'geoid'
     }.freeze
 
     # Fields which should be converted to boolean for google

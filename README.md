@@ -136,7 +136,8 @@ Staccato::Hit::GLOBAL_OPTIONS.keys # =>
  :experiment_variant,
  :product_action,
  :product_action_list,
- :promotion_action]
+ :promotion_action,
+ :geographical_id]
 ```
 
 Boolean options like `anonymize_ip` will be converted from `true`/`false` into `1`/`0` as per the tracking API docs.
