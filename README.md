@@ -485,6 +485,18 @@ tracker = Staccato.tracker('UA-XXXX-Y') do |c|
 end
 ```
 
+### UDP Adapter for Staccato::Proxy ###
+
+If you're using [Staccato::Proxy](https://github.com/tpitale/staccato-proxy), you can point Staccato at it using the UDP adapter.
+
+```ruby
+tracker = Staccato.tracker('UA-XXXX-Y') do |c|
+  c.adapter = Staccato::Adapter::UDP.new(URI('udp://127.0.0.1:3003'))
+end
+```
+
+Be sure to set the ip or host and port to wherever you have configured Staccato::Proxy to run.
+
 ## Contributing ##
 
 1. Fork it
