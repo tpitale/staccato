@@ -1,3 +1,9 @@
+## Staccato 0.4.0 ##
+
+*   UDP Adapter for use with Staccato::Proxy
+
+    *Tony Pitale <@tpitale>*
+
 ## Staccato 0.3.1 ##
 
 *   Add customer dimensions and metrics to Product and ProductImpression measurements
