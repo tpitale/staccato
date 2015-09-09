@@ -409,6 +409,13 @@ pageview.add_measurement(:product_impression, {
 pageview.track!
 ```
 
+### Screenview (as in mobile) ###
+
+```ruby
+tracker.screenview({
+  screen_name: 'user1'
+})
+
 ## Google Documentation ##
 
 https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide

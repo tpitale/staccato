@@ -52,6 +52,14 @@ module Staccato
       build_pageview(options).track!
     end
 
+    def build_screenview(options = {})
+      Staccato::Screenview.new(self, options)
+    end
+
+    def screenview(options = {})
+      build_screenview(options).track!
+    end
+
     # Build an event
     # 
     # @param options [Hash] options include:
