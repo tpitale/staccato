@@ -1,3 +1,9 @@
+## Staccato 0.4.1 ##
+
+*   Screenview hit type
+
+    *Tony Pitale <@tpitale>*
+
 ## Staccato 0.4.0 ##
 
 *   UDP Adapter for use with Staccato::Proxy
