@@ -1,3 +1,9 @@
+## Staccato 0.4.2 ##
+
+*   Logger adapter for development
+
+    *Tony Pitale <@tpitale>*
+
 ## Staccato 0.4.1 ##
 
 *   Screenview hit type
