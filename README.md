@@ -504,6 +504,20 @@ end
 
 Be sure to set the ip or host and port to wherever you have configured Staccato::Proxy to run.
 
+### Logger Adapter for Local Development/Debugging ###
+
+If you're running in development and simply want to make sure Staccato is being called where you expect it to be. Or, if you want to compare the parameters staccato sends with the Google Analytics documentation.
+
+```ruby
+tracker = Staccato.tracker('UA-XXXX-Y') do |c|
+  c.adapter = Staccato::Adapter::Logger.new(Stacatto.ga_collection_uri, Logger.new(STDOUT), lambda {|params| JSON.dump(params)})
+end
+```
+
+If you would prefer to log to a file (default is STDOUT), you can pass in an instance of a Logger (from Ruby's stdlib) or anything that responds to `debug`.
+
+If you would like to format the params hash as something other than `k=v` in your logs, you can pass in anything that responds to `call` and format as a string. The default should be consumable by Splunk and other logging software.
+
 ## Contributing ##
 
 1. Fork it
