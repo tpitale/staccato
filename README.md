@@ -434,7 +434,7 @@ Staccato provides a number of basic adapters to different ruby http libraries. B
 require 'staccato/adapter/faraday' # Faraday gem must be installed
 
 tracker = Staccato.tracker('UA-XXXX-Y') do |c|
-  c.adapter = Staccato::Adapter::Faraday.new(Stacatto.ga_collection_uri) do |faraday|
+  c.adapter = Staccato::Adapter::Faraday.new(Staccato.ga_collection_uri) do |faraday|
     # further faraday configuration here
   end
 end
@@ -476,7 +476,7 @@ Which would be used like:
 
 ```ruby
 tracker = Staccato.tracker('UA-XXXX-Y') do |c|
-  c.adapter = CustomAdapter.new(Stacatto.ga_collection_uri, read_timeout: 1, open_time: 1)
+  c.adapter = CustomAdapter.new(Staccato.ga_collection_uri, read_timeout: 1, open_time: 1)
 end
 ```
 
@@ -522,7 +522,7 @@ If you're running in development and simply want to make sure Staccato is being 
 require 'staccato/adapter/logger'
 
 tracker = Staccato.tracker('UA-XXXX-Y') do |c|
-  c.adapter = Staccato::Adapter::Logger.new(Stacatto.ga_collection_uri, Logger.new(STDOUT), lambda {|params| JSON.dump(params)})
+  c.adapter = Staccato::Adapter::Logger.new(Staccato.ga_collection_uri, Logger.new(STDOUT), lambda {|params| JSON.dump(params)})
 end
 ```
 
