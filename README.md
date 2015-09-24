@@ -422,11 +422,17 @@ https://developers.google.com/analytics/devguides/collection/protocol/v1/devguid
 https://developers.google.com/analytics/devguides/collection/protocol/v1/reference
 https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
 
-## HTTP Adapters ##
+## Adapters ##
+
+Staccato provides a variety of adapters for sending or debugging requests being made. To use them, first require the adapter by name: `require 'staccato/adapter/#{chosen-adapter-name}'`
+
+### HTTP Adapters ###
 
 Staccato provides a number of basic adapters to different ruby http libraries. By default, Staccato uses `net/http` when you create a new tracker. If you are using Faraday or [The Ruby HTTP library](https://github.com/httprb/http.rb) Staccato provides adapters.
 
 ```ruby
+require 'staccato/adapter/faraday' # Faraday gem must be installed
+
 tracker = Staccato.tracker('UA-XXXX-Y') do |c|
   c.adapter = Staccato::Adapter::Faraday.new(Stacatto.ga_collection_uri) do |faraday|
     # further faraday configuration here
@@ -479,6 +485,8 @@ end
 The validation adapter sends hits to the debug endpoint, which responds with information about the validity of the hit.
 
 ```ruby
+require 'staccato/adapter/validate'
+
 tracker = Staccato.tracker('UA-XXXX-Y') do |c|
   c.adapter = Staccato::Adapter::Validate.new
 end
@@ -497,6 +505,8 @@ end
 If you're using [Staccato::Proxy](https://github.com/tpitale/staccato-proxy), you can point Staccato at it using the UDP adapter.
 
 ```ruby
+require 'staccato/adapter/udp'
+
 tracker = Staccato.tracker('UA-XXXX-Y') do |c|
   c.adapter = Staccato::Adapter::UDP.new(URI('udp://127.0.0.1:3003'))
 end
@@ -509,6 +519,8 @@ Be sure to set the ip or host and port to wherever you have configured Staccato:
 If you're running in development and simply want to make sure Staccato is being called where you expect it to be. Or, if you want to compare the parameters staccato sends with the Google Analytics documentation.
 
 ```ruby
+require 'staccato/adapter/logger'
+
 tracker = Staccato.tracker('UA-XXXX-Y') do |c|
   c.adapter = Staccato::Adapter::Logger.new(Stacatto.ga_collection_uri, Logger.new(STDOUT), lambda {|params| JSON.dump(params)})
 end
