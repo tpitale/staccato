@@ -415,6 +415,7 @@ pageview.track!
 tracker.screenview({
   screen_name: 'user1'
 })
+```
 
 ## Google Documentation ##
 
