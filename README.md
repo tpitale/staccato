@@ -103,6 +103,7 @@ Staccato::Hit::GLOBAL_OPTIONS.keys # =>
 
 [:anonymize_ip,
  :queue_time,
+ :data_source,
  :cache_buster,
  :user_id,
  :user_ip,
@@ -141,6 +142,8 @@ Staccato::Hit::GLOBAL_OPTIONS.keys # =>
 ```
 
 Boolean options like `anonymize_ip` will be converted from `true`/`false` into `1`/`0` as per the tracking API docs.
+
+The `data_source` option can take any value, but note that hits sent from other Google tools will have specific values.  Hits sent from analytics.js will have `data_source` set to `web`, and hits sent from one of the mobile SDKs will have `data_source` set to `app`.
 
 #### Custom Dimensions and Metrics ####
 
