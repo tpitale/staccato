@@ -1,3 +1,9 @@
+## Staccato 0.4.3 ##
+
+*   Adds `data_source` as global option
+
+    *Matt Thomson <@matt-thomson>*
+
 ## Staccato 0.4.2 ##
 
 *   Logger adapter for development
