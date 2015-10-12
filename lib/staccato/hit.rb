@@ -22,6 +22,7 @@ module Staccato
     GLOBAL_OPTIONS = {
       anonymize_ip: 'aip', # boolean
       queue_time: 'qt', # integer
+      data_source: 'ds',
       cache_buster: 'z',
       user_id: 'uid', # a known user's id
 
