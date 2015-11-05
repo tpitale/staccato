@@ -534,6 +534,19 @@ If you would prefer to log to a file (default is STDOUT), you can pass in an ins
 
 If you would like to format the params hash as something other than `k=v` in your logs, you can pass in anything that responds to `call` and format as a string. The default should be consumable by Splunk and other logging software.
 
+## Image URL for Email Open Tracking ##
+
+As per [google's docs](https://developers.google.com/analytics/devguides/collection/protocol/v1/email) an `Event` hit type (suggested) may be used to generate an image tag in an email (e.g., as sent by Rails' mailers). This is useful for tracking open stats alongside your other analytics.
+
+To create a url for a hit:
+
+```ruby
+event = tracker.build_event(category: 'email', action: 'open', label: 'welcome', value: 1)
+
+# use the image url in your rails template in an image tag
+image_url = Staccato.as_url(event)
+```
+
 ## Contributing ##
 
 1. Fork it

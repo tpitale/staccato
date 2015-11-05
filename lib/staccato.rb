@@ -45,6 +45,11 @@ module Staccato
     require 'staccato/adapter/net_http'
     Staccato::Adapter::Net::HTTP
   end
+
+  def self.as_url(hit, uri = Staccato.ga_collection_uri)
+    uri.query = URI.encode_www_form(hit.params)
+    uri.to_s
+  end
 end
 
 require 'staccato/boolean_helpers'
