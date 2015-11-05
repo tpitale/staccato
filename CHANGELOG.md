@@ -1,44 +1,50 @@
+## Staccato 0.4.4 ##
+
+*   Adds `Staccato.as_url` to generate a url from a hit, useful for image urls in emails to track opens into GA
+
+    *Tony Pitale - @tpitale*
+
 ## Staccato 0.4.3 ##
 
 *   Adds `data_source` as global option
 
-    *Matt Thomson <@matt-thomson>*
+    *Matt Thomson - @matt-thomson*
 
 ## Staccato 0.4.2 ##
 
 *   Logger adapter for development
 
-    *Tony Pitale <@tpitale>*
+    *Tony Pitale - @tpitale*
 
 ## Staccato 0.4.1 ##
 
 *   Screenview hit type
 
-    *Tony Pitale <@tpitale>*
+    *Tony Pitale - @tpitale*
 
 ## Staccato 0.4.0 ##
 
 *   UDP Adapter for use with Staccato::Proxy
 
-    *Tony Pitale <@tpitale>*
+    *Tony Pitale - @tpitale*
 
 ## Staccato 0.3.1 ##
 
 *   Add customer dimensions and metrics to Product and ProductImpression measurements
 
-    *Agustin Cavilliotti <@cavi21>*
+    *Agustin Cavilliotti - @cavi21*
 
 ## Staccato 0.3.0 ##
 
 *   HTTP Adapters for HTTP, net/http, and Faraday
 
-    *Tony Pitale <@tpitale>*
+    *Tony Pitale - @tpitale*
 
 ## Staccato 0.2.1 ##
 
 *   Fix product impression prefix
 
-    *Ricky Hanna <@rickyhanna>*
+    *Ricky Hanna - @rickyhanna*
 
 ## Staccato 0.2.0 ##
 
@@ -46,7 +52,7 @@
 *   Measurable module for further extension of hits
 *   New global hit options for ecommerce
 
-    *Tony Pitale <@tpitale>*
+    *Tony Pitale - @tpitale*
 
 ## Staccato 0.1.1 ##
 
