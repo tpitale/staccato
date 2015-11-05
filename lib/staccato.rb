@@ -16,7 +16,7 @@ module Staccato
   # @param id [String, nil] the id provided by google, i.e., `UA-XXXXXX-Y`
   # @param client_id [String, Integer, nil] a unique id to track the session of
   #   an individual user
-  # @params hit_options [Hash] options for use in all hits from this tracker
+  # @param hit_options [Hash] options for use in all hits from this tracker
   # @yield [Staccato::Tracker] the new tracker
   # @return [Staccato::Tracker] a new tracker is returned
   def self.tracker(id, client_id = nil, hit_options = {})
@@ -46,6 +46,11 @@ module Staccato
     Staccato::Adapter::Net::HTTP
   end
 
+  # Build a url string from any hit type
+  # 
+  # @param hit [Hit] anything that returns a hash for #params
+  # @param uri [URI]
+  # @return String
   def self.as_url(hit, uri = Staccato.ga_collection_uri)
     uri.query = URI.encode_www_form(hit.params)
     uri.to_s
