@@ -174,13 +174,11 @@ module Staccato
   #   Useful in testing
   class NoopTracker
     attr_writer :adapter
-    # (see Tracker#initialize)
-    def initialize(id = nil, client_id = nil, hit_defaults = {}); end
+    attr_accessor :hit_defaults
 
-    # hit defaults for our noop
-    # @return [Hash]
-    def hit_defaults
-      {}
+    # (see Tracker#initialize)
+    def initialize(id = nil, client_id = nil, hit_defaults = {})
+      self.hit_defaults = hit_defaults
     end
 
     # (see Tracker#id)

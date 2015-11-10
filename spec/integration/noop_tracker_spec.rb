@@ -20,6 +20,20 @@ describe Staccato::NoopTracker do
     end
   end
 
+  describe 'settings' do
+    it 'has an adapter' do
+      expect(tracker.respond_to?(:adapter=)).to eq(true)
+    end
+
+    it 'has hit defaults' do
+      expect(tracker.hit_defaults).to eq({})
+
+      tracker.hit_defaults[:document_hostname] = 'mysite.com'
+
+      expect(tracker.hit_defaults[:document_hostname]).to eq 'mysite.com'
+    end
+  end
+
   describe "#event" do
     before(:each) do
       tracker.event({
