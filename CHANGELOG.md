@@ -1,3 +1,13 @@
+## Staccato 0.4.5 ##
+
+*   Add adapter writer to noop tracker
+
+    *Alexey Kirimov - @poshe*
+
+*   Add hit_defaults to noop tracker
+
+    *Tony Pitale - @tpitale*
+
 ## Staccato 0.4.4 ##
 
 *   Adds `Staccato.as_url` to generate a url from a hit, useful for image urls in emails to track opens into GA
