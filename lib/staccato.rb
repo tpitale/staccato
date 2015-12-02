@@ -40,6 +40,12 @@ module Staccato
     URI(url)
   end
 
+  # The tracking endpoint we use to submit batch requests to GA
+  def self.ga_batch_uri(ssl = false)
+    url = (ssl ? 'https://ssl' : 'http://www') + '.google-analytics.com/batch'
+    URI(url)
+  end
+
   # The default adapter to use for sending hits
   def self.default_adapter
     require 'staccato/adapter/net_http'
