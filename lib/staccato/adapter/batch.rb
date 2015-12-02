@@ -41,15 +41,22 @@ module Staccato
         while param_array.size < @size
           # thread-safe, sized queue
           # will block in this thread if nothing
-          # is available to dequeue
-          param_array << @queue.deq(final) # non_blocking if final is true
+          # is available to dequeue, unless final is true
+          # then it is non_blocking, which raises a ThreadError
+          param_array << @queue.deq(final)
         end
       rescue ThreadError
         # the queue is empty, breaks out of the while loop
-        # only really used for final
+        # only used for final flush
       ensure # this may catch a thread dying?
         # we may have to do something to format each as a new line when flushing
-        @adapter.post(param_array)
+        @adapter.post(batch_format(param_array))
+      end
+
+      # convert our array of params hashes into a newline separated 
+      # form-encoded string for posting to GA's batch endpoint
+      def batch_format(param_array=[])
+        param_array.map {|params| URI.encode_www_form(params)}.join("\n")
       end
     end
   end
