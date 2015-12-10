@@ -264,7 +264,7 @@ The combination of `product_action: 'refund'` and `transaction` measurement sett
 ```ruby
 event = tracker.build_event(category: 'order', action: 'refund', non_interactive: true, product_action: 'refund')
 
-event.add_measurement(:transaction, id: 'T12345')
+event.add_measurement(:transaction, transaction_id: 'T12345')
 
 event.track!
 ```
@@ -276,7 +276,7 @@ The combination of `product_action: 'refund'` and `transaction` measurement sett
 ```ruby
 event = tracker.build_event(category: 'order', action: 'refund', non_interactive: true, product_action: 'refund')
 
-event.add_measurement(:transaction, id: 'T12345')
+event.add_measurement(:transaction, transaction_id: 'T12345')
 event.add_measurement(:product, index: 1, id: 'P12345', quantity: 1)
 
 event.track!
