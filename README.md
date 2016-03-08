@@ -78,6 +78,22 @@ tracker.transaction_item({
 })
 ```
 
+### Building Hits ###
+
+If you need access to a hit, you can use `tracker.build_<hit type>` and pass it the same options as the above tracker methods. For example, these are all the same:
+
+```ruby
+# build and track a Staccato::Pageview in a single step
+tracker.pageview(options_hash)
+
+# build, and then track, a pageview
+tracker.build_pageview(options_hash).track!
+
+# build a Staccato::Pageview, then track it
+hit = Staccato::Pageview.new(tracker, options_hash)
+hit.track!
+```
+
 ### "Global" Options ###
 
 Any of the options on the parameters list (https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters) that are accepted on ALL hit types can be set as options on any of the hits.
