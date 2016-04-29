@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake", ">= 3.0.0"
-  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "mocha"
   spec.add_development_dependency "bourne"
   spec.add_development_dependency "simplecov"
