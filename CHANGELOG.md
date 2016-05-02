@@ -1,3 +1,9 @@
+## Staccato 0.4.6 ##
+
+*   Fix for Faraday constant in adapter
+
+    *Tony Pitale - @tpitale*
+
 ## Staccato 0.4.5 ##
 
 *   Add adapter writer to noop tracker
