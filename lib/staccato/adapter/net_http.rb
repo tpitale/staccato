@@ -11,7 +11,7 @@ module Staccato
         end
 
         def post(params)
-          if @proxy_host.present?
+          if @proxy_host
             ::Net::HTTP.Proxy(@proxy_host, @proxy_port).post_form(@uri, params)
           else
             ::Net::HTTP.post_form(@uri, params)
