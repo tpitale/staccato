@@ -11,7 +11,7 @@ module Staccato
       end
 
       def post(params)
-        ::Net::HTTP.Proxy(@proxy_host, @proxy_port).post_form @uri, params
+        ::Net::HTTP::Proxy(@proxy_host, @proxy_port).post_form @uri, params
       end
 
     end
