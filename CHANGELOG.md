@@ -1,3 +1,9 @@
+## Staccato 0.4.7 ##
+
+*   Set ssl option when creating a tracker
+
+    *Tony Pitale - @tpitale*
+
 ## Staccato 0.4.6 ##
 
 *   Fix for Faraday constant in adapter
