@@ -11,11 +11,12 @@ module Staccato
     # @param id [String] the GA tracker id
     # @param client_id [String, nil] unique value to track user sessions
     # @param hit_defaults [Hash]
-    def initialize(id, client_id = nil, hit_defaults = {})
+    def initialize(id, client_id = nil, options = {})
       @id = id
       @client_id = client_id
+      @ssl = options.delete(:ssl) || false
 
-      self.hit_defaults = hit_defaults
+      self.hit_defaults = options
     end
 
     # The tracker id for GA
@@ -166,7 +167,7 @@ module Staccato
     end
 
     def adapter
-      @adapter ||= Staccato.default_adapter.new(Staccato.ga_collection_uri)
+      @adapter ||= Staccato.default_adapter.new(Staccato.ga_collection_uri(@ssl))
     end
   end
 

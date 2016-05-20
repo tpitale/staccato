@@ -34,6 +34,13 @@ tracker = Staccato.tracker('UA-XXXX-Y') # REQUIRED, your Google Analytics Tracki
 `#tracker` optionally takes a second param for the `client_id` value.
 By default, the `client_id` is set to a random UUID with `SecureRandom.uuid`
 
+### Setting SSL on a tracker ###
+
+```ruby
+# passing nil as the second argument lets Staccato build the client id, as the default
+tracker = Staccato.tracker('UA-XXXX-Y', nil, ssl: true)
+```
+
 ### Track some data ###
 
 ```ruby

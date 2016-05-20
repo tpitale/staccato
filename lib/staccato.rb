@@ -19,10 +19,10 @@ module Staccato
   # @param hit_options [Hash] options for use in all hits from this tracker
   # @yield [Staccato::Tracker] the new tracker
   # @return [Staccato::Tracker] a new tracker is returned
-  def self.tracker(id, client_id = nil, hit_options = {})
+  def self.tracker(id, client_id = nil, options = {})
     klass = id.nil? ? Staccato::NoopTracker : Staccato::Tracker
 
-    klass.new(id, client_id, hit_options).tap do |tracker|
+    klass.new(id, client_id, options).tap do |tracker|
       yield tracker if block_given?
     end
   end
