@@ -159,6 +159,10 @@ module Staccato
       post(params)
     end
 
+    def default_uri
+      Staccato.default_adapter.new(Staccato.ga_collection_uri(@ssl))
+    end
+
     private
 
     # @private
@@ -167,7 +171,7 @@ module Staccato
     end
 
     def adapter
-      @adapter ||= Staccato.default_adapter.new(Staccato.ga_collection_uri(@ssl))
+      @adapter ||= default_uri
     end
   end
 
