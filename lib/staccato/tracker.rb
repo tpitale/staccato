@@ -160,7 +160,7 @@ module Staccato
     end
 
     def default_uri
-      Staccato.default_adapter.new(Staccato.ga_collection_uri(@ssl))
+      Staccato.ga_collection_uri(@ssl)
     end
 
     private
@@ -171,7 +171,7 @@ module Staccato
     end
 
     def adapter
-      @adapter ||= default_uri
+      @adapter ||= Staccato.default_adapter.new(default_uri)
     end
   end
 
@@ -221,6 +221,10 @@ module Staccato
 
     # (see Tracker#track)
     def track(params = {})
+    end
+
+    def default_uri
+      Staccato.ga_collection_uri
     end
   end
 end

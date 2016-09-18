@@ -51,7 +51,9 @@ module Staccato
   # @param hit [Hit] anything that returns a hash for #params
   # @param uri [URI]
   # @return String
-  def self.as_url(hit, uri = Staccato.ga_collection_uri)
+  def self.as_url(hit, uri = nil)
+    uri ||= hit.tracker.default_uri
+
     uri.query = URI.encode_www_form(hit.params)
     uri.to_s
   end
