@@ -519,6 +519,12 @@ tracker = Staccato.tracker('UA-XXXX-Y') do |c|
 end
 ```
 
+See results by printing a call to track any hit:
+
+```ruby
+puts tracker.pageview(path: '/')
+```
+
 By default, the staccato `default_adapter` is used to send validation hits, but a different adapter can be used (e.g. `Faraday` or `Net::HTTP`).
 
 ```ruby
