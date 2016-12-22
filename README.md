@@ -453,6 +453,20 @@ https://developers.google.com/analytics/devguides/collection/protocol/v1/paramet
 
 Staccato provides a variety of adapters for sending or debugging requests being made. To use them, first require the adapter by name: `require 'staccato/adapter/#{chosen-adapter-name}'`
 
+Multiple adapters can be used by calling `add_adapter`:
+
+```ruby
+require 'staccato/adapter/validate'
+
+tracker = Staccato.tracker('UA-XXXX-Y') do |c|
+  c.add_adapter Staccato::Adapter::Validate.new
+  c.add_adapter Staccato::Adapter::Logger.new(Staccato.ga_collection_uri)
+  c.add_adapter Staccato::Adapter::Faraday.new(Staccato.ga_collection_uri)
+end
+```
+
+**Results returned will be in an array, where each response is a map to each adapter**
+
 ### HTTP Adapters ###
 
 Staccato provides a number of basic adapters to different ruby http libraries. By default, Staccato uses `net/http` when you create a new tracker. If you are using Faraday or [The Ruby HTTP library](https://github.com/httprb/http.rb) Staccato provides adapters.

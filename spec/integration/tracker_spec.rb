@@ -12,7 +12,7 @@ describe Staccato::Tracker do
 
   describe "#pageview" do
     before(:each) do
-      tracker.pageview(path: '/foobar', title: 'FooBar', hostname: 'mysite.com')
+      expect(tracker.pageview(path: '/foobar', title: 'FooBar', hostname: 'mysite.com')).to eq(response)
     end
 
     it 'tracks page path and page title' do
