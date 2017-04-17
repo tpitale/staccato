@@ -9,7 +9,7 @@ module Staccato
         end
 
         def post(params)
-          ::Net::HTTP.post_form(@uri, params)
+          response = ::Net::HTTP.post_form(@uri, params)
         end
       end
     end
