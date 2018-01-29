@@ -36,7 +36,7 @@ module Staccato
 
   # The tracking endpoint we use to submit requests to GA
   def self.ga_collection_uri(ssl = false)
-    url = (ssl ? 'https://ssl' : 'http://www') + '.google-analytics.com/collect'
+    url = (ssl ? 'https://' : 'http://') + 'www.google-analytics.com/collect'
     URI(url)
   end
 
