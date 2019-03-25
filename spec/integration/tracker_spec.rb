@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+require 'staccato/adapter/http'
+
 describe Staccato::Tracker do
   let(:uri) {Staccato.ga_collection_uri}
   let(:tracker) {Staccato.tracker('UA-XXXX-Y')}
@@ -233,5 +235,24 @@ describe Staccato::Tracker do
         'dp' => '/foobar'
       })
     end
+  end
+end
+
+describe Staccato::Tracker, "with multiple adapters" do
+  let(:uri) {Staccato.ga_collection_uri}
+  let(:net_http_adapter) {Staccato::Adapter::Net::HTTP.new(uri)}
+  let(:http_adapter) {Staccato::Adapter::HTTP.new(uri)}
+  let(:tracker) {Staccato.tracker('UA-XXXX-Y') do |c|
+    c.add_adapter net_http_adapter
+    c.add_adapter http_adapter
+  end}
+
+  before(:each) do
+    net_http_adapter.stubs(:post).returns("Net::HTTP response")
+    http_adapter.stubs(:post).returns("HTTP Response")
+  end
+
+  it 'returns an array of responses in order of adapter' do
+    expect(tracker.pageview(path: '/')).to eq(["Net::HTTP response", "HTTP Response"])
   end
 end
