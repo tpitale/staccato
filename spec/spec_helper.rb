@@ -6,6 +6,7 @@ require 'bundler/setup'
 require 'rspec'
 require 'mocha/api'
 require 'bourne'
+require 'net/http' # no longer auto-required in ruby
 
 require File.expand_path('../../lib/staccato', __FILE__)
 
