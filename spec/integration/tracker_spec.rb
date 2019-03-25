@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 require 'staccato/adapter/http'
+require 'staccato/adapter/net_http'
 
 describe Staccato::Tracker do
   let(:uri) {Staccato.ga_collection_uri}
