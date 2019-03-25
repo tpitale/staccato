@@ -465,7 +465,7 @@ tracker = Staccato.tracker('UA-XXXX-Y') do |c|
 end
 ```
 
-**Results returned will be in an array, where each response is a map to each adapter**
+**Results returned will be in an array, as returned by each adapter in the order the adapters were added.**
 
 ### HTTP Adapters ###
 
