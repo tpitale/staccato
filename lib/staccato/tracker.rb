@@ -4,18 +4,27 @@ module Staccato
   # 
   # @author Tony Pitale
   class Tracker
-    attr_writer :adapter
     attr_accessor :hit_defaults
 
     # sets up a new tracker
     # @param id [String] the GA tracker id
     # @param client_id [String, nil] unique value to track user sessions
     # @param hit_defaults [Hash]
-    def initialize(id, client_id = nil, hit_defaults = {})
+    def initialize(id, client_id = nil, options = {})
       @id = id
       @client_id = client_id
+      @ssl = options.delete(:ssl) || false
+      @adapters = []
 
-      self.hit_defaults = hit_defaults
+      self.hit_defaults = options
+    end
+
+    def adapter=(adapter)
+      @adapters = [new_adapter]
+    end
+
+    def add_adapter(adapter)
+      @adapters << adapter
     end
 
     # The tracker id for GA
@@ -158,27 +167,59 @@ module Staccato
       post(params)
     end
 
+    def default_uri
+      Staccato.ga_collection_uri(@ssl)
+    end
+
     private
 
     # @private
-    def post(params)
-      adapter.post(params)
+    def single_adapter?
+      adapters.length == 1
     end
 
-    def adapter
-      @adapter ||= Staccato.default_adapter.new(Staccato.ga_collection_uri)
+    # @private
+    def post(params)
+      single_adapter? ? post_first(params) : post_all(params)
+    end
+
+    # @private
+    def post_first(params)
+      adapters.first.post(params)
+    end
+
+    # @private
+    def post_all(params)
+      adapters.map {|adapter| adapter.post(params)}
+    end
+
+    # @private
+    def adapters
+      @adapters.empty? ? [default_adapter] : @adapters
+    end
+
+    # @private
+    def default_adapter
+      @default_adapter ||= Staccato.default_adapter.new(default_uri)
     end
   end
 
   # A tracker which does no tracking
   #   Useful in testing
   class NoopTracker
-    attr_writer :adapter
     attr_accessor :hit_defaults
 
     # (see Tracker#initialize)
     def initialize(id = nil, client_id = nil, hit_defaults = {})
       self.hit_defaults = hit_defaults
+    end
+
+    def adapter=(*)
+      []
+    end
+
+    def add_adapter(*)
+      []
     end
 
     # (see Tracker#id)
@@ -216,6 +257,10 @@ module Staccato
 
     # (see Tracker#track)
     def track(params = {})
+    end
+
+    def default_uri
+      Staccato.ga_collection_uri
     end
   end
 end

@@ -1,3 +1,27 @@
+## Staccato 0.5.0 ##
+
+*   Logger adapter uses the appropriate `::Logger` class
+
+    *Tony Pitale - @tpitale*
+
+## Staccato 0.5.0 ##
+
+*   SSL option set on tracker is used when generating `as_url` from a hit
+
+    *Tony Pitale - @tpitale*
+
+## Staccato 0.4.7 ##
+
+*   Set ssl option when creating a tracker
+
+    *Tony Pitale - @tpitale*
+
+## Staccato 0.4.6 ##
+
+*   Fix for Faraday constant in adapter
+
+    *Tony Pitale - @tpitale*
+
 ## Staccato 0.4.5 ##
 
 *   Add adapter writer to noop tracker

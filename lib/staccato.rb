@@ -19,10 +19,10 @@ module Staccato
   # @param hit_options [Hash] options for use in all hits from this tracker
   # @yield [Staccato::Tracker] the new tracker
   # @return [Staccato::Tracker] a new tracker is returned
-  def self.tracker(id, client_id = nil, hit_options = {})
+  def self.tracker(id, client_id = nil, options = {})
     klass = id.nil? ? Staccato::NoopTracker : Staccato::Tracker
 
-    klass.new(id, client_id, hit_options).tap do |tracker|
+    klass.new(id, client_id, options).tap do |tracker|
       yield tracker if block_given?
     end
   end
@@ -36,7 +36,7 @@ module Staccato
 
   # The tracking endpoint we use to submit requests to GA
   def self.ga_collection_uri(ssl = false)
-    url = (ssl ? 'https://ssl' : 'http://www') + '.google-analytics.com/collect'
+    url = (ssl ? 'https://' : 'http://') + 'www.google-analytics.com/collect'
     URI(url)
   end
 
@@ -57,7 +57,9 @@ module Staccato
   # @param hit [Hit] anything that returns a hash for #params
   # @param uri [URI]
   # @return String
-  def self.as_url(hit, uri = Staccato.ga_collection_uri)
+  def self.as_url(hit, uri = nil)
+    uri ||= hit.tracker.default_uri
+
     uri.query = URI.encode_www_form(hit.params)
     uri.to_s
   end

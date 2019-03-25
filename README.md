@@ -34,6 +34,13 @@ tracker = Staccato.tracker('UA-XXXX-Y') # REQUIRED, your Google Analytics Tracki
 `#tracker` optionally takes a second param for the `client_id` value.
 By default, the `client_id` is set to a random UUID with `SecureRandom.uuid`
 
+### Setting SSL on a tracker ###
+
+```ruby
+# passing nil as the second argument lets Staccato build the client id, as the default
+tracker = Staccato.tracker('UA-XXXX-Y', nil, ssl: true)
+```
+
 ### Track some data ###
 
 ```ruby
@@ -76,6 +83,22 @@ tracker.transaction_item({
   variation: 'red',
   currency: 'EUR'
 })
+```
+
+### Building Hits ###
+
+If you need access to a hit, you can use `tracker.build_<hit type>` and pass it the same options as the above tracker methods. For example, these are all the same:
+
+```ruby
+# build and track a Staccato::Pageview in a single step
+tracker.pageview(options_hash)
+
+# build, and then track, a pageview
+tracker.build_pageview(options_hash).track!
+
+# build a Staccato::Pageview, then track it
+hit = Staccato::Pageview.new(tracker, options_hash)
+hit.track!
 ```
 
 ### "Global" Options ###
@@ -264,7 +287,7 @@ The combination of `product_action: 'refund'` and `transaction` measurement sett
 ```ruby
 event = tracker.build_event(category: 'order', action: 'refund', non_interactive: true, product_action: 'refund')
 
-event.add_measurement(:transaction, id: 'T12345')
+event.add_measurement(:transaction, transaction_id: 'T12345')
 
 event.track!
 ```
@@ -276,7 +299,7 @@ The combination of `product_action: 'refund'` and `transaction` measurement sett
 ```ruby
 event = tracker.build_event(category: 'order', action: 'refund', non_interactive: true, product_action: 'refund')
 
-event.add_measurement(:transaction, id: 'T12345')
+event.add_measurement(:transaction, transaction_id: 'T12345')
 event.add_measurement(:product, index: 1, id: 'P12345', quantity: 1)
 
 event.track!
@@ -430,6 +453,20 @@ https://developers.google.com/analytics/devguides/collection/protocol/v1/paramet
 
 Staccato provides a variety of adapters for sending or debugging requests being made. To use them, first require the adapter by name: `require 'staccato/adapter/#{chosen-adapter-name}'`
 
+Multiple adapters can be used by calling `add_adapter`:
+
+```ruby
+require 'staccato/adapter/validate'
+
+tracker = Staccato.tracker('UA-XXXX-Y') do |c|
+  c.add_adapter Staccato::Adapter::Validate.new
+  c.add_adapter Staccato::Adapter::Logger.new(Staccato.ga_collection_uri)
+  c.add_adapter Staccato::Adapter::Faraday.new(Staccato.ga_collection_uri)
+end
+```
+
+**Results returned will be in an array, as returned by each adapter in the order the adapters were added.**
+
 ### HTTP Adapters ###
 
 Staccato provides a number of basic adapters to different ruby http libraries. By default, Staccato uses `net/http` when you create a new tracker. If you are using Faraday or [The Ruby HTTP library](https://github.com/httprb/http.rb) Staccato provides adapters.
@@ -494,6 +531,12 @@ require 'staccato/adapter/validate'
 tracker = Staccato.tracker('UA-XXXX-Y') do |c|
   c.adapter = Staccato::Adapter::Validate.new
 end
+```
+
+See results by printing a call to track any hit:
+
+```ruby
+puts tracker.pageview(path: '/')
 ```
 
 By default, the staccato `default_adapter` is used to send validation hits, but a different adapter can be used (e.g. `Faraday` or `Net::HTTP`).

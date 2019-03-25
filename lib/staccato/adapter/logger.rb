@@ -8,7 +8,7 @@ module Staccato
       def initialize(uri, logger = nil, formatter = nil)
         @uri = uri
 
-        @logger = logger || Logger.new(STDOUT)
+        @logger = logger || ::Logger.new(STDOUT)
         @formatter = formatter || default_formatter
       end
 
