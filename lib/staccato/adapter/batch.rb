@@ -19,7 +19,7 @@ module Staccato
         @adapter = adapter.new(Staccato.ga_batch_uri)
 
         @queue = SizedQueue.new(@size)
-        @flushing_thread = Thread.new { loop { sleep(flush_timeout); flush } }
+        @flushing_thread = Thread.new { loop { sleep(flush_timeout); perform_flush } }
       end
 
       def post(params)
@@ -29,10 +29,11 @@ module Staccato
         @queue << params
 
         # Try to flush when we get to max queue size here
-        if @queue.length >= @queue.max
-          # Trigger flushing thread
-          @flushing_thread.wakeup
-        end
+        @flushing_thread.wakeup if @queue.length >= @queue.max
+      end
+
+      def flush
+        @flushing_thread.wakeup
       end
 
       def clear(final: false)
@@ -43,14 +44,14 @@ module Staccato
           @flushing_thread.join # wait for killing to complete
         end
 
-        flush # flush anything left in the queue
+        perform_flush # flush anything left in the queue
       end
 
       private
       # In a new thread collect params to a local array
       # when that array is at the batch size, POST to GA
       # then return and loop in the thread
-      def flush
+      def perform_flush
         param_array = []
 
         while param_array.size < @size
