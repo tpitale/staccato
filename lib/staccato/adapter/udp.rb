@@ -18,6 +18,10 @@ module Staccato
 
         @socket.send(body, 0, @host, @port)
       end
+
+      def post_body(data)
+        @socket.send(data, 0, @host, @port)
+      end
     end
   end
 end

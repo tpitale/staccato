@@ -66,7 +66,7 @@ module Staccato
       ensure
         unless param_array.empty?
           # we may have to do something to format each as a new line when flushing
-          @adapter.post(batch_format(param_array))
+          @adapter.post_body(batch_format(param_array))
         end
       end
 

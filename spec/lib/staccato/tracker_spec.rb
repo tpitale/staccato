@@ -58,7 +58,7 @@ describe Staccato::Tracker, "with a batch adapter" do
     let(:adapter) {batch_adapter.adapter}
 
     before(:each) do
-      adapter.stubs(:post)
+      adapter.stubs(:post_body)
     end
 
     it 'flushes when the queue is full' do
@@ -68,7 +68,7 @@ describe Staccato::Tracker, "with a batch adapter" do
       # timing fun, waiting for flush thread to wake up
       sleep(0.2)
 
-      expect(adapter).to have_received(:post).with("v=1&tid=UA-XXXX-Y&cid=555&t=event&ea=play\nv=1&tid=UA-XXXX-Y&cid=555&t=event&ea=pause")
+      expect(adapter).to have_received(:post_body).with("v=1&tid=UA-XXXX-Y&cid=555&t=event&ea=play\nv=1&tid=UA-XXXX-Y&cid=555&t=event&ea=pause")
 
       batch_adapter.clear(final: true)
     end
@@ -79,16 +79,16 @@ describe Staccato::Tracker, "with a batch adapter" do
     let(:adapter) {batch_adapter.adapter}
 
     before(:each) do
-      adapter.stubs(:post)
+      adapter.stubs(:post_body)
     end
 
     it 'flushes when timeout has passed' do
       tracker.event(catgeory: 'video', action: 'play')
 
       # timing fun, waiting for flush_timeout
-      sleep(0.2)
+      sleep(0.5)
 
-      expect(adapter).to have_received(:post).with("v=1&tid=UA-XXXX-Y&cid=555&t=event&ea=play")
+      expect(adapter).to have_received(:post_body).with("v=1&tid=UA-XXXX-Y&cid=555&t=event&ea=play")
 
       batch_adapter.clear(final: true)
     end
