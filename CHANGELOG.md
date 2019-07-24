@@ -1,4 +1,10 @@
-## Staccato 0.5.0 ##
+## Staccato 0.5.2 ##
+
+*   Multiple adapter support
+
+    *Tony Pitale - @tpitale*
+
+## Staccato 0.5.1 ##
 
 *   Logger adapter uses the appropriate `::Logger` class
 
