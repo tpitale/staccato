@@ -20,7 +20,7 @@ module Staccato
     end
 
     def adapter=(adapter)
-      @adapters = [new_adapter]
+      @adapters = [adapter]
     end
 
     def add_adapter(adapter)
