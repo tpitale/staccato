@@ -1,3 +1,9 @@
+## Staccato 0.5.3 ##
+
+*   Adapter bugfix in tracker
+
+    *@olerichter00*
+
 ## Staccato 0.5.2 ##
 
 *   Multiple adapter support
