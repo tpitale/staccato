@@ -16,7 +16,8 @@ module Staccato
         shipping: 'ts',
         tax: 'tt',
         currency: 'cu',
-        coupon_code: 'tcc'
+        coupon_code: 'tcc',
+        user_id: 'uid'
       }.freeze
 
       include Measurable
