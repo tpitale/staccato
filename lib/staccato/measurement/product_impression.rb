@@ -33,6 +33,17 @@ module Staccato
       }.freeze
 
       include Measurable
+
+      def validate_options
+        if @options[:index].nil?
+          raise 'Index is required on ProductImpression measurements.'
+        end
+
+        if @options[:list_index].nil?
+          raise 'List index is required on ProductImpression measurements.'
+        end
+        true
+      end
     end
   end
 end
