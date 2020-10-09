@@ -6,11 +6,11 @@ require 'staccato/adapter/net_http'
 describe Staccato::Tracker do
   let(:uri) {Staccato.ga_collection_uri}
   let(:tracker) {Staccato.tracker('UA-XXXX-Y')}
-  let(:response) {stub(:body => '', :status => 201)}
+  let(:response) {double().tap {|o| o.stub(body: '', status: 201)}}
 
   before(:each) do
-    SecureRandom.stubs(:uuid).returns('555')
-    Net::HTTP.stubs(:post_form).returns(response)
+    allow(SecureRandom).to receive(:uuid).and_return('555')
+    allow(Net::HTTP).to receive(:post_form).and_return(response)
   end
 
   describe "#pageview" do
@@ -124,13 +124,13 @@ describe Staccato::Tracker do
   end
 
   describe "#timing with block" do
-    let(:codez) {stub(:test => true)}
+    let(:codez) {double().tap {|o| o.stub(:test => true)}}
 
     before(:each) do
       start_at = Time.now
       end_at = start_at + 1 # 1 second
 
-      Time.stubs(:now).returns(start_at).returns(end_at)
+      allow(Time).to receive(:now).and_return(start_at, end_at)
 
       tracker.timing({ category: 'view', variable: 'runtime', label: 'rails' }) do
         codez.test
@@ -249,8 +249,8 @@ describe Staccato::Tracker, "with multiple adapters" do
   end}
 
   before(:each) do
-    net_http_adapter.stubs(:post).returns("Net::HTTP response")
-    http_adapter.stubs(:post).returns("HTTP Response")
+    allow(net_http_adapter).to receive(:post).and_return("Net::HTTP response")
+    allow(http_adapter).to receive(:post).and_return("HTTP Response")
   end
 
   it 'returns an array of responses in order of adapter' do
