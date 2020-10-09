@@ -10,6 +10,8 @@ https://developers.google.com/analytics/devguides/collection/protocol/v1/
 [![Build Status](https://travis-ci.org/tpitale/staccato.png?branch=master)](https://travis-ci.org/tpitale/staccato)
 [![Code Climate](https://codeclimate.com/github/tpitale/staccato.png)](https://codeclimate.com/github/tpitale/staccato)
 
+If you're using Rails and would like to use Staccato, we have an gem for that! [Staccato Rails](https://github.com/tpitale/staccato-rails)
+
 
 ## Installation
 

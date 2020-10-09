@@ -15,7 +15,10 @@ module Staccato
     # @param options [Hash] options for the measurement fields
     def initialize(options = {})
       self.options = OptionSet.new(options)
+      validate_options
     end
+
+    def validate_options; end
 
     # fields from options for this measurement
     def fields

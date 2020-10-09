@@ -1,4 +1,16 @@
-## Staccato 0.5.0 ##
+## Staccato 0.5.3 ##
+
+*   Adapter bugfix in tracker
+
+    *@olerichter00*
+
+## Staccato 0.5.2 ##
+
+*   Multiple adapter support
+
+    *Tony Pitale - @tpitale*
+
+## Staccato 0.5.1 ##
 
 *   Logger adapter uses the appropriate `::Logger` class
 
