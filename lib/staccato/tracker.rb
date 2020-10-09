@@ -1,7 +1,7 @@
 module Staccato
   # The `Tracker` class has methods to create all `Hit` types
   #   using the tracker and client id
-  # 
+  #
   # @author Tony Pitale
   class Tracker
     attr_accessor :hit_defaults
@@ -19,8 +19,8 @@ module Staccato
       self.hit_defaults = options
     end
 
-    def adapter=(adapter)
-      @adapters = [adapter]
+    def adapter=(new_adapter)
+      @adapters = [new_adapter]
     end
 
     def add_adapter(adapter)
@@ -40,7 +40,7 @@ module Staccato
     end
 
     # Build a pageview
-    # 
+    #
     # @param options [Hash] options include:
     #   * path (optional) the path of the current page view
     #   * hostname (optional) the hostname of the current page view
@@ -51,7 +51,7 @@ module Staccato
     end
 
     # Track a pageview
-    # 
+    #
     # @param options [Hash] options include:
     #   * path (optional) the path of the current page view
     #   * hostname (optional) the hostname of the current page view
@@ -70,7 +70,7 @@ module Staccato
     end
 
     # Build an event
-    # 
+    #
     # @param options [Hash] options include:
     #   * category (optional)
     #   * action (optional)
@@ -82,7 +82,7 @@ module Staccato
     end
 
     # Track an event
-    # 
+    #
     # @param options [Hash] options include:
     #   * category (optional)
     #   * action (optional)
@@ -94,7 +94,7 @@ module Staccato
     end
 
     # Track a social event such as a Facebook Like or Twitter Share
-    # 
+    #
     # @param options [Hash] options include:
     #   * action (required) the action taken, e.g., 'like'
     #   * network (required) the network used, e.g., 'facebook'
@@ -105,7 +105,7 @@ module Staccato
     end
 
     # Track an exception
-    # 
+    #
     # @param options [Hash] options include:
     #   * description (optional) often the class of exception, e.g., RuntimeException
     #   * fatal (optional) was the exception fatal? boolean, defaults to false
@@ -115,7 +115,7 @@ module Staccato
     end
 
     # Track timing
-    # 
+    #
     # @param options [Hash] options include:
     #   * category (optional) e.g., 'runtime'
     #   * variable (optional) e.g., 'database'
