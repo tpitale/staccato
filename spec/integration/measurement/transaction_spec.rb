@@ -3,11 +3,11 @@ require 'spec_helper'
 describe Staccato::Measurement::Transaction do
   let(:uri) {Staccato.ga_collection_uri}
   let(:tracker) {Staccato.tracker('UA-XXXX-Y')}
-  let(:response) {stub(:body => '', :status => 201)}
+  let(:response) {double().tap {|o| o.stub(body: '', status: 201)}}
 
   before(:each) do
-    SecureRandom.stubs(:uuid).returns('555')
-    Net::HTTP.stubs(:post_form).returns(response)
+    allow(SecureRandom).to receive(:uuid).and_return('555')
+    allow(Net::HTTP).to receive(:post_form).and_return(response)
   end
 
   context 'a pageview with a transaction' do

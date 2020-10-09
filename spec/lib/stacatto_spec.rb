@@ -11,7 +11,7 @@ describe Staccato do
     end
 
     it 'uses a uuid for the client_id' do
-      SecureRandom.stubs(:uuid).returns("a-uuid")
+      allow(SecureRandom).to receive(:uuid).and_return("a-uuid")
 
       expect(tracker.client_id).to eq('a-uuid')
     end
@@ -29,7 +29,7 @@ describe Staccato do
       }
 
       before(:each) do
-        SecureRandom.stubs(:uuid).returns("a-uuid")
+        allow(SecureRandom).to receive(:uuid).and_return("a-uuid")
       end
 
       it 'turns a hit into a URL string' do

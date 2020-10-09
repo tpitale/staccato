@@ -8,8 +8,8 @@ describe Staccato::Tracker do
     let(:pageview) {Staccato::Pageview.new(tracker, {})}
 
     before(:each) do
-      pageview.stubs(:track!)
-      Staccato::Pageview.stubs(:new).returns(pageview)
+      allow(pageview).to receive(:track!)
+      allow(Staccato::Pageview).to receive(:new).and_return(pageview)
 
       tracker.pageview(path: '/foobar')
     end
@@ -27,8 +27,8 @@ describe Staccato::Tracker do
     let(:event) {Staccato::Event.new(tracker, {})}
 
     before(:each) do
-      event.stubs(:track!)
-      Staccato::Event.stubs(:new).returns(event)
+      allow(event).to receive(:track!)
+      allow(Staccato::Event).to receive(:new).and_return(event)
 
       tracker.event(category: 'video', action: 'play')
     end
