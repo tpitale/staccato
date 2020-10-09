@@ -19,7 +19,7 @@ module Staccato
         @adapter = adapter.new(Staccato.ga_batch_uri)
 
         @queue = SizedQueue.new(@size)
-        @flushing_thread = Thread.new { loop { sleep(flush_timeout); perform_flush } }
+        @flushing_thread = Thread.new { loop { perform_flush; sleep(flush_timeout) } }
       end
 
       def post(params)

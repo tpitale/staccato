@@ -50,7 +50,7 @@ describe Staccato::Tracker, "with a batch adapter" do
   let(:tracker) {Staccato.tracker('UA-XXXX-Y') {|c| c.adapter = batch_adapter}}
 
   before(:each) do
-    SecureRandom.stubs(:uuid).returns(555)
+    allow(SecureRandom).to receive(:uuid).and_return(555)
   end
 
   context "with a small queue size" do
@@ -58,7 +58,7 @@ describe Staccato::Tracker, "with a batch adapter" do
     let(:adapter) {batch_adapter.adapter}
 
     before(:each) do
-      adapter.stubs(:post_body)
+      allow(adapter).to receive(:post_body)
     end
 
     it 'flushes when the queue is full' do
@@ -79,7 +79,7 @@ describe Staccato::Tracker, "with a batch adapter" do
     let(:adapter) {batch_adapter.adapter}
 
     before(:each) do
-      adapter.stubs(:post_body)
+      allow(adapter).to receive(:post_body)
     end
 
     it 'flushes when timeout has passed' do
