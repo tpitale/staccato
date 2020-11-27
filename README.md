@@ -593,6 +593,20 @@ tracker = Staccato.tracker('UA-XXXX-Y') do |c|
 end
 ```
 
+### Thread Batch Adapter ###
+
+The `ThreadBatch` adapter is simular to `Batch` adapter but performs in thread.
+
+```ruby
+require 'staccato/adapter/thread_batch'
+
+tracker = Staccato.tracker('UA-XXXX-Y') do |c|
+  # net/http adapter is the default
+  # 20 is the default, and maximum size of the batch
+  c.adapter = Staccato::Adapter::Validate.new(Staccato::Adapter::Net::HTTP, 20)
+end
+```
+
 ## Image URL for Email Open Tracking ##
 
 As per [google's docs](https://developers.google.com/analytics/devguides/collection/protocol/v1/email) an `Event` hit type (suggested) may be used to generate an image tag in an email (e.g., as sent by Rails' mailers). This is useful for tracking open stats alongside your other analytics.
