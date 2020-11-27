@@ -585,11 +585,12 @@ Google accepts a batch of up to **20** events together in a single request. The 
 
 ```ruby
 require 'staccato/adapter/batch'
+require 'staccato/adapter/net_http'
 
 tracker = Staccato.tracker('UA-XXXX-Y') do |c|
   # net/http adapter is the default
   # 20 is the default, and maximum size of the batch
-  c.adapter = Staccato::Adapter::Validate.new(Staccato::Adapter::Net::HTTP, 20)
+  c.adapter = Staccato::Adapter::Batch.new(Staccato::Adapter::Net::HTTP, size:20)
 end
 ```
 
@@ -599,11 +600,12 @@ The `ThreadBatch` adapter is simular to `Batch` adapter but performs in thread.
 
 ```ruby
 require 'staccato/adapter/thread_batch'
+require 'staccato/adapter/net_http'
 
 tracker = Staccato.tracker('UA-XXXX-Y') do |c|
   # net/http adapter is the default
   # 20 is the default, and maximum size of the batch
-  c.adapter = Staccato::Adapter::Validate.new(Staccato::Adapter::Net::HTTP, 20)
+  c.adapter = Staccato::Adapter::ThreadBatch.new(Staccato::Adapter::Net::HTTP, size:20)
 end
 ```
 
