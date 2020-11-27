@@ -44,7 +44,7 @@ describe Staccato::Tracker do
 
 end
 
-require 'staccato/adapter/batch'
+require 'staccato/adapter/thread_batch'
 
 describe Staccato::Tracker, "with a batch adapter" do
   let(:tracker) {Staccato.tracker('UA-XXXX-Y') {|c| c.adapter = batch_adapter}}
@@ -54,7 +54,7 @@ describe Staccato::Tracker, "with a batch adapter" do
   end
 
   context "with a small queue size" do
-    let(:batch_adapter) {Staccato::Adapter::Batch.new(Staccato.default_adapter, size: 2, flush_timeout: 100)}
+    let(:batch_adapter) {Staccato::Adapter::ThreadBatch.new(Staccato.default_adapter, size: 2, flush_timeout: 100)}
     let(:adapter) {batch_adapter.adapter}
 
     before(:each) do
@@ -75,7 +75,7 @@ describe Staccato::Tracker, "with a batch adapter" do
   end
 
   context "with a small flush timeout" do
-    let(:batch_adapter) {Staccato::Adapter::Batch.new(Staccato.default_adapter, size: 20, flush_timeout: 0.1)}
+    let(:batch_adapter) {Staccato::Adapter::ThreadBatch.new(Staccato.default_adapter, size: 20, flush_timeout: 0.1)}
     let(:adapter) {batch_adapter.adapter}
 
     before(:each) do
