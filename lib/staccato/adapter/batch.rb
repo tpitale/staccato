@@ -25,8 +25,9 @@ module Staccato
 
         return if @tracker_array.size < @size
 
-        post_body(@tracker_array)
+        result = post_body(@tracker_array)
         @tracker_array = []
+        result
       end
 
       private
