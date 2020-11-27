@@ -579,6 +579,20 @@ If you would prefer to log to a file (default is STDOUT), you can pass in an ins
 
 If you would like to format the params hash as something other than `k=v` in your logs, you can pass in anything that responds to `call` and format as a string. The default should be consumable by Splunk and other logging software.
 
+### Batch Adapter ###
+
+Google accepts a batch of up to **20** events together in a single request. The `Batch` adapter will queue up posted events and group them together when it reaches the requested batch size.
+
+```ruby
+require 'staccato/adapter/batch'
+
+tracker = Staccato.tracker('UA-XXXX-Y') do |c|
+  # net/http adapter is the default
+  # 20 is the default, and maximum size of the batch
+  c.adapter = Staccato::Adapter::Validate.new(Staccato::Adapter::Net::HTTP, 20)
+end
+```
+
 ## Image URL for Email Open Tracking ##
 
 As per [google's docs](https://developers.google.com/analytics/devguides/collection/protocol/v1/email) an `Event` hit type (suggested) may be used to generate an image tag in an email (e.g., as sent by Rails' mailers). This is useful for tracking open stats alongside your other analytics.

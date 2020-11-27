@@ -8,6 +8,10 @@ module Staccato
       def post(params)
         ::HTTP.post(@uri, :form => params)
       end
+
+      def post_body(data)
+        ::HTTP.post(@uri, :body => data)
+      end
     end
   end
 end

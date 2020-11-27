@@ -15,6 +15,12 @@ module Staccato
       def post(params)
         @connection.post(nil, params)
       end
+
+      def post_body(data)
+        @connection.post do |request|
+          request.body = data
+        end
+      end
     end
   end
 end

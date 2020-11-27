@@ -43,3 +43,54 @@ describe Staccato::Tracker do
   end
 
 end
+
+require 'staccato/adapter/batch'
+
+describe Staccato::Tracker, "with a batch adapter" do
+  let(:tracker) {Staccato.tracker('UA-XXXX-Y') {|c| c.adapter = batch_adapter}}
+
+  before(:each) do
+    allow(SecureRandom).to receive(:uuid).and_return(555)
+  end
+
+  context "with a small queue size" do
+    let(:batch_adapter) {Staccato::Adapter::Batch.new(Staccato.default_adapter, size: 2, flush_timeout: 100)}
+    let(:adapter) {batch_adapter.adapter}
+
+    before(:each) do
+      allow(adapter).to receive(:post_body)
+    end
+
+    it 'flushes when the queue is full' do
+      tracker.event(catgeory: 'video', action: 'play')
+      tracker.event(catgeory: 'video', action: 'pause')
+
+      # timing fun, waiting for flush thread to wake up
+      sleep(0.2)
+
+      expect(adapter).to have_received(:post_body).with("v=1&tid=UA-XXXX-Y&cid=555&t=event&ea=play\nv=1&tid=UA-XXXX-Y&cid=555&t=event&ea=pause")
+
+      batch_adapter.clear(final: true)
+    end
+  end
+
+  context "with a small flush timeout" do
+    let(:batch_adapter) {Staccato::Adapter::Batch.new(Staccato.default_adapter, size: 20, flush_timeout: 0.1)}
+    let(:adapter) {batch_adapter.adapter}
+
+    before(:each) do
+      allow(adapter).to receive(:post_body)
+    end
+
+    it 'flushes when timeout has passed' do
+      tracker.event(catgeory: 'video', action: 'play')
+
+      # timing fun, waiting for flush_timeout
+      sleep(0.5)
+
+      expect(adapter).to have_received(:post_body).with("v=1&tid=UA-XXXX-Y&cid=555&t=event&ea=play")
+
+      batch_adapter.clear(final: true)
+    end
+  end
+end

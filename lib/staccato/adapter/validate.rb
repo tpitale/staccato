@@ -8,6 +8,10 @@ module Staccato
       def post(params)
         @adapter.post(params).body
       end
+
+      def post_body(_data)
+        raise StandardError, "Validation does not support batch functionality"
+      end
     end
   end
 end
