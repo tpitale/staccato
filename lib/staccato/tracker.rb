@@ -14,6 +14,7 @@ module Staccato
       @id = id
       @client_id = client_id
       @ssl = options.delete(:ssl) || false
+      @debug = options.delete(:debug) || false
       @adapters = []
 
       self.hit_defaults = options
@@ -168,7 +169,7 @@ module Staccato
     end
 
     def default_uri
-      Staccato.ga_collection_uri(@ssl)
+      Staccato.ga_collection_uri(@ssl, @debug)
     end
 
     private
