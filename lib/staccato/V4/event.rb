@@ -25,7 +25,10 @@ module Staccato::V4
     end
 
     def as_json
-      event_params
+      {
+        name: name,
+        params: event_params
+      }
     end
 
     private
