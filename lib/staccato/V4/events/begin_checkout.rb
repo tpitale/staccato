@@ -1,13 +1,12 @@
 module Staccato::V4
-  class AddPaymentInfo
+  class BeginCheckout
     FIELDS = [
       :currency,
       :value,
       :coupon,
-      :payment_type,
       :items
     ]
-    
+
     include Event
   end
 end

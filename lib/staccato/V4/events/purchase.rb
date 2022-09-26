@@ -1,13 +1,16 @@
 module Staccato::V4
-  class AddPaymentInfo
+  class Purchase
     FIELDS = [
       :currency,
+      :transaction_id,
       :value,
+      :affiliation,
       :coupon,
-      :payment_type,
+      :shipping,
+      :tax,
       :items
     ]
-    
+
     include Event
   end
 end

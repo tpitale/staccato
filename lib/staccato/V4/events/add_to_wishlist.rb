@@ -1,13 +1,11 @@
 module Staccato::V4
-  class AddPaymentInfo
+  class AddToWishlist
     FIELDS = [
       :currency,
       :value,
-      :coupon,
-      :payment_type,
       :items
     ]
-    
+
     include Event
   end
 end
