@@ -73,4 +73,4 @@ require_relative 'staccato/transaction_item'
 require_relative 'staccato/tracker'
 require_relative 'staccato/measurement'
 
-require_relative 'v4'
+require_relative 'staccato/v4'

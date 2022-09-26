@@ -9,7 +9,7 @@ module Staccato::V4
       event.class_eval do
         attr_accessor :tracker, :options
 
-        def_delegators :@options, *event::FIELDS.keys
+        def_delegators :@options, *event::FIELDS
       end
     end
 
