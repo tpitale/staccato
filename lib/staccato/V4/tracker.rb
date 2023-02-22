@@ -47,8 +47,15 @@ module Staccato::V4
     end
 
     # Add an Event instance to the events to be sent
-    def add(event)
-      self.events << event
+    def add(event_klass, options)
+      self.events << event_klass.new(self, options)
+    end
+
+    # dynamically define methods for events
+    Staccato::V4::Event.events.each do |event_name, event_klass|
+      define_method event_name do |options|
+        add(event_klass, options)
+      end
     end
 
     # post the hit to GA collection endpoint
@@ -57,8 +64,16 @@ module Staccato::V4
       post
     end
 
+    def validate!
+      Staccato::Adapter::Validate.new(default_adapter, validation_uri).post_with_body(params, body)
+    end
+
     def default_uri
       Staccato::V4.ga_collection_uri
+    end
+
+    def validation_uri
+      Staccato::V4.validation_uri
     end
 
     private
@@ -88,12 +103,12 @@ module Staccato::V4
 
     # @private
     def post_first
-      adapters.first.post(params, body)
+      adapters.first.post_with_body(params, body)
     end
 
     # @private
     def post_all
-      adapters.map {|adapter| adapter.post(params, body)}
+      adapters.map {|adapter| adapter.post_with_body(params, body)}
     end
 
     # @private

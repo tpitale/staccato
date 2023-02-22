@@ -8,6 +8,10 @@ module Staccato
       def post(params)
         @adapter.post(params).body
       end
+
+      def post_with_body(params, body)
+        @adapter.post_with_body(params, body).body
+      end
     end
   end
 end

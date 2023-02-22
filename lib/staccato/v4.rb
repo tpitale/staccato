@@ -25,6 +25,11 @@ module Staccato
       URI('https://www.google-analytics.com/mp/collect')
     end
 
+    # The tracking endpoint we use to submit requests to GA
+    def self.validation_uri
+      URI('https://www.google-analytics.com/debug/mp/collect')
+    end
+
     # The default adapter to use for sending hits
     def self.default_adapter
       require 'staccato/adapter/net_http'
@@ -42,5 +47,7 @@ module Staccato
 end
 
 require_relative 'option_set'
-require_relative 'v4/tracker'
 require_relative 'v4/event'
+
+# define tracker last so any events have dynamically defined methods
+require_relative 'v4/tracker'

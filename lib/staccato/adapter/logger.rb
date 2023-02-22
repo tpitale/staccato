@@ -16,6 +16,11 @@ module Staccato
         @logger.debug(@formatter.call(params))
       end
 
+      def post_with_body(params, body)
+        @logger.debug(@formatter.call(params))
+        @logger.debug(@formatter.call(body))
+      end
+
       private
       def default_formatter
         DEFAULT_FORMATTER
