@@ -1,3 +1,5 @@
+require 'staccato/adapter/validate'
+
 module Staccato::V4
   # The `Tracker` class has methods to create all `Hit` types
   #   using the tracker and client id
@@ -47,14 +49,19 @@ module Staccato::V4
     end
 
     # Add an Event instance to the events to be sent
-    def add(event_klass, options)
-      self.events << event_klass.new(self, options)
+    def add(event_name, options)
+      event_object = {
+        name: event_name,
+        params: options
+      }
+
+      self.events << event_object
     end
 
     # dynamically define methods for events
     Staccato::V4::Event.events.each do |event_name, event_klass|
       define_method event_name do |options|
-        add(event_klass, options)
+        add(event_name, options)
       end
     end
 
@@ -65,7 +72,10 @@ module Staccato::V4
     end
 
     def validate!
-      Staccato::Adapter::Validate.new(default_adapter, validation_uri).post_with_body(params, body)
+      puts '**************'
+      puts Staccato::Adapter::Validate.new()
+      puts '**************'
+      Staccato::Adapter::Validate.new().post_with_body(params, body)
     end
 
     def default_uri
