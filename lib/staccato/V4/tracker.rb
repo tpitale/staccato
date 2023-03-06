@@ -72,9 +72,6 @@ module Staccato::V4
     end
 
     def validate!
-      puts '**************'
-      puts Staccato::Adapter::Validate.new()
-      puts '**************'
       Staccato::Adapter::Validate.new().post_with_body(params, body)
     end
 
