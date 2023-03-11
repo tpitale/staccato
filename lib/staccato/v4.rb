@@ -36,6 +36,11 @@ module Staccato
       Staccato::Adapter::Net::HTTP
     end
 
+    def self.validation_adapter
+      require 'staccato/adapter/validate'
+      Staccato::Adapter::Validate
+    end
+
     # JSON encode in the case of GA measurement protocol V4
     def self.encode_body(client_id, events)
       JSON.generate({
