@@ -1,10 +1,10 @@
 module Staccato::V4
   class BeginCheckout
-    FIELDS = [
-      :currency,
-      :value,
-      :coupon,
-      :items
+    FIELDS = %i[
+      currency
+      value
+      coupon
+      items
     ]
 
     include Event
