@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Staccato::V4
   # The `Tracker` class has methods to create all `Hit` types
   #   using the tracker and client id

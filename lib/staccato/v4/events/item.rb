@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Staccato::V4
   Item = Struct.new(
     :item_id,
