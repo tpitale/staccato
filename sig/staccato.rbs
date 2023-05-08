@@ -1,0 +1,367 @@
+module Staccato
+  VERSION: String
+
+  def self.tracker: (untyped id, ?nil client_id, ?Hash[untyped, untyped] options) -> (NoopTracker | Tracker)
+  def self.build_client_id: -> untyped
+  def self.ga_collection_uri: (?false ssl) -> URI::Generic
+  def self.default_adapter: -> singleton(Adapter::Net::HTTP)
+  def self.as_url: (untyped hit, ?nil uri) -> untyped
+
+  module Adapter
+    class Faraday
+      @connection: untyped
+
+      def initialize: (untyped uri) -> void
+      def post: (untyped params) -> untyped
+    end
+
+    class HTTP
+      @uri: untyped
+
+      def initialize: (untyped uri) -> void
+      def post: (untyped params) -> untyped
+    end
+
+    class Logger
+      DEFAULT_FORMATTER: Proc
+      @uri: untyped
+      @logger: Logger
+      @formatter: Proc
+
+      def initialize: (untyped uri, ?nil logger, ?nil formatter) -> void
+      def post: (untyped params) -> true
+
+      private
+      def default_formatter: -> Proc
+    end
+
+    module Net
+      class HTTP
+        @uri: URI::Generic
+
+        def initialize: (URI::Generic uri) -> void
+        def post: (Hash[untyped, untyped] params) -> Net::HTTPResponse
+      end
+    end
+
+    class NetHttpViaProxy
+      @uri: untyped
+      @proxy_host: untyped
+      @proxy_port: untyped
+
+      def initialize: (untyped uri, untyped proxy_host, untyped proxy_port) -> void
+      def post: (untyped params) -> untyped
+    end
+
+    class UDP
+      @host: untyped
+      @port: untyped
+      @socket: UDPSocket
+
+      def initialize: (untyped uri) -> void
+      def post: (untyped params) -> Integer
+    end
+
+    class Validate
+      @adapter: untyped
+
+      def initialize: (?untyped adapter) -> void
+      def post: (untyped params) -> untyped
+    end
+  end
+
+  class Event
+    FIELDS: {category: String, action: String, label: String, value: String}
+
+    def type: -> :event
+  end
+
+  class Exception
+    FIELDS: {description: String, fatal: String}
+
+    def type: -> :exception
+    def boolean_fields: -> untyped
+  end
+
+  module Hit
+    GLOBAL_OPTIONS: {anonymize_ip: String, queue_time: String, data_source: String, cache_buster: String, user_id: String, user_ip: String, user_agent: String, referrer: String, campaign_name: String, campaign_source: String, campaign_medium: String, campaign_keyword: String, campaign_content: String, campaign_id: String, adwords_id: String, display_ads_id: String, screen_resolution: String, viewport_size: String, screen_colors: String, user_language: String, java_enabled: String, flash_version: String, non_interactive: String, document_location: String, document_encoding: String, document_hostname: String, document_path: String, document_title: String, screen_name: String, link_id: String, application_name: String, application_id: String, application_installer_id: String, application_version: String, experiment_id: String, experiment_variant: String, product_action: String, product_action_list: String, promotion_action: String, geographical_id: String}
+    BOOLEAN_FIELDS: [:non_interactive, :anonymize_ip, :java_enabled]
+    include BooleanHelpers
+    @custom_dimensions: Hash[untyped, untyped]
+    @custom_metrics: Hash[untyped, untyped]
+    @measurements: Array[untyped]
+
+    def self.included: (singleton(Pageview) | singleton(Screenview) | singleton(Social) | singleton(Timing) | singleton(Transaction) | singleton(TransactionItem) model) -> (singleton(Pageview) | singleton(Screenview) | singleton(Social) | singleton(Timing) | singleton(Transaction) | singleton(TransactionItem))
+    def initialize: (Tracker tracker, ?Hash[untyped, untyped] options) -> void
+    def fields: -> untyped
+    def params: -> untyped
+    def add_custom_dimension: (untyped index, untyped value) -> untyped
+    def custom_dimensions: -> Hash[untyped, untyped]
+    def add_custom_metric: (untyped index, untyped value) -> untyped
+    def custom_metrics: -> Hash[untyped, untyped]
+    def add_measurement: (untyped key, ?Hash[untyped, untyped] options) -> Array[untyped]
+    def measurements: -> Array[untyped]
+    def session_control: -> String?
+    def track!: -> (Array[Net::HTTPResponse] | Net::HTTPResponse)
+
+    private
+    def boolean_fields: -> [:non_interactive, :anonymize_ip, :java_enabled]
+    def base_params: -> (Hash[String, (Integer | String)?])
+    def global_options_params: -> Hash[untyped, untyped]
+    def tracker_default_params: -> Hash[untyped, untyped]
+    def global_option?: (untyped key) -> bool
+    def hit_params: -> Hash[untyped, untyped]
+    def measurement_params: -> Hash[untyped, untyped]
+
+    public
+    attr_accessor tracker: Tracker
+    attr_accessor options: OptionSet
+  end
+
+  module Measurable
+    @custom_dimensions: Hash[untyped, untyped]
+    @custom_metrics: Hash[untyped, untyped]
+
+    def self.included: (singleton(Measurement::Checkout) | singleton(Measurement::CheckoutOption) | singleton(Measurement::ImpressionList) | singleton(Measurement::Product) | singleton(Measurement::ProductImpression) | singleton(Measurement::Promotion) | singleton(Measurement::Transaction) model) -> (singleton(Measurement::Checkout) | singleton(Measurement::CheckoutOption) | singleton(Measurement::ImpressionList) | singleton(Measurement::Product) | singleton(Measurement::ProductImpression) | singleton(Measurement::Promotion) | singleton(Measurement::Transaction))
+    def initialize: (?Hash[untyped, untyped] options) -> void
+    def validate_options: -> nil
+    def fields: -> untyped
+    def prefix: -> String
+    def custom_fields_allowed?: -> false
+    def params: -> untyped
+    def add_custom_dimension: (untyped dimension_index, untyped value) -> nil
+    def custom_dimensions: -> Hash[untyped, untyped]
+    def add_custom_metric: (untyped metric_index, untyped value) -> nil
+    def custom_metrics: -> Hash[untyped, untyped]
+
+    private
+    def measurable_params: -> Hash[untyped, untyped]
+
+    public
+    attr_accessor options: bot
+  end
+
+  module Measurement
+    TYPES: Hash[untyped, untyped]
+
+    def lookup: (untyped key) -> singleton(NullMeasurement)
+    def self.lookup: (untyped key) -> singleton(NullMeasurement)
+    def measurement_types: -> Hash[untyped, untyped]
+    def self.measurement_types: -> Hash[untyped, untyped]
+
+    class CheckoutOption
+      FIELDS: {step: String, step_options: String}
+      include Measurable
+
+      def self.lookup_key: -> :checkout_option
+      attr_accessor options: untyped
+    end
+
+    class Checkout
+      FIELDS: {step: String, step_options: String}
+      include Measurable
+
+      def self.lookup_key: -> :checkout
+      attr_accessor options: untyped
+    end
+
+    class ImpressionList
+      FIELDS: {index: nil, name: String}
+      include Measurable
+
+      def self.lookup_key: -> :impression_list
+      def prefix: -> String
+      attr_accessor options: bot
+      def validate_options: -> true
+    end
+
+    class ProductImpression
+      FIELDS: {index: nil, list_index: nil, id: String, name: String, brand: String, category: String, variant: String, price: String, position: String}
+      include Measurable
+
+      def self.lookup_key: -> :product_impression
+      def prefix: -> String
+      def custom_fields_allowed?: -> true
+      attr_accessor options: bot
+      def validate_options: -> true
+    end
+
+    class Product
+      FIELDS: {index: nil, id: String, name: String, brand: String, category: String, variant: String, price: String, quantity: String, coupon_code: String, position: String}
+      include Measurable
+
+      def self.lookup_key: -> :product
+      def prefix: -> String
+      def custom_fields_allowed?: -> true
+      attr_accessor options: bot
+      def validate_options: -> true
+    end
+
+    class Promotion
+      FIELDS: {index: nil, id: String, name: String, creative: String, position: String}
+      include Measurable
+
+      def self.lookup_key: -> :promotion
+      def prefix: -> String
+      attr_accessor options: bot
+      def validate_options: -> true
+    end
+
+    class Transaction
+      FIELDS: {transaction_id: String, affiliation: String, revenue: String, shipping: String, tax: String, currency: String, coupon_code: String}
+      include Measurable
+
+      def self.lookup_key: -> :transaction
+      attr_accessor options: untyped
+    end
+  end
+
+  class OptionSet
+    include Enumerable
+  end
+
+  class Pageview
+    FIELDS: {hostname: String, path: String, title: String}
+    include Hit
+    @custom_dimensions: Hash[untyped, untyped]
+    @custom_metrics: Hash[untyped, untyped]
+    @measurements: Array[untyped]
+
+    attr_accessor tracker: Tracker
+    attr_accessor options: OptionSet
+    def type: -> :pageview
+  end
+
+  class Screenview
+    FIELDS: Hash[untyped, untyped]
+    include Hit
+    @custom_dimensions: Hash[untyped, untyped]
+    @custom_metrics: Hash[untyped, untyped]
+    @measurements: Array[untyped]
+
+    attr_accessor tracker: Tracker
+    attr_accessor options: OptionSet
+    def type: -> :screenview
+  end
+
+  class Social
+    FIELDS: {action: String, network: String, target: String}
+    include Hit
+    @custom_dimensions: Hash[untyped, untyped]
+    @custom_metrics: Hash[untyped, untyped]
+    @measurements: Array[untyped]
+
+    attr_accessor tracker: Tracker
+    attr_accessor options: OptionSet
+    def type: -> :social
+  end
+
+  class Timing
+    FIELDS: {category: String, variable: String, label: String, time: String, page_load_time: String, dns_time: String, page_download_time: String, redirect_response_time: String, tcp_connect_time: String, server_response_time: String}
+    include Hit
+    @custom_dimensions: Hash[untyped, untyped]
+    @custom_metrics: Hash[untyped, untyped]
+    @measurements: Array[untyped]
+
+    attr_accessor tracker: Tracker
+    attr_accessor options: OptionSet
+    def type: -> :timing
+    def track!: -> (Array[Net::HTTPResponse] | Net::HTTPResponse)
+  end
+
+  class Transaction
+    FIELDS: {transaction_id: String, affiliation: String, revenue: String, shipping: String, tax: String, currency: String}
+    include Hit
+    @custom_dimensions: Hash[untyped, untyped]
+    @custom_metrics: Hash[untyped, untyped]
+    @measurements: Array[untyped]
+
+    attr_accessor tracker: Tracker
+    attr_accessor options: OptionSet
+    def type: -> :transaction
+  end
+
+  class TransactionItem
+    FIELDS: {transaction_id: String, name: String, price: String, quantity: String, code: String, variation: String, category: String, currency: String}
+    include Hit
+    @custom_dimensions: Hash[untyped, untyped]
+    @custom_metrics: Hash[untyped, untyped]
+    @measurements: Array[untyped]
+
+    attr_accessor tracker: Tracker
+    attr_accessor options: OptionSet
+    def type: -> :item
+  end
+
+  class Tracker
+    @id: untyped
+    @client_id: nil
+    @ssl: false
+    @adapters: Array[untyped]
+    @default_adapter: Adapter::Net::HTTP
+
+    attr_accessor hit_defaults: Hash[untyped, untyped]
+    def initialize: (untyped id, ?nil client_id, ?Hash[untyped, untyped] options) -> void
+    def adapter=: (untyped adapter) -> [untyped]
+    def add_adapter: (untyped adapter) -> Array[untyped]
+    def id: -> untyped
+    def client_id: -> untyped
+    def build_pageview: (?Hash[untyped, untyped] options) -> Pageview
+    def pageview: (?Hash[untyped, untyped] options) -> (Array[Net::HTTPResponse] | Net::HTTPResponse)
+    def build_screenview: (?Hash[untyped, untyped] options) -> Screenview
+    def screenview: (?Hash[untyped, untyped] options) -> (Array[Net::HTTPResponse] | Net::HTTPResponse)
+    def build_event: (?Hash[untyped, untyped] options) -> Event
+    def event: (?Hash[untyped, untyped] options) -> untyped
+    def social: (?Hash[untyped, untyped] options) -> (Array[Net::HTTPResponse] | Net::HTTPResponse)
+    def exception: (?Hash[untyped, untyped] options) -> untyped
+    def timing: (?Hash[untyped, untyped] options) -> (Array[Net::HTTPResponse] | Net::HTTPResponse)
+    def build_transaction: (?Hash[untyped, untyped] options) -> Transaction
+    def transaction: (?Hash[untyped, untyped] options) -> (Array[Net::HTTPResponse] | Net::HTTPResponse)
+    def build_transaction_item: (?Hash[untyped, untyped] options) -> TransactionItem
+    def transaction_item: (?Hash[untyped, untyped] options) -> (Array[Net::HTTPResponse] | Net::HTTPResponse)
+    def track: (?Hash[untyped, untyped] params) -> (Array[Net::HTTPResponse] | Net::HTTPResponse)
+    def default_uri: -> URI::Generic
+
+    private
+    def single_adapter?: -> bool
+    def post: (Hash[untyped, untyped] params) -> (Array[Net::HTTPResponse] | Net::HTTPResponse)
+    def post_first: (Hash[untyped, untyped] params) -> Net::HTTPResponse
+    def post_all: (Hash[untyped, untyped] params) -> Array[Net::HTTPResponse]
+    def adapters: -> Array[Adapter::Net::HTTP]
+    def default_adapter: -> Adapter::Net::HTTP
+  end
+
+  class NoopTracker
+    attr_accessor hit_defaults: Hash[untyped, untyped]
+    def initialize: (?nil id, ?nil client_id, ?Hash[untyped, untyped] hit_defaults) -> void
+    def adapter=: (*untyped noname) -> Array[untyped]
+    def add_adapter: (*untyped noname) -> Array[untyped]
+    def id: -> nil
+    def client_id: -> nil
+    def build_pageview: (?Hash[untyped, untyped] options) -> nil
+    def pageview: (?Hash[untyped, untyped] options) -> nil
+    def build_event: (?Hash[untyped, untyped] options) -> nil
+    def event: (?Hash[untyped, untyped] options) -> nil
+    def social: (?Hash[untyped, untyped] options) -> nil
+    def exception: (?Hash[untyped, untyped] options) -> nil
+    def timing: (?Hash[untyped, untyped] options) -> nil
+    def transaction: (?Hash[untyped, untyped] options) -> nil
+    def transaction_item: (?Hash[untyped, untyped] options) -> nil
+    def track: (?Hash[untyped, untyped] params) -> nil
+    def default_uri: -> URI::Generic
+  end
+end
+
+module BooleanHelpers
+  def convert_booleans: (Hash[untyped, untyped] hash) -> Hash[untyped, untyped]
+  def convert_boolean: (untyped noname, untyped hash) -> Integer?
+  def boolean_field?: (untyped key) -> untyped
+  def integer_for: (untyped value) -> Integer?
+end
+
+class NullMeasurement
+  FIELDS: Hash[untyped, untyped]
+
+  def initialize: (*untyped noname) -> void
+  def params: (*untyped noname) -> Hash[untyped, untyped]
+end
