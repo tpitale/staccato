@@ -3,7 +3,11 @@ require 'net/http'
 module Staccato
   module Adapter
     module Net
-      class HTTP # The net/http Standard Library Adapter
+      # The net/http Standard Library Adapter
+      class HTTP
+
+        attr_reader :uri
+
         def initialize(uri)
           @uri = uri
         end
