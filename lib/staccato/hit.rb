@@ -101,15 +101,15 @@ module Staccato
 
     # collects the parameters from options for this hit type
     def params
-      {}.
-      merge!(base_params).
-      merge!(tracker_default_params).
-      merge!(global_options_params).
-      merge!(hit_params).
-      merge!(custom_dimensions).
-      merge!(custom_metrics).
-      merge!(measurement_params).
-      reject {|_,v| v.nil?}
+      {}
+        .merge!(base_params)
+        .merge!(tracker_default_params)
+        .merge!(global_options_params)
+        .merge!(hit_params)
+        .merge!(custom_dimensions)
+        .merge!(custom_metrics)
+        .merge!(measurement_params)
+        .reject {|_,v| v.nil?}
     end
 
     # Set a custom dimension value at an index
