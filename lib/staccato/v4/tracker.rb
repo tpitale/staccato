@@ -82,7 +82,7 @@ module Staccato::V4
 
     # @private
     def body
-      Staccato::V4.encode_body(client_id, events.map {|event| event.as_json})
+      Staccato::V4.encode_body(client_id, events.map(&:as_json))
     end
 
     # @private
