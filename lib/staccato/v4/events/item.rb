@@ -20,7 +20,7 @@ module Staccato::V4
     :item_variant,
     :location_id,
     :price,
-    :quantity
+    :quantity,
+    keyword_init: true
   )
-  # may need to override as_json to get a map
 end
