@@ -54,7 +54,7 @@ module Staccato
 end
 
 require_relative 'option_set'
-require_relative 'V4/event'
+require_relative 'v4/event'
 
 # define tracker last so any events have dynamically defined methods
-require_relative 'V4/tracker'
+require_relative 'v4/tracker'
