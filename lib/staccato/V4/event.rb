@@ -23,17 +23,17 @@ module Staccato::V4
               .dup
               .split('::')
               .last
-              .gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2')
-              .gsub(/([a-z\d])([A-Z])/,'\1_\2')
+              .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
+              .gsub(/([a-z\d])([A-Z])/, '\1_\2')
               .tr('-', '_')
               .downcase
               .to_sym
           end
         end
-      end
 
-      def name
-        self.class.event_name
+        def name
+          self.class.event_name
+        end  
       end
 
       events[event.event_name] = event
@@ -59,7 +59,7 @@ module Staccato::V4
 
     private
 
-    def event_params      
+    def event_params
       fields.map { |field|
         [field, options[field]] unless options[field].nil?
       }.compact.to_h
