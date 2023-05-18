@@ -46,7 +46,7 @@ module Staccato::V4
       @measurement_id       = measurement_id
       @api_secret           = api_secret
       @client_id            = client_id
-      @user_id              = user_id
+      @user_id              = user_id&.to_s
       @user_properties      = user_properties&.to_hash
       @default_event_params = default_event_params.to_hash
       @time                 = time&.to_time
