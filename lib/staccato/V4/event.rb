@@ -19,16 +19,15 @@ module Staccato::V4
         def self.event_name
           @event_name || begin
             # gsub!(/::/, '/').
-            self.
-              to_s.
-              dup.
-              split("::").
-              last.
-              gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-              gsub(/([a-z\d])([A-Z])/,'\1_\2').
-              tr("-", "_").
-              downcase.
-              to_sym
+            to_s
+              .dup
+              .split('::')
+              .last
+              .gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2')
+              .gsub(/([a-z\d])([A-Z])/,'\1_\2')
+              .tr('-', '_')
+              .downcase
+              .to_sym
           end
         end
       end
@@ -37,7 +36,7 @@ module Staccato::V4
         self.class.event_name
       end
 
-      self.events[event.event_name] = event
+      events[event.event_name] = event
     end
 
     def initialize(tracker, options = {})
@@ -59,12 +58,11 @@ module Staccato::V4
     end
 
     private
-    def event_params
-      Hash[
-        fields.map { |field|
-          [field, options[field]] unless options[field].nil?
-        }.compact
-      ]
+
+    def event_params      
+      fields.map { |field|
+        [field, options[field]] unless options[field].nil?
+      }.compact.to_h
     end
 
     # include BooleanHelpers

@@ -13,7 +13,7 @@ module Staccato
         end
 
         def post_with_body(params, body)
-          uri = [@uri, URI.encode_www_form(params)].join("?")
+          uri = [@uri, URI.encode_www_form(params)].join('?')
           ::Net::HTTP.post(URI.parse(uri), body)
         end
       end

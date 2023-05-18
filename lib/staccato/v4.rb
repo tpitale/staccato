@@ -5,7 +5,7 @@ module Staccato
     # Build a new tracker instance
     #   If the first argument is explicitly `nil`, a `NoopTracker` is returned
     #   which responds to all the same `tracker` methods but does no tracking
-    # 
+    #
     # @param measurement_id [String] the required id provided by google, i.e., `G-XXXXXXXX`
     # @param client_id [String, Integer, nil] a unique id to track the session of
     #   an individual user

@@ -1,10 +1,12 @@
 module Staccato::V4
   # The `Tracker` class has methods to create all `Hit` types
   #   using the tracker and client id
-  # 
+  #
   # @author Tony Pitale
   class Tracker
     attr_accessor :events
+
+    attr_reader :measurement_id, :api_secret
 
     # sets up a new tracker
     # @param measurement_id [String] the measurement id from GA
@@ -28,18 +30,6 @@ module Staccato::V4
       @adapters << adapter
     end
 
-    # The measurement id for GA
-    # @return [String]
-    def measurement_id
-      @measurement_id
-    end
-
-    # The required api secret for GA
-    # @return [String]
-    def api_secret
-      @api_secret
-    end
-
     # The unique client id
     # @return [String]
     def client_id
@@ -48,7 +38,7 @@ module Staccato::V4
 
     # Add an Event instance to the events to be sent
     def add(event_klass, options)
-      self.events << event_klass.new(self, options)
+      events << event_klass.new(self, options)
     end
 
     # dynamically define methods for events
