@@ -1,0 +1,49 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rake
+  - rubocop-rspec
+  - rubocop-performance
+  - standard
+
+inherit_gem:
+  standard:             config/base.yml
+  standard-performance: config/base.yml
+  standard-custom:      config/base.yml
+
+AllCops:
+  TargetRubyVersion: 2.6
+  NewCops: disable
+
+Style/StringLiterals:                { EnforcedStyle: single_quotes }
+Style/StringLiteralsInInterpolation: { EnforcedStyle: single_quotes }
+
+Layout/BlockEndNewline:                 { Enabled: false }
+Layout/EmptyLinesAroundBlockBody:       { Enabled: false }
+Layout/EmptyLinesAroundClassBody:       { Enabled: false }
+Layout/EmptyLinesAroundModuleBody:      { Enabled: false }
+Layout/ExtraSpacing:                    { Enabled: false }
+Layout/MultilineBlockLayout:            { Enabled: false }
+Layout/ParameterAlignment:              { Enabled: false }
+Layout/SpaceInsideArrayLiteralBrackets: { Enabled: false }
+Layout/SpaceInsideBlockBraces:          { Enabled: false }
+Layout/SpaceInsideHashLiteralBraces:    { Enabled: false }
+Style/EmptyMethod:                      { Enabled: false }
+Style/SingleLineMethods:                { Enabled: false }
+
+# taken from rubocop --generate-todo --auto-gen-enforced-style
+Style/SymbolArray:
+  EnforcedStyle: percent
+  MinSize: 4
+
+# taken from rubocop --generate-todo --auto-gen-enforced-style
+RSpec/ExampleLength:
+  Max: 22
+
+# taken from rubocop --generate-todo --auto-gen-enforced-style
+RSpec/MultipleExpectations:
+  Max: 2
+
+# taken from rubocop --generate-todo --auto-gen-enforced-style
+RSpec/MultipleMemoizedHelpers:
+  Max: 7

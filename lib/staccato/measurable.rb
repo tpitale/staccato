@@ -39,11 +39,11 @@ module Staccato
     # collects the parameters from options for this measurement
     # @return [Hash]
     def params
-      {}.
-      merge!(measurable_params).
-      merge!(custom_dimensions).
-      merge!(custom_metrics).
-      reject {|_,v| v.nil?}
+      {}
+        .merge!(measurable_params)
+        .merge!(custom_dimensions)
+        .merge!(custom_metrics)
+        .reject {|_,v| v.nil?}
     end
 
     # Set a custom dimension value at an index
