@@ -33,7 +33,7 @@ module Staccato::V4
 
         def name
           self.class.event_name
-        end  
+        end
       end
 
       events[event.event_name] = event
