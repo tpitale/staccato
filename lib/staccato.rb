@@ -6,13 +6,13 @@ require 'uri'
 require "staccato/version"
 
 # The `Staccato` module namespace
-# 
+#
 # @author Tony Pitale
 module Staccato
   # Build a new tracker instance
   #   If the first argument is explicitly `nil`, a `NoopTracker` is returned
   #   which responds to all the same `tracker` methods but does no tracking
-  # 
+  #
   # @param id [String, nil] the id provided by google, i.e., `UA-XXXXXX-Y`
   # @param client_id [String, Integer, nil] a unique id to track the session of
   #   an individual user
@@ -28,7 +28,7 @@ module Staccato
   end
 
   # Build a new random `client_id`
-  # 
+  #
   # @return [String] a random value suitable for use as a `client_id`
   def self.build_client_id
     SecureRandom.uuid
@@ -47,7 +47,7 @@ module Staccato
   end
 
   # Build a url string from any hit type
-  # 
+  #
   # @param hit [Hit] anything that returns a hash for #params
   # @param uri [URI]
   # @return String
