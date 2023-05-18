@@ -7,7 +7,7 @@ module Staccato::V4
       :payment_type,
       :items
     ]
-    
+
     include Event
   end
 end
