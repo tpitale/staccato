@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 module Staccato::V4
   class AddPaymentInfo
-    FIELDS = [
-      :currency,
-      :value,
-      :coupon,
-      :payment_type,
-      :items
+    FIELDS = %i[
+      currency
+      value
+      coupon
+      payment_type
+      items
     ]
 
     include Event
