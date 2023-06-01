@@ -11,7 +11,6 @@ module Staccato::V4
   class Tracker
     extend Staccato::V4::AdapterDefaults
 
-    attr_reader :measurement_id, :api_secret
 
     # sets up a new tracker
     # @param measurement_id [String] the identifier for a Data Stream
