@@ -11,6 +11,11 @@ module Staccato
         def post(params)
           ::Net::HTTP.post_form(@uri, params)
         end
+
+        def post_with_body(params, body)
+          uri = [@uri, URI.encode_www_form(params)].join('?')
+          ::Net::HTTP.post(URI.parse(uri), body)
+        end
       end
     end
   end
